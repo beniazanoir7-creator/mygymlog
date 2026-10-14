@@ -1,134 +1,139 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مفكرة التمارين الرياضية 🏋️‍♂️</title>
-  <link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22%D9%85%D9%81%D9%83%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AA%D9%85%D8%A7%D8%B1%D9%8A%D9%86%22%2C%22short_name%22%3A%22GymLog%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23121212%22%2C%22theme_color%22%3A%22%234CAF50%22%7D">
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background-color: #121212; color: #fff; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-    h1 { color: #4CAF50; margin-bottom: 20px; font-size: 1.8rem; text-align: center; }
-    .card { background: #1e1e1e; border-radius: 12px; padding: 20px; width: 100%; max-width: 450px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-    .group { margin-bottom: 15px; }
-    label { display: block; margin-bottom: 5px; color: #bbb; font-size: 0.9rem; }
-    select, input, button { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; background: #2a2a2a; color: #fff; font-size: 1rem; margin-bottom: 10px; outline: none; }
-    select:focus, input:focus { border-color: #4CAF50; }
-    button { background: #4CAF50; color: white; font-weight: bold; border: none; cursor: pointer; transition: 0.2s; margin-top: 10px; }
-    button:active { transform: scale(0.98); background: #45a049; }
-    .logs { margin-top: 20px; border-top: 1px solid #333; padding-top: 15px; }
-    .log-item { background: #282828; padding: 10px; border-radius: 6px; margin-bottom: 8px; font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center; }
-    .delete-btn { width: auto; padding: 4px 8px; margin: 0; background: #e53935; font-size: 0.8rem; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مفكرة التمارين الرياضية 🏋️‍♂️</title>
+    <link rel="manifest" href='data:application/json;charset=utf-8,{"name":"مفكرة التمارين الرياضية","short_name":"GymLog","start_url":".","display":"standalone","background_color":"%23121212","theme_color":"%234CAF50","icons":[{"src":"258d528157c630e6cc4ebf6598ed3e5.jpg","sizes":"512x512","type":"image/jpeg"}]}'>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, sans-serif; }
+        body { background-color: #121212; color: #fff; padding: 15px; }
+        h1 { color: #4CAF50; text-align: center; margin-bottom: 20px; font-size: 22px; }
+        .card { background-color: #1e1e1e; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        .group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; color: #b0bec5; font-weight: bold; font-size: 14px; }
+        select, input, button { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; background-color: #2c2c2c; color: #fff; font-size: 16px; margin-bottom: 10px; }
+        select:focus, input:focus { border-color: #4CAF50; outline: none; }
+        button { background-color: #4CAF50; color: #fff; font-weight: bold; border: none; cursor: pointer; transition: background 0.2s; }
+        button:active { background-color: #388E3C; }
+        .history { margin-top: 15px; background-color: #181818; padding: 10px; border-radius: 6px; font-size: 14px; border-right: 4px solid #4CAF50; }
+        .history-item { padding: 8px 0; border-bottom: 1px solid #2c2c2c; }
+        .history-item:last-child { border-bottom: none; }
+    </style>
 </head>
 <body>
 
-  <h1>🏋️‍♂️ مفكرة التمارين الرياضية</h1>
+    <h1>مفكرة التمارين الرياضية 🏋️‍♂️</h1>
 
-  <div class="card">
-    <div class="group">
-      <label for="muscle">العضلة المستهدفة:</label>
-      <select id="muscle" onchange="updateExercises()">
-        <option value="الظهر">الظهر (Back)</option>
-        <option value="الصدر">الصدر (Chest)</option>
-        <option value="البايسبس">البايسبس (Biceps)</option>
-        <option value="الترايسبس">الترايسبس (Triceps)</option>
-        <option value="الأكتاف">الأكتاف (Shoulders)</option>
-        <option value="الأرجل">الأرجل (Legs)</option>
-        <option value="الفيج">البطن (Abs)</option>
-      </select>
-    </div>
-
-    <div class="group">
-      <label for="exercise">التمرين:</label>
-      <select id="exercise"></select>
-    </div>
-
-    <div style="display: flex; gap: 10px;">
-      <div style="flex: 1;">
-        <label for="weight">الوزن (كجم):</label>
-        <input type="number" id="weight" placeholder="0" min="0">
-      </div>
-      <div style="flex: 1;">
-        <label for="reps">التكرارات:</label>
-        <input type="number" id="reps" placeholder="0" min="0">
-      </div>
-    </div>
-
-    <button onclick="addLog()">تسجيل الجولة 📝</button>
-
-    <div class="logs">
-      <h3>سجل التمارين اليوم:</h3>
-      <div id="logList" style="margin-top: 10px;">لا توجد بيانات مسجلة بعد.</div>
-    </div>
-  </div>
-
-  <script>
-    const exercisesData = {
-      "الظهر": ["Lat Pulldown", "Barbell Row", "Seated Cable Row", "Deadlift", "Dumbbell Row"],
-      "الصدر": ["Bench Press", "Incline Dumbbell Press", "Chest Flyes", "Dips", "Push-ups"],
-      "البايسبس": ["Barbell Curl", "Dumbbell Hammer Curl", "Preacher Curl", "Incline Dumbbell Curl"],
-      "الترايسبس": ["Triceps Pushdown", "Skull Crushers", "Overhead Extension", "Dips"],
-      "الأكتاف": ["Overhead Press", "Lateral Raise", "Front Raise", "Face Pull"],
-      "الأرجل": ["Squat", "Leg Press", "Leg Extension", "Romanian Deadlift", "Calf Raise"],
-      "البطن": ["Crunches", "Leg Raise", "Plank"]
-    };
-
-    function updateExercises() {
-      const muscle = document.getElementById("muscle").value;
-      const exerciseSelect = document.getElementById("exercise");
-      exerciseSelect.innerHTML = "";
-      exercisesData[muscle].forEach(ex => {
-        const opt = document.createElement("option");
-        opt.value = ex;
-        opt.textContent = ex;
-        exerciseSelect.appendChild(opt);
-      });
-    }
-
-    function addLog() {
-      const muscle = document.getElementById("muscle").value;
-      const exercise = document.getElementById("exercise").value;
-      const weight = document.getElementById("weight").value || 0;
-      const reps = document.getElementById("reps").value || 0;
-
-      if (weight <= 0 && reps <= 0) return alert("يرجى إدخال الوزن والتكرارات!");
-
-      const logs = JSON.parse(localStorage.getItem("gymLogs") || "[]");
-      const newLog = { muscle, exercise, weight, reps, date: new Date().toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'}) };
-      logs.unshift(newLog);
-      localStorage.setItem("gymLogs", JSON.stringify(logs));
-      renderLogs();
-    }
-
-    function deleteLog(index) {
-      const logs = JSON.parse(localStorage.getItem("gymLogs") || "[]");
-      logs.splice(index, 1);
-      localStorage.setItem("gymLogs", JSON.stringify(logs));
-      renderLogs();
-    }
-
-    function renderLogs() {
-      const logs = JSON.parse(localStorage.getItem("gymLogs") || "[]");
-      const list = document.getElementById("logList");
-      if (logs.length === 0) {
-        list.innerHTML = "لا توجد بيانات مسجلة بعد.";
-        return;
-      }
-      list.innerHTML = logs.map((log, i) => `
-        <div class="log-item">
-          <div>
-            <strong>${log.muscle} - ${log.exercise}</strong><br>
-            <small>${log.weight} كجم × ${log.reps} تكرار (${log.date})</small>
-          </div>
-          <button class="delete-btn" onclick="deleteLog(${i})">حذف</button>
+    <div class="card">
+        <div class="group">
+            <label for="muscleGroup">العضلة المستهدفة:</label>
+            <select id="muscleGroup" onchange="updateExercises()">
+                <option value="الصدر">الصدر (Chest)</option>
+                <option value="الظهر">الظهر (Back)</option>
+                <option value="البايسبس">البايسبس (Biceps)</option>
+                <option value="الترايسبس">الترايسبس (Triceps)</option>
+                <option value="الأكتاف">الأكتاف (Shoulders)</option>
+                <option value="الأرجل">الأرجل (Legs)</option>
+                <option value="البطن">البطن (Abs)</option>
+            </select>
         </div>
-      `).join("");
-    }
 
-    // Initialize
-    updateExercises();
-    renderLogs();
-  </script>
+        <div class="group">
+            <label for="exerciseSelect">التمرين:</label>
+            <select id="exerciseSelect"></select>
+        </div>
+
+        <div class="group">
+            <label for="weightInput">الوزن (كغ):</label>
+            <input type="number" id="weightInput" placeholder="أدخل الوزن بالـ kg" step="0.5">
+        </div>
+
+        <div class="group">
+            <label for="repsInput">عدد التكرارات:</label>
+            <input type="number" id="repsInput" placeholder="أدخل عدد التكرارات">
+        </div>
+
+        <button onclick="saveLog()">تسجيل الجولة 📝</button>
+    </div>
+
+    <div class="card">
+        <h3 style="margin-bottom: 10px; color: #4CAF50; font-size: 16px;">سجل التمارين السابقة:</h3>
+        <div id="historyList" class="history">لا توجد تمارين مسجلة بعد.</div>
+    </div>
+
+    <script>
+        const exercisesData = {
+            "الصدر": ["Bench Press (بنش بريس)", "Incline Dumbbell Press (بنش مائل", "Chest Dips (متوازي)", "Cable Crossover (كابل كروس)"],
+            "الظهر": ["Lat Pulldown (سحب أمامي)", "Barbell Row (تجديف بالبار)", "Seated Cable Row (سحب أرضي)", "Deadlift (الديدليفت)"],
+            "البايسبس": ["Barbell Bicep Curl (بايسبس بالبار)", "Dumbbell Hammer Curl (هامر)", "Concentration Curl (تركيز)"],
+            "الترايسبس": ["Triceps Pushdown (دفع كابل)", "Skull Crusher (ترايسبس مستلقي)", "Overhead Dumbbell Extension"],
+            "الأكتاف": ["Military Press (ضغط عسكري)", "Dumbbell Lateral Raise (رفرفة جانبي)", "Front Raise (أمامي)"],
+            "الأرجل": ["Squat (سكوات)", "Leg Press (ضغط أرجل)", "Leg Extension (مد الأرجل)", "Calf Raisesي (سمانة)"],
+            "البطن": ["Crunches (تمارين بطن)", "Plank (بلانك)", "Leg Raises (رفع الرفع)"]
+        };
+
+        function updateExercises() {
+            const muscleGroup = document.getElementById("muscleGroup").value;
+            const exerciseSelect = document.getElementById("exerciseSelect");
+            exerciseSelect.innerHTML = "";
+            
+            exercisesData[muscleGroup].forEach(exercise => {
+                const option = document.createElement("option");
+                option.value = exercise;
+                option.textContent = exercise;
+                exerciseSelect.appendChild(option);
+            });
+        }
+
+        function saveLog() {
+            const muscle = document.getElementById("muscleGroup").value;
+            const exercise = document.getElementById("exerciseSelect").value;
+            const weight = document.getElementById("weightInput").value;
+            const reps = document.getElementById("repsInput").value;
+
+            if (!weight || !reps) {
+                alert("المرجو إدخال الوزن وعدد التكرارات!");
+                return;
+            }
+
+            const logData = {
+                muscle,
+                exercise,
+                weight,
+                reps,
+                date: new Date().toLocaleDateString('ar-MA')
+            };
+
+            let logs = JSON.parse(localStorage.getItem("gymLogs")) || [];
+            logs.unshift(logData);
+            localStorage.setItem("gymLogs", JSON.stringify(logs));
+
+            document.getElementById("weightInput").value = "";
+            document.getElementById("repsInput").value = "";
+            loadLogs();
+        }
+
+        function loadLogs() {
+            const historyList = document.getElementById("historyList");
+            let logs = JSON.parse(localStorage.getItem("gymLogs")) || [];
+
+            if (logs.length === 0) {
+                historyList.innerHTML = "لا توجد تمارين مسجلة بعد.";
+                return;
+            }
+
+            historyList.innerHTML = logs.map(log => `
+                <div class="history-item">
+                    <strong>${log.muscle}</strong> - ${log.exercise}<br>
+                    الوزن: <strong>${log.weight} كغ</strong> | التكرارات: <strong>${log.reps}</strong><br>
+                    <small style="color: #888;">${log.date}</small>
+                </div>
+            `).join('');
+        }
+
+        updateExercises();
+        loadLogs();
+    </script>
 </body>
 </html>
