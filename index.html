@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gym Log</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background-color: #121212; color: #ffffff; padding: 16px; }
+    h1 { text-align: center; margin-bottom: 20px; color: #4caf50; font-size: 22px; }
+    .card { background-color: #1e1e1e; border-radius: 12px; padding: 16px; margin-bottom: 16px; border: 1px solid #333; }
+    .card h2 { font-size: 18px; margin-bottom: 10px; color: #81c784; }
+    .exercise-img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; }
+    .input-group { display: flex; gap: 8px; margin-bottom: 10px; }
+    input { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #444; background-color: #2a2a2a; color: white; text-align: center; }
+    button { background-color: #4caf50; color: white; border: none; padding: 10px 16px; border-radius: 6px; font-weight: bold; width: 100%; margin-top: 6px; cursor: pointer; }
+    .history { margin-top: 10px; font-size: 14px; color: #ccc; background: #262626; padding: 8px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+
+  <h1>🏋️ مفكرة التمارين الرياضية</h1>
+
+  <!-- مثال لتمرين -->
+  <div class="card">
+    <h2>تمرين الظهر - Lat Pulldown</h2>
+    <img class="exercise-img" src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=500" alt="تمرين الظهر">
+    
+    <div class="input-group">
+      <input type="number" placeholder="الوزن (كجم)" id="weight1">
+      <input type="number" placeholder="التكرارات" id="reps1">
+    </div>
+    
+    <button onclick="saveSet()">تسجيل الجولة</button>
+
+    <div class="history" id="history1">
+      سجل السلاسل: لا توجد بيانات بعد
+    </div>
+  </div>
+
+  <script>
+    function saveSet() {
+      const w = document.getElementById('weight1').value;
+      const r = document.getElementById('reps1').value;
+      if (w && r) {
+        document.getElementById('history1').innerText = `آخر تسجيل: ${w} كجم × ${r} تكرار`;
+        alert('تم تسجيل الجولة بنجاح!');
+      } else {
+        alert('يرجى أدخال الوزن والتكرار');
+      }
+    }
+  </script>
+
+</body>
+</html>
