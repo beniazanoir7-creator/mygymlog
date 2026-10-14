@@ -13,12 +13,10 @@
         body { background-color: #121212; color: #fff; padding: 15px; max-width: 600px; margin: 0 auto; }
         h1 { color: #4CAF50; text-align: center; margin-bottom: 15px; font-size: 22px; }
         
-        /* أزرار التنقل العلوي (Tabs) */
         .nav-tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 15px; }
         .tab-btn { padding: 8px 2px; background-color: #1e1e1e; border: 1px solid #333; color: #b0bec5; border-radius: 6px; font-weight: bold; font-size: 11px; cursor: pointer; text-align: center; transition: 0.3s; }
         .tab-btn.active { background-color: #4CAF50; color: #fff; border-color: #4CAF50; box-shadow: 0 0 10px rgba(76, 175, 80, 0.4); }
 
-        /* الأقسام (Sections) */
         .tab-content { display: none; background-color: #1e1e1e; border-radius: 12px; padding: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.4); margin-bottom: 15px; }
         .tab-content.active { display: block; }
 
@@ -30,7 +28,6 @@
         button { background-color: #4CAF50; color: #fff; font-weight: bold; border: none; cursor: pointer; transition: background 0.2s; }
         button:active { background-color: #388E3C; }
         
-        /* تصميم خانات السيريات الأربع */
         .sets-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
         .set-box { background-color: #181818; padding: 10px; border-radius: 8px; border: 1px solid #333; }
         .set-box label { font-size: 12px; color: #4CAF50; margin-bottom: 4px; }
@@ -39,7 +36,6 @@
         .search-box { background-color: #181818; padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #333; }
         .results-box { background-color: #121212; padding: 12px; border-radius: 8px; margin-top: 10px; border-right: 4px solid #4CAF50; font-size: 14px; line-height: 1.6; }
         
-        /* قوائم الأرشيف */
         .history { margin-top: 10px; background-color: #181818; padding: 10px; border-radius: 6px; font-size: 13px; max-height: 250px; overflow-y: auto; }
         .history-item { padding: 10px 0; border-bottom: 1px solid #2c2c2c; line-height: 1.6; }
         
@@ -53,7 +49,6 @@
 
     <h1>GymLog Pro 🏋️‍♂️🦂</h1>
 
-    <!-- أزرار التنقل العلوي -->
     <div class="nav-tabs">
         <button class="tab-btn active" onclick="switchTab('exercisesTab', this)">💪 التمارين</button>
         <button class="tab-btn" onclick="switchTab('macrosTab', this)">🥗 الماكروز</button>
@@ -83,31 +78,30 @@
             <select id="exerciseSelect"></select>
         </div>
 
-        <!-- خانات السيريات الأربع -->
-        <label>تفاصيل السيريات الـ 4 (الوزن × التكرار):</label>
+        <label>تفاصيل السيريات الـ 4 (أقصى وزن وصلت له بالكيلوغرام):</label>
         <div class="sets-grid">
             <div class="set-box">
-                <label>🔥 السيرية 1:</label>
-                <input type="text" id="set1Input" placeholder="مثلاً: 50kg x 12">
+                <label>🔥 السيرية 1 (كغ):</label>
+                <input type="number" id="set1Input" placeholder="مثلاً: 50">
             </div>
             <div class="set-box">
-                <label>🔥 السيرية 2:</label>
-                <input type="text" id="set2Input" placeholder="مثلاً: 60kg x 10">
+                <label>🔥 السيرية 2 (كغ):</label>
+                <input type="number" id="set2Input" placeholder="مثلاً: 60">
             </div>
             <div class="set-box">
-                <label>🔥 السيرية 3:</label>
-                <input type="text" id="set3Input" placeholder="مثلاً: 70kg x 8">
+                <label>🔥 السيرية 3 (كغ):</label>
+                <input type="number" id="set3Input" placeholder="مثلاً: 70">
             </div>
             <div class="set-box">
-                <label>🔥 السيرية 4:</label>
-                <input type="text" id="set4Input" placeholder="مثلاً: 75kg x 6">
+                <label>🔥 السيرية 4 (كغ):</label>
+                <input type="number" id="set4Input" placeholder="مثلاً: 75">
             </div>
         </div>
 
         <button onclick="saveLog()">تسجيل التمرين 📝</button>
     </div>
 
-    <!-- 2. قسم حاسبة السعرات والماكروز -->
+    <!-- 2. قسم الماكروز -->
     <div id="macrosTab" class="tab-content">
         <h2>🥗 حاسبة السعرات والبروتين</h2>
         <div class="group">
@@ -130,18 +124,31 @@
         <div id="macroResults" class="results-box" style="display:none;"></div>
     </div>
 
-    <!-- 3. قسم مبيان تطور الوزن -->
+    <!-- 3. قسم المبيان (وزن الجسم + تصاعد أوزان التمارين) -->
     <div id="chartTab" class="tab-content">
-        <h2>📈 مبيان تطور وزن الجسم</h2>
+        <h2>📈 مبيانات التطور</h2>
+        
+        <!-- مبيان أوزان التمرين -->
+        <h3 style="font-size: 14px; color: #4CAF50; margin-bottom: 8px;">🏋️‍♂️ مبيان تصاعد أوزان التمارين:</h3>
+        <div class="group">
+            <label for="chartExerciseSelect">اختر التمرين لمتابعة تصاعد أوزانه:</label>
+            <select id="chartExerciseSelect" onchange="loadExerciseChartData()"></select>
+        </div>
+        <canvas id="exerciseChart" width="400" height="200"></canvas>
+
+        <hr style="border: 1px solid #333; margin: 20px 0;">
+
+        <!-- مبيان وزن الجسم -->
+        <h3 style="font-size: 14px; color: #4CAF50; margin-bottom: 8px;">⚖️ مبيان تطور وزن الجسم:</h3>
         <div class="group">
             <label for="recordWeight">تسجيل وزن الجسم اليوم (كغ):</label>
-            <input type="number" id="recordWeight" placeholder="أدخل وزنك اليوم (مثلاً 60 أو 80)" step="0.5">
+            <input type="number" id="recordWeight" placeholder="أدخل وزنك اليوم" step="0.5">
         </div>
         <button onclick="saveBodyWeight()">حفظ الوزن في المبيان 📝</button>
-        <canvas id="weightChart" width="400" height="220"></canvas>
+        <canvas id="weightChart" width="400" height="200"></canvas>
     </div>
 
-    <!-- 4. قسم جدول التمارين الأسبوعي -->
+    <!-- 4. قسم جدول التمارين -->
     <div id="routineTab" class="tab-content">
         <h2>📅 جدول التمارين الأسبوعي</h2>
         <div class="routine-card"><div class="routine-day">اليوم 1: Push (دفع) 🔥</div><div class="routine-desc">الصدر + الأكتاف (أمامي وجانبي) + الترايسبس</div></div>
@@ -178,7 +185,9 @@
             btnElement.classList.add('active');
 
             if(tabId === 'chartTab') {
+                populateChartExerciseSelect();
                 loadChartData();
+                loadExerciseChartData();
             }
             if(tabId === 'archiveTab') {
                 loadArchiveData();
@@ -204,6 +213,19 @@
                 option.value = exercise;
                 option.textContent = exercise;
                 exerciseSelect.appendChild(option);
+            });
+        }
+
+        function populateChartExerciseSelect() {
+            const chartSelect = document.getElementById("chartExerciseSelect");
+            chartSelect.innerHTML = "";
+            let allExercises = [];
+            Object.values(exercisesData).forEach(list => allExercises.push(...list));
+            allExercises.forEach(ex => {
+                const opt = document.createElement("option");
+                opt.value = ex;
+                opt.textContent = ex;
+                chartSelect.appendChild(opt);
             });
         }
 
@@ -236,8 +258,9 @@
             `;
         }
 
-        let weightChart;
-        function initChart(labelsData, weightsData) {
+        let weightChart, exerciseChart;
+
+        function initWeightChart(labelsData, weightsData) {
             const ctx = document.getElementById('weightChart').getContext('2d');
             if (weightChart) weightChart.destroy();
 
@@ -260,14 +283,62 @@
                     plugins: { legend: { labels: { color: '#fff' } } },
                     scales: {
                         x: { ticks: { color: '#b0bec5' } },
-                        y: { 
-                            min: 40,
-                            max: 100,
-                            ticks: { color: '#b0bec5', stepSize: 10 } 
-                        }
+                        y: { min: 40, max: 100, ticks: { color: '#b0bec5', stepSize: 10 } }
                     }
                 }
             });
+        }
+
+        function initExerciseChart(labelsData, maxWeightsData) {
+            const ctx = document.getElementById('exerciseChart').getContext('2d');
+            if (exerciseChart) exerciseChart.destroy();
+
+            exerciseChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labelsData,
+                    datasets: [{
+                        label: 'أعلى وزن ملعوب (كغ)',
+                        data: maxWeightsData,
+                        borderColor: '#ff9800',
+                        backgroundColor: 'rgba(255, 152, 0, 0.15)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { labels: { color: '#fff' } } },
+                    scales: {
+                        x: { ticks: { color: '#b0bec5' } },
+                        y: { ticks: { color: '#b0bec5' } }
+                    }
+                }
+            });
+        }
+
+        function loadExerciseChartData() {
+            const selectedEx = document.getElementById("chartExerciseSelect").value;
+            let logs = JSON.parse(localStorage.getItem("gymLogs")) || [];
+            
+            let filteredLogs = logs.filter(l => l.exercise === selectedEx).reverse();
+
+            if (filteredLogs.length === 0) {
+                initExerciseChart(['لا توجد بيانات'], [0]);
+                return;
+            }
+
+            const labels = filteredLogs.map(l => l.date);
+            const maxWeights = filteredLogs.map(l => {
+                let w1 = parseFloat(l.set1) || 0;
+                let w2 = parseFloat(l.set2) || 0;
+                let w3 = parseFloat(l.set3) || 0;
+                let w4 = parseFloat(l.set4) || 0;
+                return Math.max(w1, w2, w3, w4);
+            });
+
+            initExerciseChart(labels, maxWeights);
         }
 
         function getFullDateString() {
@@ -275,12 +346,7 @@
             const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
             const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
             
-            const dayName = days[now.getDay()];
-            const dayNum = now.getDate();
-            const monthName = months[now.getMonth()];
-            const year = now.getFullYear();
-
-            return `${dayName} ${dayNum} ${monthName} ${year}`;
+            return `${days[now.getDay()]} ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
         }
 
         function saveBodyWeight() {
@@ -291,14 +357,12 @@
             }
 
             let weightLogs = JSON.parse(localStorage.getItem("bodyWeightLogs")) || [];
-            const fullDate = getFullDateString();
-            
-            weightLogs.push({ date: fullDate, weight: weightVal });
+            weightLogs.push({ date: getFullDateString(), weight: weightVal });
             localStorage.setItem("bodyWeightLogs", JSON.stringify(weightLogs));
 
             document.getElementById("recordWeight").value = "";
             loadChartData();
-            alert("تم حفظ الوزن وتاريخه اليومي في الأرشيف والمبيان بنجاح! 📈");
+            alert("تم حفظ الوزن في المبيان بنجاح! 📈");
         }
 
         function loadChartData() {
@@ -306,27 +370,23 @@
             if (weightLogs.length === 0) {
                 weightLogs = [{date: 'البداية', weight: 60}];
             }
-            const labels = weightLogs.map(item => item.date);
-            const data = weightLogs.map(item => item.weight);
-            initChart(labels, data);
+            initWeightChart(weightLogs.map(item => item.date), weightLogs.map(item => item.weight));
         }
 
         function saveLog() {
             const muscle = document.getElementById("muscleGroup").value;
             const exercise = document.getElementById("exerciseSelect").value;
-            const set1 = document.getElementById("set1Input").value || "-";
-            const set2 = document.getElementById("set2Input").value || "-";
-            const set3 = document.getElementById("set3Input").value || "-";
-            const set4 = document.getElementById("set4Input").value || "-";
+            const set1 = document.getElementById("set1Input").value || "0";
+            const set2 = document.getElementById("set2Input").value || "0";
+            const set3 = document.getElementById("set3Input").value || "0";
+            const set4 = document.getElementById("set4Input").value || "0";
 
-            if (set1 === "-" && set2 === "-" && set3 === "-" && set4 === "-") {
-                alert("المرجو إدخال تفاصيل سيرية واحدة على الأقل!");
+            if (set1 === "0" && set2 === "0" && set3 === "0" && set4 === "0") {
+                alert("المرجو إدخال أوزان السيريات بشكل صحيح!");
                 return;
             }
 
-            const fullDate = getFullDateString();
-            const logData = { muscle, exercise, set1, set2, set3, set4, date: fullDate };
-            
+            const logData = { muscle, exercise, set1, set2, set3, set4, date: getFullDateString() };
             let logs = JSON.parse(localStorage.getItem("gymLogs")) || [];
             logs.unshift(logData);
             localStorage.setItem("gymLogs", JSON.stringify(logs));
@@ -335,7 +395,7 @@
             document.getElementById("set2Input").value = "";
             document.getElementById("set3Input").value = "";
             document.getElementById("set4Input").value = "";
-            alert("تم تسجيل التمرين والسيريات الأربع بنجاح! 📝");
+            alert("تم تسجيل التمرين وأوزانك بنجاح! 📝");
         }
 
         function loadArchiveData() {
@@ -346,7 +406,6 @@
         function renderWeightArchive(filterText = '') {
             const weightArchiveList = document.getElementById("weightArchiveList");
             let weightLogs = JSON.parse(localStorage.getItem("bodyWeightLogs")) || [];
-            
             let filtered = weightLogs.filter(item => item.date.toLowerCase().includes(filterText.toLowerCase()));
 
             if (filtered.length === 0) {
@@ -364,7 +423,6 @@
         function renderExerciseArchive(filterText = '') {
             const historyList = document.getElementById("historyList");
             let logs = JSON.parse(localStorage.getItem("gymLogs")) || [];
-            
             let filtered = logs.filter(item => 
                 item.date.toLowerCase().includes(filterText.toLowerCase()) || 
                 item.muscle.toLowerCase().includes(filterText.toLowerCase()) || 
@@ -378,8 +436,8 @@
                     <div class="history-item">
                         📅 <strong>${log.date}</strong><br>
                         🎯 العضلة: <strong>${log.muscle}</strong> - التمرين: ${log.exercise}<br>
-                        🔹 <strong>س1:</strong> ${log.set1} | 🔹 <strong>س2:</strong> ${log.set2}<br>
-                        🔹 <strong>س3:</strong> ${log.set3} | 🔹 <strong>س4:</strong> ${log.set4}
+                        🔹 <strong>س1:</strong> ${log.set1}كغ | 🔹 <strong>س2:</strong> ${log.set2}كغ<br>
+                        🔹 <strong>س3:</strong> ${log.set3}كغ | 🔹 <strong>س4:</strong> ${log.set4}كغ
                     </div>
                 `).join('');
             }
