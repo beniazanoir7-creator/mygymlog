@@ -1,746 +1,378 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gym & Body Weight Tracker</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
-  <style>
-    :root {
-      --bg-primary: #0f172a;
-      --bg-card: #1e293b;
-      --bg-input: #334155;
-      --accent: #38bdf8;
-      --accent-hover: #0284c7;
-      --accent-green: #22c55e;
-      --accent-purple: #a855f7;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --border: #475569;
-      --danger: #ef4444;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymLog Pro 🏋️‍♂️🦂</title>
+    <link rel="apple-touch-icon" href="258d528157c630e6cc4ebf6598ed3e5.jpg">
+    <link rel="icon" type="image/jpeg" href="258d528157c630e6cc4ebf6598ed3e5.jpg">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, sans-serif; }
+        body { background-color: #121212; color: #fff; padding: 15px; max-width: 600px; margin: 0 auto; }
+        h1 { color: #4CAF50; text-align: center; margin-bottom: 15px; font-size: 22px; }
+        
+        /* أزرار التنقل العلوي (Tabs) - التنسيق الداكن القديم */
+        .nav-tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 15px; }
+        .tab-btn { padding: 8px 2px; background-color: #1e1e1e; border: 1px solid #333; color: #b0bec5; border-radius: 6px; font-weight: bold; font-size: 11px; cursor: pointer; text-align: center; transition: 0.3s; }
+        .tab-btn.active { background-color: #4CAF50; color: #fff; border-color: #4CAF50; box-shadow: 0 0 10px rgba(76, 175, 80, 0.4); }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', sans-serif;
-    }
+        /* الأقسام (Sections) */
+        .tab-content { display: none; background-color: #1e1e1e; border-radius: 12px; padding: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.4); margin-bottom: 15px; }
+        .tab-content.active { display: block; }
 
-    body {
-      background-color: var(--bg-primary);
-      color: var(--text-main);
-      min-height: 100vh;
-      padding: 20px 10px;
-      display: flex;
-      justify-content: center;
-    }
-
-    .app-container {
-      width: 100%;
-      max-width: 800px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-
-    header {
-      text-align: center;
-      padding: 10px 0;
-      border-bottom: 2px solid var(--border);
-      padding-bottom: 16px;
-    }
-
-    header h1 {
-      font-size: 26px;
-      color: var(--accent);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    header p {
-      color: var(--text-muted);
-      font-size: 14px;
-    }
-
-    /* Top Search Section */
-    .search-card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
-    }
-
-    .search-title {
-      font-size: 15px;
-      color: var(--accent);
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .search-box-wrapper {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .input-group {
-      flex: 1;
-      min-width: 200px;
-      position: relative;
-    }
-
-    .input-group input {
-      width: 100%;
-      padding: 12px 14px 12px 40px;
-      background-color: var(--bg-input);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text-main);
-      font-size: 15px;
-      outline: none;
-      transition: all 0.2s;
-    }
-
-    .input-group input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
-    }
-
-    .input-group i {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
-    }
-
-    .btn {
-      padding: 12px 20px;
-      border: none;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all 0.2s;
-    }
-
-    .btn-primary {
-      background-color: var(--accent);
-      color: #0f172a;
-    }
-
-    .btn-primary:hover {
-      background-color: var(--accent-hover);
-      color: #fff;
-    }
-
-    .btn-outline {
-      background-color: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-    }
-
-    .btn-outline:hover {
-      background-color: var(--bg-input);
-      color: var(--text-main);
-    }
-
-    .btn-green {
-      background-color: var(--accent-green);
-      color: #0f172a;
-    }
-
-    .btn-purple {
-      background-color: var(--accent-purple);
-      color: #ffffff;
-    }
-
-    .btn-danger {
-      background-color: rgba(239, 68, 68, 0.15);
-      color: var(--danger);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      padding: 6px 12px;
-      font-size: 12px;
-    }
-
-    .btn-danger:hover {
-      background-color: var(--danger);
-      color: #fff;
-    }
-
-    /* Tabs Navigation */
-    .tabs-nav {
-      display: flex;
-      gap: 10px;
-      background-color: var(--bg-card);
-      padding: 6px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-    }
-
-    .tab-btn {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      font-weight: 600;
-      font-size: 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .tab-btn.active {
-      background-color: var(--bg-input);
-      color: var(--accent);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-
-    .tab-btn.active.purple-tab {
-      color: var(--accent-purple);
-    }
-
-    /* Forms Card */
-    .form-card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-    }
-
-    .form-title {
-      font-size: 18px;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 14px;
-      margin-bottom: 16px;
-    }
-
-    .field-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .field-wrapper label {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    .field-wrapper input, .field-wrapper select {
-      padding: 10px;
-      background-color: var(--bg-input);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--text-main);
-      font-size: 14px;
-      outline: none;
-    }
-
-    .field-wrapper input:focus, .field-wrapper select:focus {
-      border-color: var(--accent);
-    }
-
-    /* Archive Sections */
-    .archive-section {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .archive-block {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-    }
-
-    .archive-block-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 12px;
-      margin-bottom: 16px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .archive-block-title {
-      font-size: 18px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .badge {
-      background-color: var(--bg-input);
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    /* Records List */
-    .records-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .record-card {
-      background-color: var(--bg-input);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      transition: transform 0.2s;
-    }
-
-    .record-card:hover {
-      transform: translateY(-2px);
-    }
-
-    .record-date-badge {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 2px;
-    }
-
-    .date-main {
-      font-weight: 700;
-      font-size: 14px;
-      color: var(--accent);
-    }
-
-    .date-sub {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .record-details {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .stat-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .stat-label {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .stat-value {
-      font-weight: 700;
-      font-size: 15px;
-      color: var(--text-main);
-    }
-
-    .empty-msg {
-      text-align: center;
-      color: var(--text-muted);
-      padding: 24px;
-      font-size: 14px;
-    }
-
-    .tab-content {
-      display: none;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
-    .search-status {
-      margin-top: 10px;
-      font-size: 13px;
-      color: var(--accent);
-      display: none;
-    }
-  </style>
+        h2 { color: #4CAF50; font-size: 18px; margin-bottom: 15px; border-bottom: 2px solid #333; padding-bottom: 6px; }
+        .group { margin-bottom: 12px; }
+        label { display: block; margin-bottom: 5px; color: #b0bec5; font-weight: bold; font-size: 13px; }
+        select, input, button { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; background-color: #2c2c2c; color: #fff; font-size: 15px; margin-bottom: 8px; }
+        select:focus, input:focus { border-color: #4CAF50; outline: none; }
+        button { background-color: #4CAF50; color: #fff; font-weight: bold; border: none; cursor: pointer; transition: background 0.2s; }
+        button:active { background-color: #388E3C; }
+        
+        .search-box { background-color: #181818; padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #333; }
+        .results-box { background-color: #121212; padding: 12px; border-radius: 8px; margin-top: 10px; border-right: 4px solid #4CAF50; font-size: 14px; line-height: 1.6; }
+        
+        /* قوائم الأرشيف */
+        .history { margin-top: 10px; background-color: #181818; padding: 10px; border-radius: 6px; font-size: 13px; max-height: 250px; overflow-y: auto; }
+        .history-item { padding: 8px 0; border-bottom: 1px solid #2c2c2c; line-height: 1.5; }
+        
+        .routine-card { background-color: #181818; border-right: 4px solid #4CAF50; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+        .routine-day { font-weight: bold; color: #4CAF50; font-size: 14px; }
+        .routine-desc { color: #ccc; font-size: 13px; margin-top: 4px; }
+        canvas { background-color: #181818; border-radius: 8px; padding: 10px; margin-top: 10px; }
+    </style>
 </head>
 <body>
 
-  <div class="app-container">
-    <header>
-      <h1><i class="fa-solid fa-dumbbell"></i> Workout & Body Weight Tracker</h1>
-      <p>Track your weights, reps, and body weight with a comprehensive day, date, and year archive</p>
-    </header>
+    <h1>GymLog Pro 🏋️‍♂️🦂</h1>
 
-    <!-- 1. Top Search Section -->
-    <section class="search-card">
-      <div class="search-title">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <span>Search Archive (By Date, Day, Year, or Exercise Name)</span>
-      </div>
-      <div class="search-box-wrapper">
-        <div class="input-group">
-          <input type="text" id="searchInput" placeholder="Type e.g., 2026, Wednesday, Oct, or Bench Press...">
-          <i class="fa-solid fa-calendar-day"></i>
-        </div>
-        <button class="btn btn-primary" onclick="performSearch()">
-          <i class="fa-solid fa-search"></i> Search
-        </button>
-        <button class="btn btn-outline" onclick="resetSearch()">
-          <i class="fa-solid fa-rotate-left"></i> Reset
-        </button>
-      </div>
-      <div id="searchStatus" class="search-status"></div>
-    </section>
-
-    <!-- Navigation Tabs -->
-    <div class="tabs-nav">
-      <button class="tab-btn active" onclick="switchTab('workout-tab', this)">
-        <i class="fa-solid fa-list-check"></i> Workout Weights & Reps
-      </button>
-      <button class="tab-btn purple-tab" onclick="switchTab('weight-tab', this)">
-        <i class="fa-solid fa-weight-scale"></i> My Body Weight
-      </button>
+    <!-- أزرار التنقل بالخلفية الداكنة القديمة -->
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('exercisesTab', this)">💪 التمارين</button>
+        <button class="tab-btn" onclick="switchTab('macrosTab', this)">🥗 الماكروز</button>
+        <button class="tab-btn" onclick="switchTab('chartTab', this)">📈 المبيان</button>
+        <button class="tab-btn" onclick="switchTab('routineTab', this)">📅 الجدول</button>
+        <button class="tab-btn" onclick="switchTab('archiveTab', this)">📜 الأرشيف</button>
     </div>
 
-    <!-- 2. Workout Input Form -->
-    <div id="workout-tab" class="tab-content active">
-      <section class="form-card">
-        <div class="form-title" style="color: var(--accent);">
-          <i class="fa-solid fa-plus-circle"></i> Add New Workout Record
+    <!-- 1. قسم التمارين -->
+    <div id="exercisesTab" class="tab-content active">
+        <h2>💪 تسجيل الجلسات والتمارين</h2>
+        <div class="group">
+            <label for="muscleGroup">العضلة المستهدفة:</label>
+            <select id="muscleGroup" onchange="updateExercises()">
+                <option value="الصدر">الصدر (Chest)</option>
+                <option value="الظهر">الظهر (Back)</option>
+                <option value="البايسبس">البايسبس (Biceps)</option>
+                <option value="الترايسبس">الترايسبس (Triceps)</option>
+                <option value="الأكتاف">الأكتاف (Shoulders)</option>
+                <option value="الأرجل">الأرجل (Legs)</option>
+                <option value="البطن">البطن (Abs)</option>
+            </select>
         </div>
-        <form id="workoutForm" onsubmit="saveWorkout(event)">
-          <div class="form-grid">
-            <div class="field-wrapper">
-              <label>Date</label>
-              <input type="date" id="workoutDate" required>
-            </div>
-            <div class="field-wrapper">
-              <label>Exercise Name</label>
-              <input type="text" id="exerciseName" placeholder="e.g., Bench Press" required>
-            </div>
-            <div class="field-wrapper">
-              <label>Weight (kg)</label>
-              <input type="number" id="workoutWeight" step="0.5" placeholder="60" required>
-            </div>
-            <div class="field-wrapper">
-              <label>Reps</label>
-              <input type="number" id="workoutReps" placeholder="10" required>
-            </div>
-            <div class="field-wrapper">
-              <label>Sets</label>
-              <input type="number" id="workoutSets" placeholder="3" value="3">
-            </div>
-          </div>
-          <button type="submit" class="btn btn-green" style="width: 100%;">
-            <i class="fa-solid fa-floppy-disk"></i> Save to Workout Archive
-          </button>
-        </form>
-      </section>
+
+        <div class="group">
+            <label for="exerciseSelect">التمرين:</label>
+            <select id="exerciseSelect"></select>
+        </div>
+
+        <div class="group">
+            <label for="weightInput">وزن الحديد في التمرين (كغ):</label>
+            <input type="number" id="weightInput" placeholder="أدخل الوزن بالـ kg" step="0.5">
+        </div>
+
+        <div class="group">
+            <label for="repsInput">عدد التكرارات:</label>
+            <input type="number" id="repsInput" placeholder="أدخل عدد التكرارات">
+        </div>
+
+        <button onclick="saveLog()">تسجيل الجولة 📝</button>
     </div>
 
-    <!-- 3. Body Weight Input Form -->
-    <div id="weight-tab" class="tab-content">
-      <section class="form-card">
-        <div class="form-title" style="color: var(--accent-purple);">
-          <i class="fa-solid fa-user-plus"></i> Record Body Weight
+    <!-- 2. قسم حاسبة السعرات والماكروز -->
+    <div id="macrosTab" class="tab-content">
+        <h2>🥗 حاسبة السعرات والبروتين</h2>
+        <div class="group">
+            <label for="bodyWeight">الوزن الحالي للجسم (كغ):</label>
+            <input type="number" id="bodyWeight" placeholder="مثال: 60" step="0.5">
         </div>
-        <form id="bodyWeightForm" onsubmit="saveBodyWeight(event)">
-          <div class="form-grid">
-            <div class="field-wrapper">
-              <label>Date</label>
-              <input type="date" id="bodyWeightDate" required>
-            </div>
-            <div class="field-wrapper">
-              <label>Body Weight (kg)</label>
-              <input type="number" id="bodyWeightVal" step="0.1" placeholder="75.5" required>
-            </div>
-            <div class="field-wrapper">
-              <label>Note (Optional)</label>
-              <input type="text" id="bodyWeightNote" placeholder="e.g., Morning, Post-workout...">
-            </div>
-          </div>
-          <button type="submit" class="btn btn-purple" style="width: 100%;">
-            <i class="fa-solid fa-floppy-disk"></i> Save to Body Weight Archive
-          </button>
-        </form>
-      </section>
+        <div class="group">
+            <label for="bodyHeight">الطول (سم):</label>
+            <input type="number" id="bodyHeight" placeholder="مثال: 182">
+        </div>
+        <div class="group">
+            <label for="goalSelect">الهدف:</label>
+            <select id="goalSelect">
+                <option value="bulking">تضخيم عضلات (Bulking) 📈</option>
+                <option value="cutting">تنشيف وحرق دهون (Cutting) 🔥</option>
+                <option value="maintenance">ثبات وزني (Maintenance) ⚖️</option>
+            </select>
+        </div>
+        <button onclick="calculateMacros()">احسب احتياجي اليومي 💡</button>
+        <div id="macroResults" class="results-box" style="display:none;"></div>
     </div>
 
-    <!-- 4. Split Archive Section -->
-    <section class="archive-section">
-      
-      <!-- Part 1: Workout Archive -->
-      <div class="archive-block">
-        <div class="archive-block-header">
-          <div class="archive-block-title" style="color: var(--accent);">
-            <i class="fa-solid fa-box-archive"></i>
-            <span>Workout Archive (Weights & Reps)</span>
-          </div>
-          <span class="badge" id="workoutCount">0 records</span>
+    <!-- 3. قسم مبيان تطور الوزن -->
+    <div id="chartTab" class="tab-content">
+        <h2>📈 مبيان تطور وزن الجسم</h2>
+        <div class="group">
+            <label for="recordWeight">تسجيل وزن الجسم اليوم (كغ):</label>
+            <input type="number" id="recordWeight" placeholder="أدخل وزنك اليوم (مثلاً 60 أو 80)" step="0.5">
         </div>
-        <div id="workoutArchiveList" class="records-list">
-          <!-- Dynamically populated -->
+        <button onclick="saveBodyWeight()">حفظ الوزن في المبيان 📝</button>
+        <canvas id="weightChart" width="400" height="220"></canvas>
+    </div>
+
+    <!-- 4. قسم جدول التمارين الأسبوعي -->
+    <div id="routineTab" class="tab-content">
+        <h2>📅 جدول التمارين الأسبوعي</h2>
+        <div class="routine-card"><div class="routine-day">اليوم 1: Push (دفع) 🔥</div><div class="routine-desc">الصدر + الأكتاف (أمامي وجانبي) + الترايسبس</div></div>
+        <div class="routine-card"><div class="routine-day">اليوم 2: Pull (سحب) 💪</div><div class="routine-desc">الظهر + الأكتاف (خلفي) + البايسبس</div></div>
+        <div class="routine-card"><div class="routine-day">اليوم 3: Legs (أرجل) 🏋️‍♂️</div><div class="routine-desc">الأرجل كاملة + السمانة + البطن</div></div>
+        <div class="routine-card" style="border-right-color: #ff9800;"><div class="routine-day" style="color: #ff9800;">اليوم 4: راحة (Rest) 😴</div><div class="routine-desc">استشفاء عضلي وتغذية جيدة</div></div>
+        <div class="routine-card"><div class="routine-day">اليوم 5: Upper (جزء علوي) 💣</div><div class="routine-desc">صدر + ظهر + أكتاف + بايسبس + ترايسبس</div></div>
+        <div class="routine-card"><div class="routine-day">اليوم 6: Lower (جزء سفلي) 🦵</div><div class="routine-desc">أرجل كاملة + أسفل الظهر + البطن</div></div>
+        <div class="routine-card" style="border-right-color: #ff9800;"><div class="routine-day" style="color: #ff9800;">اليوم 7: راحة (Rest) 😴</div><div class="routine-desc">استشفاء عضلي وإعداد للأسبوع القادم</div></div>
+    </div>
+
+    <!-- 5. قسم الأرشيف المطور (بالشكل القديم الداكن) -->
+    <div id="archiveTab" class="tab-content">
+        <h2>📜 أرشيف السجلات والتواريخ</h2>
+        
+        <!-- صندوق البحث الذكي بالمظهر الداكن -->
+        <div class="search-box">
+            <label for="searchInput">🔍 البحث باليوم، التاريخ، السنة أو التمرين:</label>
+            <input type="text" id="searchInput" onkeyup="filterArchive()" placeholder="اكتب مثلاً: الأربعاء، أكتوبر، 2026، بنش بريس...">
         </div>
-      </div>
 
-      <!-- Part 2: Body Weight Archive -->
-      <div class="archive-block">
-        <div class="archive-block-header">
-          <div class="archive-block-title" style="color: var(--accent-purple);">
-            <i class="fa-solid fa-user-clock"></i>
-            <span>My Body Weight Archive</span>
-          </div>
-          <span class="badge" id="bodyWeightCount">0 records</span>
-        </div>
-        <div id="bodyWeightArchiveList" class="records-list">
-          <!-- Dynamically populated -->
-        </div>
-      </div>
+        <!-- الجزء الأول: أرشيف وزنك الشخصي -->
+        <h3 style="font-size: 14px; color: #4CAF50; margin-bottom: 5px;">⚖️ 1. أرشيف وزني الشخصي:</h3>
+        <div id="weightArchiveList" class="history" style="margin-bottom: 20px;">لا توجد أوزان مسجلة بعد.</div>
 
-    </section>
-  </div>
+        <!-- الجزء الثاني: أرشيف التمارين والعدادات -->
+        <h3 style="font-size: 14px; color: #4CAF50; margin-bottom: 5px;">🏋️‍♂️ 2. أرشيف الأوزان والتكرارات:</h3>
+        <div id="historyList" class="history">لا توجد تمارين مسجلة بعد.</div>
+    </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const today = new Date().toISOString().split('T')[0];
-      document.getElementById('workoutDate').value = today;
-      document.getElementById('bodyWeightDate').value = today;
-      
-      loadAndRenderAll();
-    });
+    <script>
+        function switchTab(tabId, btnElement) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            btnElement.classList.add('active');
 
-    function switchTab(tabId, btn) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-      
-      document.getElementById(tabId).classList.add('active');
-      btn.classList.add('active');
-    }
+            if(tabId === 'chartTab') {
+                loadChartData();
+            }
+            if(tabId === 'archiveTab') {
+                loadArchiveData();
+            }
+        }
 
-    function formatDateFull(dateStr) {
-      const dateObj = new Date(dateStr);
-      if (isNaN(dateObj)) return { fullText: dateStr, dayName: '', shortDate: dateStr };
+        const exercisesData = {
+            "الصدر": ["Bench Press (بنش بريس)", "Incline Dumbbell Press (بنش مائل)", "Chest Dips (متوازي)", "Cable Crossover (كابل كروس)"],
+            "الظهر": ["Lat Pulldown (سحب أمامي)", "Barbell Row (تجديف بالبار)", "Seated Cable Row (سحب أرضي)", "Deadlift (الديدليفت)"],
+            "البايسبس": ["Barbell Bicep Curl (بايسبس بالبار)", "Dumbbell Hammer Curl (هامر)", "Concentration Curl (تركيز)"],
+            "الترايسبس": ["Triceps Pushdown (دفع كابل)", "Skull Crusher (ترايسبس مستلقي)", "Overhead Dumbbell Extension"],
+            "الأكتاف": ["Military Press (ضغط عسكري)", "Dumbbell Lateral Raise (رفرفة جانبي)", "Front Raise (أمامي)"],
+            "الأرجل": ["Squat (سكوات)", "Leg Press (ضغط أرجل)", "Leg Extension (مد الأرجل)", "Calf Raises (سمانة)"],
+            "البطن": ["Crunches (تمارين بطن)", "Plank (بلانك)", "Leg Raises (رفع الأرجل)"]
+        };
 
-      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        function updateExercises() {
+            const muscleGroup = document.getElementById("muscleGroup").value;
+            const exerciseSelect = document.getElementById("exerciseSelect");
+            exerciseSelect.innerHTML = "";
+            exercisesData[muscleGroup].forEach(exercise => {
+                const option = document.createElement("option");
+                option.value = exercise;
+                option.textContent = exercise;
+                exerciseSelect.appendChild(option);
+            });
+        }
 
-      const dayName = days[dateObj.getDay()];
-      const dayNum = dateObj.getDate();
-      const monthName = months[dateObj.getMonth()];
-      const year = dateObj.getFullYear();
+        function calculateMacros() {
+            const weight = parseFloat(document.getElementById("bodyWeight").value);
+            const height = parseFloat(document.getElementById("bodyHeight").value);
+            const goal = document.getElementById("goalSelect").value;
+            const resultsBox = document.getElementById("macroResults");
 
-      return {
-        fullText: `${dayName}, ${monthName} ${dayNum}, ${year}`,
-        dayName: dayName,
-        shortDate: `${monthName} ${dayNum}, ${year}`
-      };
-    }
+            if (!weight || !height) {
+                alert("المرجو إدخال الوزن والطول بشكل صحيح!");
+                return;
+            }
 
-    function saveWorkout(e) {
-      e.preventDefault();
-      const date = document.getElementById('workoutDate').value;
-      const name = document.getElementById('exerciseName').value;
-      const weight = document.getElementById('workoutWeight').value;
-      const reps = document.getElementById('workoutReps').value;
-      const sets = document.getElementById('workoutSets').value;
+            let protein = Math.round(weight * 2.2);
+            let baseCalories = weight * 30; 
+            if (goal === "bulking") baseCalories += 400;
+            if (goal === "cutting") baseCalories -= 400;
 
-      const record = { id: Date.now(), date, name, weight, reps, sets };
+            let fats = Math.round((baseCalories * 0.25) / 9);
+            let carbs = Math.round((baseCalories - (protein * 4) - (fats * 9)) / 4);
 
-      const records = JSON.parse(localStorage.getItem('gym_workouts') || '[]');
-      records.unshift(record);
-      localStorage.setItem('gym_workouts', JSON.stringify(records));
+            resultsBox.style.display = "block";
+            resultsBox.innerHTML = `
+                🎯 <strong>احتياجك اليومي الموصى به:</strong><br>
+                🔥 السعرات: <strong>${Math.round(baseCalories)} سعرة حرارية</strong><br>
+                🥩 البروتين المطلوب: <strong style="color: #4CAF50;">${protein} غرام</strong> (وزنك × 2.2)<br>
+                🥔 الكاربوهيدرات: <strong>${carbs} غرام</strong><br>
+                🥑 الدهون الصحية: <strong>${fats} غرام</strong>
+            `;
+        }
 
-      document.getElementById('exerciseName').value = '';
-      document.getElementById('workoutWeight').value = '';
-      document.getElementById('workoutReps').value = '';
+        let weightChart;
+        function initChart(labelsData, weightsData) {
+            const ctx = document.getElementById('weightChart').getContext('2d');
+            if (weightChart) weightChart.destroy();
 
-      loadAndRenderAll();
-    }
+            weightChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labelsData,
+                    datasets: [{
+                        label: 'تطور وزن الجسم (كغ)',
+                        data: weightsData,
+                        borderColor: '#4CAF50',
+                        backgroundColor: 'rgba(76, 175, 80, 0.15)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { labels: { color: '#fff' } } },
+                    scales: {
+                        x: { ticks: { color: '#b0bec5' } },
+                        y: { 
+                            min: 40,
+                            max: 100,
+                            ticks: { color: '#b0bec5', stepSize: 10 } 
+                        }
+                    }
+                }
+            });
+        }
 
-    function saveBodyWeight(e) {
-      e.preventDefault();
-      const date = document.getElementById('bodyWeightDate').value;
-      const weight = document.getElementById('bodyWeightVal').value;
-      const note = document.getElementById('bodyWeightNote').value;
+        function getFullDateString() {
+            const now = new Date();
+            const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+            const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+            
+            const dayName = days[now.getDay()];
+            const dayNum = now.getDate();
+            const monthName = months[now.getMonth()];
+            const year = now.getFullYear();
 
-      const record = { id: Date.now(), date, weight, note };
+            return `${dayName} ${dayNum} ${monthName} ${year}`;
+        }
 
-      const records = JSON.parse(localStorage.getItem('gym_bodyweight') || '[]');
-      records.unshift(record);
-      localStorage.setItem('gym_bodyweight', JSON.stringify(records));
+        function saveBodyWeight() {
+            const weightVal = parseFloat(document.getElementById("recordWeight").value);
+            if (!weightVal) {
+                alert("المرجو إدخال الوزن!");
+                return;
+            }
 
-      document.getElementById('bodyWeightVal').value = '';
-      document.getElementById('bodyWeightNote').value = '';
+            let weightLogs = JSON.parse(localStorage.getItem("bodyWeightLogs")) || [];
+            const fullDate = getFullDateString();
+            
+            weightLogs.push({ date: fullDate, weight: weightVal });
+            localStorage.setItem("bodyWeightLogs", JSON.stringify(weightLogs));
 
-      loadAndRenderAll();
-    }
+            document.getElementById("recordWeight").value = "";
+            loadChartData();
+            alert("تم حفظ الوزن وتاريخه اليومي في الأرشيف والمبيان بنجاح! 📈");
+        }
 
-    function deleteRecord(type, id) {
-      const key = type === 'workout' ? 'gym_workouts' : 'gym_bodyweight';
-      let records = JSON.parse(localStorage.getItem(key) || '[]');
-      records = records.filter(item => item.id !== id);
-      localStorage.setItem(key, JSON.stringify(records));
-      loadAndRenderAll();
-    }
+        function loadChartData() {
+            let weightLogs = JSON.parse(localStorage.getItem("bodyWeightLogs")) || [];
+            if (weightLogs.length === 0) {
+                weightLogs = [{date: 'البداية', weight: 60}];
+            }
+            const labels = weightLogs.map(item => item.date);
+            const data = weightLogs.map(item => item.weight);
+            initChart(labels, data);
+        }
 
-    function loadAndRenderAll(filterText = '') {
-      renderWorkoutArchive(filterText);
-      renderBodyWeightArchive(filterText);
-    }
+        function saveLog() {
+            const muscle = document.getElementById("muscleGroup").value;
+            const exercise = document.getElementById("exerciseSelect").value;
+            const weight = document.getElementById("weightInput").value;
+            const reps = document.getElementById("repsInput").value;
 
-    function renderWorkoutArchive(filter = '') {
-      const listEl = document.getElementById('workoutArchiveList');
-      const countEl = document.getElementById('workoutCount');
-      const records = JSON.parse(localStorage.getItem('gym_workouts') || '[]');
+            if (!weight || !reps) {
+                alert("المرجو إدخال الوزن وعدد التكرارات!");
+                return;
+            }
 
-      const filtered = records.filter(item => {
-        const dateInfo = formatDateFull(item.date);
-        const searchStr = `${dateInfo.fullText} ${item.date} ${item.name}`.toLowerCase();
-        return searchStr.includes(filter.toLowerCase());
-      });
+            const fullDate = getFullDateString();
+            const logData = { muscle, exercise, weight, reps, date: fullDate };
+            
+            let logs = JSON.parse(localStorage.getItem("gymLogs")) || [];
+            logs.unshift(logData);
+            localStorage.setItem("gymLogs", JSON.stringify(logs));
 
-      countEl.textContent = `${filtered.length} records`;
+            document.getElementById("weightInput").value = "";
+            document.getElementById("repsInput").value = "";
+            alert("تم تسجيل التمرين بنجاح وتم حفظه في الأرشيف! 📝");
+        }
 
-      if (filtered.length === 0) {
-        listEl.innerHTML = `<div class="empty-msg">No matching workout records found.</div>`;
-        return;
-      }
+        function loadArchiveData() {
+            renderWeightArchive();
+            renderExerciseArchive();
+        }
 
-      listEl.innerHTML = filtered.map(item => {
-        const dateInfo = formatDateFull(item.date);
-        return `
-          <div class="record-card">
-            <div class="record-date-badge">
-              <span class="date-main">${dateInfo.dayName} - ${dateInfo.shortDate}</span>
-              <span class="date-sub"><i class="fa-regular fa-calendar"></i> ${item.date}</span>
-            </div>
-            <div class="record-details">
-              <div class="stat-box">
-                <span class="stat-label">Exercise</span>
-                <span class="stat-value" style="color:var(--accent);">${item.name}</span>
-              </div>
-              <div class="stat-box">
-                <span class="stat-label">Weight</span>
-                <span class="stat-value">${item.weight} kg</span>
-              </div>
-              <div class="stat-box">
-                <span class="stat-label">Reps</span>
-                <span class="stat-value">${item.reps}</span>
-              </div>
-              <div class="stat-box">
-                <span class="stat-label">Sets</span>
-                <span class="stat-value">${item.sets}</span>
-              </div>
-              <button class="btn btn-danger" onclick="deleteRecord('workout', ${item.id})">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
+        function renderWeightArchive(filterText = '') {
+            const weightArchiveList = document.getElementById("weightArchiveList");
+            let weightLogs = JSON.parse(localStorage.getItem("bodyWeightLogs")) || [];
+            
+            let filtered = weightLogs.filter(item => item.date.toLowerCase().includes(filterText.toLowerCase()));
 
-    function renderBodyWeightArchive(filter = '') {
-      const listEl = document.getElementById('bodyWeightArchiveList');
-      const countEl = document.getElementById('bodyWeightCount');
-      const records = JSON.parse(localStorage.getItem('gym_bodyweight') || '[]');
+            if (filtered.length === 0) {
+                weightArchiveList.innerHTML = "لا توجد أوزان مسجلة متطابقة.";
+            } else {
+                weightArchiveList.innerHTML = filtered.slice().reverse().map(item => `
+                    <div class="history-item">
+                        📅 اليوم والتاريخ: <strong>${item.date}</strong><br>
+                        ⚖️ وزن الجسم: <strong style="color: #4CAF50;">${item.weight} كغ</strong>
+                    </div>
+                `).join('');
+            }
+        }
 
-      const filtered = records.filter(item => {
-        const dateInfo = formatDateFull(item.date);
-        const searchStr = `${dateInfo.fullText} ${item.date} ${item.note}`.toLowerCase();
-        return searchStr.includes(filter.toLowerCase());
-      });
+        function renderExerciseArchive(filterText = '') {
+            const historyList = document.getElementById("historyList");
+            let logs = JSON.parse(localStorage.getItem("gymLogs")) || [];
+            
+            let filtered = logs.filter(item => 
+                item.date.toLowerCase().includes(filterText.toLowerCase()) || 
+                item.muscle.toLowerCase().includes(filterText.toLowerCase()) || 
+                item.exercise.toLowerCase().includes(filterText.toLowerCase())
+            );
 
-      countEl.textContent = `${filtered.length} records`;
+            if (filtered.length === 0) {
+                historyList.innerHTML = "لا توجد تمارين مسجلة متطابقة.";
+            } else {
+                historyList.innerHTML = filtered.map(log => `
+                    <div class="history-item">
+                        📅 <strong>${log.date}</strong><br>
+                        🎯 العضلة: <strong>${log.muscle}</strong> - التمرين: ${log.exercise}<br>
+                        🏋️‍♂️ وزن الحديد: <strong>${log.weight} كغ</strong> | التكرارات: <strong>${log.reps}</strong>
+                    </div>
+                `).join('');
+            }
+        }
 
-      if (filtered.length === 0) {
-        listEl.innerHTML = `<div class="empty-msg">No matching body weight records found.</div>`;
-        return;
-      }
+        function filterArchive() {
+            const query = document.getElementById("searchInput").value.trim();
+            renderWeightArchive(query);
+            renderExerciseArchive(query);
+        }
 
-      listEl.innerHTML = filtered.map(item => {
-        const dateInfo = formatDateFull(item.date);
-        return `
-          <div class="record-card">
-            <div class="record-date-badge">
-              <span class="date-main" style="color:var(--accent-purple);">${dateInfo.dayName} - ${dateInfo.shortDate}</span>
-              <span class="date-sub"><i class="fa-regular fa-calendar"></i> ${item.date}</span>
-            </div>
-            <div class="record-details">
-              <div class="stat-box">
-                <span class="stat-label">Body Weight</span>
-                <span class="stat-value" style="color:var(--accent-purple);">${item.weight} kg</span>
-              </div>
-              ${item.note ? `
-              <div class="stat-box">
-                <span class="stat-label">Note</span>
-                <span class="stat-value" style="font-size:13px;">${item.note}</span>
-              </div>` : ''}
-              <button class="btn btn-danger" onclick="deleteRecord('bodyweight', ${item.id})">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function performSearch() {
-      const query = document.getElementById('searchInput').value.trim();
-      const statusEl = document.getElementById('searchStatus');
-      
-      loadAndRenderAll(query);
-
-      if (query !== '') {
-        statusEl.style.display = 'block';
-        statusEl.textContent = `Search results for: "${query}"`;
-      } else {
-        statusEl.style.display = 'none';
-      }
-    }
-
-    function resetSearch() {
-      document.getElementById('searchInput').value = '';
-      document.getElementById('searchStatus').style.display = 'none';
-      loadAndRenderAll('');
-    }
-
-    document.getElementById('searchInput').addEventListener('keyup', (e) => {
-      if (e.key === 'Enter') {
-        performSearch();
-      }
-    });
-  </script>
+        updateExercises();
+        loadChartData();
+    </script>
 </body>
 </html>
-```eof
