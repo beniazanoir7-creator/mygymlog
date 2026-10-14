@@ -6,13 +6,14 @@
     <title>GymLog Pro 🏋️‍♂️🦂</title>
     <link rel="apple-touch-icon" href="258d528157c630e6cc4ebf6598ed3e5.jpg">
     <link rel="icon" type="image/jpeg" href="258d528157c630e6cc4ebf6598ed3e5.jpg">
+    <link rel="manifest" href="manifest.json">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, sans-serif; }
         body { background-color: #121212; color: #fff; padding: 15px; max-width: 600px; margin: 0 auto; }
         h1 { color: #4CAF50; text-align: center; margin-bottom: 15px; font-size: 22px; }
         
-        /* أزرار التنقل العلوي (Tabs) - التنسيق الداكن القديم */
+        /* أزرار التنقل العلوي (Tabs) */
         .nav-tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 15px; }
         .tab-btn { padding: 8px 2px; background-color: #1e1e1e; border: 1px solid #333; color: #b0bec5; border-radius: 6px; font-weight: bold; font-size: 11px; cursor: pointer; text-align: center; transition: 0.3s; }
         .tab-btn.active { background-color: #4CAF50; color: #fff; border-color: #4CAF50; box-shadow: 0 0 10px rgba(76, 175, 80, 0.4); }
@@ -29,12 +30,18 @@
         button { background-color: #4CAF50; color: #fff; font-weight: bold; border: none; cursor: pointer; transition: background 0.2s; }
         button:active { background-color: #388E3C; }
         
+        /* تصميم خانات السيريات الأربع */
+        .sets-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
+        .set-box { background-color: #181818; padding: 10px; border-radius: 8px; border: 1px solid #333; }
+        .set-box label { font-size: 12px; color: #4CAF50; margin-bottom: 4px; }
+        .set-box input { margin-bottom: 0; padding: 8px; font-size: 14px; }
+
         .search-box { background-color: #181818; padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #333; }
         .results-box { background-color: #121212; padding: 12px; border-radius: 8px; margin-top: 10px; border-right: 4px solid #4CAF50; font-size: 14px; line-height: 1.6; }
         
         /* قوائم الأرشيف */
         .history { margin-top: 10px; background-color: #181818; padding: 10px; border-radius: 6px; font-size: 13px; max-height: 250px; overflow-y: auto; }
-        .history-item { padding: 8px 0; border-bottom: 1px solid #2c2c2c; line-height: 1.5; }
+        .history-item { padding: 10px 0; border-bottom: 1px solid #2c2c2c; line-height: 1.6; }
         
         .routine-card { background-color: #181818; border-right: 4px solid #4CAF50; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
         .routine-day { font-weight: bold; color: #4CAF50; font-size: 14px; }
@@ -46,7 +53,7 @@
 
     <h1>GymLog Pro 🏋️‍♂️🦂</h1>
 
-    <!-- أزرار التنقل بالخلفية الداكنة القديمة -->
+    <!-- أزرار التنقل العلوي -->
     <div class="nav-tabs">
         <button class="tab-btn active" onclick="switchTab('exercisesTab', this)">💪 التمارين</button>
         <button class="tab-btn" onclick="switchTab('macrosTab', this)">🥗 الماكروز</button>
@@ -57,7 +64,7 @@
 
     <!-- 1. قسم التمارين -->
     <div id="exercisesTab" class="tab-content active">
-        <h2>💪 تسجيل الجلسات والتمارين</h2>
+        <h2>💪 تسجيل التمرين والجولات</h2>
         <div class="group">
             <label for="muscleGroup">العضلة المستهدفة:</label>
             <select id="muscleGroup" onchange="updateExercises()">
@@ -76,17 +83,28 @@
             <select id="exerciseSelect"></select>
         </div>
 
-        <div class="group">
-            <label for="weightInput">وزن الحديد في التمرين (كغ):</label>
-            <input type="number" id="weightInput" placeholder="أدخل الوزن بالـ kg" step="0.5">
+        <!-- خانات السيريات الأربع -->
+        <label>تفاصيل السيريات الـ 4 (الوزن × التكرار):</label>
+        <div class="sets-grid">
+            <div class="set-box">
+                <label>🔥 السيرية 1:</label>
+                <input type="text" id="set1Input" placeholder="مثلاً: 50kg x 12">
+            </div>
+            <div class="set-box">
+                <label>🔥 السيرية 2:</label>
+                <input type="text" id="set2Input" placeholder="مثلاً: 60kg x 10">
+            </div>
+            <div class="set-box">
+                <label>🔥 السيرية 3:</label>
+                <input type="text" id="set3Input" placeholder="مثلاً: 70kg x 8">
+            </div>
+            <div class="set-box">
+                <label>🔥 السيرية 4:</label>
+                <input type="text" id="set4Input" placeholder="مثلاً: 75kg x 6">
+            </div>
         </div>
 
-        <div class="group">
-            <label for="repsInput">عدد التكرارات:</label>
-            <input type="number" id="repsInput" placeholder="أدخل عدد التكرارات">
-        </div>
-
-        <button onclick="saveLog()">تسجيل الجولة 📝</button>
+        <button onclick="saveLog()">تسجيل التمرين 📝</button>
     </div>
 
     <!-- 2. قسم حاسبة السعرات والماكروز -->
@@ -135,22 +153,19 @@
         <div class="routine-card" style="border-right-color: #ff9800;"><div class="routine-day" style="color: #ff9800;">اليوم 7: راحة (Rest) 😴</div><div class="routine-desc">استشفاء عضلي وإعداد للأسبوع القادم</div></div>
     </div>
 
-    <!-- 5. قسم الأرشيف المطور (بالشكل القديم الداكن) -->
+    <!-- 5. قسم الأرشيف -->
     <div id="archiveTab" class="tab-content">
         <h2>📜 أرشيف السجلات والتواريخ</h2>
         
-        <!-- صندوق البحث الذكي بالمظهر الداكن -->
         <div class="search-box">
             <label for="searchInput">🔍 البحث باليوم، التاريخ، السنة أو التمرين:</label>
             <input type="text" id="searchInput" onkeyup="filterArchive()" placeholder="اكتب مثلاً: الأربعاء، أكتوبر، 2026، بنش بريس...">
         </div>
 
-        <!-- الجزء الأول: أرشيف وزنك الشخصي -->
         <h3 style="font-size: 14px; color: #4CAF50; margin-bottom: 5px;">⚖️ 1. أرشيف وزني الشخصي:</h3>
         <div id="weightArchiveList" class="history" style="margin-bottom: 20px;">لا توجد أوزان مسجلة بعد.</div>
 
-        <!-- الجزء الثاني: أرشيف التمارين والعدادات -->
-        <h3 style="font-size: 14px; color: #4CAF50; margin-bottom: 5px;">🏋️‍♂️ 2. أرشيف الأوزان والتكرارات:</h3>
+        <h3 style="font-size: 14px; color: #4CAF50; margin-bottom: 5px;">🏋️‍♂️ 2. أرشيف التمارين والسيريات الـ 4:</h3>
         <div id="historyList" class="history">لا توجد تمارين مسجلة بعد.</div>
     </div>
 
@@ -299,24 +314,28 @@
         function saveLog() {
             const muscle = document.getElementById("muscleGroup").value;
             const exercise = document.getElementById("exerciseSelect").value;
-            const weight = document.getElementById("weightInput").value;
-            const reps = document.getElementById("repsInput").value;
+            const set1 = document.getElementById("set1Input").value || "-";
+            const set2 = document.getElementById("set2Input").value || "-";
+            const set3 = document.getElementById("set3Input").value || "-";
+            const set4 = document.getElementById("set4Input").value || "-";
 
-            if (!weight || !reps) {
-                alert("المرجو إدخال الوزن وعدد التكرارات!");
+            if (set1 === "-" && set2 === "-" && set3 === "-" && set4 === "-") {
+                alert("المرجو إدخال تفاصيل سيرية واحدة على الأقل!");
                 return;
             }
 
             const fullDate = getFullDateString();
-            const logData = { muscle, exercise, weight, reps, date: fullDate };
+            const logData = { muscle, exercise, set1, set2, set3, set4, date: fullDate };
             
             let logs = JSON.parse(localStorage.getItem("gymLogs")) || [];
             logs.unshift(logData);
             localStorage.setItem("gymLogs", JSON.stringify(logs));
 
-            document.getElementById("weightInput").value = "";
-            document.getElementById("repsInput").value = "";
-            alert("تم تسجيل التمرين بنجاح وتم حفظه في الأرشيف! 📝");
+            document.getElementById("set1Input").value = "";
+            document.getElementById("set2Input").value = "";
+            document.getElementById("set3Input").value = "";
+            document.getElementById("set4Input").value = "";
+            alert("تم تسجيل التمرين والسيريات الأربع بنجاح! 📝");
         }
 
         function loadArchiveData() {
@@ -359,7 +378,8 @@
                     <div class="history-item">
                         📅 <strong>${log.date}</strong><br>
                         🎯 العضلة: <strong>${log.muscle}</strong> - التمرين: ${log.exercise}<br>
-                        🏋️‍♂️ وزن الحديد: <strong>${log.weight} كغ</strong> | التكرارات: <strong>${log.reps}</strong>
+                        🔹 <strong>س1:</strong> ${log.set1} | 🔹 <strong>س2:</strong> ${log.set2}<br>
+                        🔹 <strong>س3:</strong> ${log.set3} | 🔹 <strong>س4:</strong> ${log.set4}
                     </div>
                 `).join('');
             }
