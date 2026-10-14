@@ -3,30 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مفكرة التمارين الرياضية 🏋️‍♂️</title>
+    <title>مفكرة التمارين والماكروز الرياضية 🏋️‍♂️🦂</title>
     <link rel="apple-touch-icon" href="258d528157c630e6cc4ebf6598ed3e5.jpg">
     <link rel="icon" type="image/jpeg" href="258d528157c630e6cc4ebf6598ed3e5.jpg">
+    <!-- مكتبة الرسم البياني الشهيرة -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, sans-serif; }
-        body { background-color: #121212; color: #fff; padding: 15px; }
+        body { background-color: #121212; color: #fff; padding: 15px; max-width: 600px; margin: 0 auto; }
         h1 { color: #4CAF50; text-align: center; margin-bottom: 20px; font-size: 22px; }
-        .card { background-color: #1e1e1e; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
-        .group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; color: #b0bec5; font-weight: bold; font-size: 14px; }
-        select, input, button { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; background-color: #2c2c2c; color: #fff; font-size: 16px; margin-bottom: 10px; }
+        h2 { color: #4CAF50; font-size: 18px; margin-bottom: 12px; border-bottom: 2px solid #333; padding-bottom: 5px; }
+        .card { background-color: #1e1e1e; border-radius: 12px; padding: 15px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.4); }
+        .group { margin-bottom: 12px; }
+        label { display: block; margin-bottom: 5px; color: #b0bec5; font-weight: bold; font-size: 13px; }
+        select, input, button { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; background-color: #2c2c2c; color: #fff; font-size: 15px; margin-bottom: 8px; }
         select:focus, input:focus { border-color: #4CAF50; outline: none; }
         button { background-color: #4CAF50; color: #fff; font-weight: bold; border: none; cursor: pointer; transition: background 0.2s; }
         button:active { background-color: #388E3C; }
-        .history { margin-top: 15px; background-color: #181818; padding: 10px; border-radius: 6px; font-size: 14px; border-right: 4px solid #4CAF50; }
-        .history-item { padding: 8px 0; border-bottom: 1px solid #2c2c2c; }
-        .history-item:last-child { border-bottom: none; }
+        .results-box { background-color: #121212; padding: 12px; border-radius: 8px; margin-top: 10px; border-right: 4px solid #4CAF50; font-size: 14px; line-height: 1.6; }
+        .history { margin-top: 10px; background-color: #181818; padding: 10px; border-radius: 6px; font-size: 13px; max-height: 150px; overflow-y: auto; }
+        .history-item { padding: 6px 0; border-bottom: 1px solid #2c2c2c; }
+        canvas { background-color: #181818; border-radius: 8px; padding: 10px; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <h1>مفكرة التمارين الرياضية 🏋️‍♂️</h1>
+    <h1>مفكرة التمارين والماكروز 🏋️‍♂️🦂</h1>
 
+    <!-- قسم حاسبة السعرات والبروتين حسب الوزن -->
     <div class="card">
+        <h2>📊 حاسبة السعرات والبروتين اليومية</h2>
+        <div class="group">
+            <label for="bodyWeight">الوزن الحالي (كغ):</label>
+            <input type="number" id="bodyWeight" placeholder="مثال: 60" step="0.5">
+        </div>
+        <div class="group">
+            <label for="bodyHeight">الطول (سم):</label>
+            <input type="number" id="bodyHeight" placeholder="مثال: 182">
+        </div>
+        <div class="group">
+            <label for="goalSelect">الهدف:</label>
+            <select id="goalSelect">
+                <option value="bulking">تضخيم عضلات (Bulking) 📈</option>
+                <option value="cutting">تنشيف وحرق دهون (Cutting) 🔥</option>
+                <option value="maintenance">ثبات وزني (Maintenance) ⚖️</option>
+            </select>
+        </div>
+        <button onclick="calculateMacros()">احسب احتياجي اليومي 💡</button>
+        <div id="macroResults" class="results-box" style="display:none;"></div>
+    </div>
+
+    <!-- قسم تتبع السجل وتطور الأوزان -->
+    <div class="card">
+        <h2>📈 رسم بياني لتطور الأوزان شهرياً</h2>
+        <div class="group">
+            <label for="recordWeight">تسجيل وزن الجسم الحالي للتطور:</label>
+            <input type="number" id="recordWeight" placeholder="أدخل وزك اليوم (كغ)" step="0.5">
+        </div>
+        <button onclick="saveBodyWeight()">حفظ الوزن في السجل 📝</button>
+        <canvas id="weightChart" width="400" height="200"></canvas>
+    </div>
+
+    <!-- قسم تسجيل التمارين الرياضية -->
+    <div class="card">
+        <h2>💪 تسجيل الجلسات والتمارين</h2>
         <div class="group">
             <label for="muscleGroup">العضلة المستهدفة:</label>
             <select id="muscleGroup" onchange="updateExercises()">
@@ -46,7 +86,7 @@
         </div>
 
         <div class="group">
-            <label for="weightInput">الوزن (كغ):</label>
+            <label for="weightInput">وزن الحديد في التمرين (كغ):</label>
             <input type="number" id="weightInput" placeholder="أدخل الوزن بالـ kg" step="0.5">
         </div>
 
@@ -55,17 +95,14 @@
             <input type="number" id="repsInput" placeholder="أدخل عدد التكرارات">
         </div>
 
-        <button onclick="saveLog()">تسجيل الجولة 📝</button>
-    </div>
-
-    <div class="card">
-        <h3 style="margin-bottom: 10px; color: #4CAF50; font-size: 16px;">سجل التمارين السابقة:</h3>
-        <div id="historyList" class="history">لا توجد تمارين مسجلة بعد.</div>
+        <button onclick="saveLog()">تسجيل الجولة الرياضية 🚀</button>
+        <div id="historyList" class="history" style="display:none;">لا توجد تمارين مسجلة بعد.</div>
     </div>
 
     <script>
+        // بيانات التمارين
         const exercisesData = {
-            "الصدر": ["Bench Press (بنش بريس)", "Incline Dumbbell Press (بنش مائل", "Chest Dips (متوازي)", "Cable Crossover (كابل كروس)"],
+            "الصدر": ["Bench Press (بنش بريس)", "Incline Dumbbell Press (بنش مائل)", "Chest Dips (متوازي)", "Cable Crossover (كابل كروس)"],
             "الظهر": ["Lat Pulldown (سحب أمامي)", "Barbell Row (تجديف بالبار)", "Seated Cable Row (سحب أرضي)", "Deadlift (الديدليفت)"],
             "البايسبس": ["Barbell Bicep Curl (بايسبس بالبار)", "Dumbbell Hammer Curl (هامر)", "Concentration Curl (تركيز)"],
             "الترايسبس": ["Triceps Pushdown (دفع كابل)", "Skull Crusher (ترايسبس مستلقي)", "Overhead Dumbbell Extension"],
@@ -78,7 +115,6 @@
             const muscleGroup = document.getElementById("muscleGroup").value;
             const exerciseSelect = document.getElementById("exerciseSelect");
             exerciseSelect.innerHTML = "";
-            
             exercisesData[muscleGroup].forEach(exercise => {
                 const option = document.createElement("option");
                 option.value = exercise;
@@ -87,6 +123,100 @@
             });
         }
 
+        // حاسبة الماكروز والسعرات
+        function calculateMacros() {
+            const weight = parseFloat(document.getElementById("bodyWeight").value);
+            const height = parseFloat(document.getElementById("bodyHeight").value);
+            const goal = document.getElementById("goalSelect").value;
+            const resultsBox = document.getElementById("macroResults");
+
+            if (!weight || !height) {
+                alert("المرجو إدخال الوزن والطول بشكل صحيح!");
+                return;
+            }
+
+            // حساب البروتين (مثلاً 2.2 غرام لكل كيلوجرام من الوزن)
+            let protein = Math.round(weight * 2.2);
+            
+            // حساب السعرات التقريبية الأساسية مع النشاط الرياضي
+            let baseCalories = weight * 30; 
+            if (goal === "bulking") baseCalories += 400; // فائض للتضخيم
+            if (goal === "cutting") baseCalories -= 400; // عجز للتنشيف
+
+            let fats = Math.round((baseCalories * 0.25) / 9); // 25% دهون
+            let carbs = Math.round((baseCalories - (protein * 4) - (fats * 9)) / 4); // الباقي كارب
+
+            resultsBox.style.display = "block";
+            resultsBox.innerHTML = `
+                🎯 <strong>نتائج احتياجك اليومي:</strong><br>
+                🔥 السعرات المستهدفة: <strong>${Math.round(baseCalories)} سعرة حرارية</strong><br>
+                🥩 البروتين المطلوب: <strong style="color: #4CAF50;">${protein} غرام</strong> (بناءً على ضرب وزنك في 2.2)<br>
+                🥔 الكاربوهيدرات: <strong>${carbs} غرام</strong><br>
+                🥑 الدهون الصحية: <strong>${fats} غرام</strong>
+            `;
+        }
+
+        // رسم بياني لتطور أوزان الجسم
+        let weightChart;
+        function initChart(labelsData, weightsData) {
+            const ctx = document.getElementById('weightChart').getContext('2d');
+            if (weightChart) weightChart.destroy();
+
+            weightChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labelsData,
+                    datasets: [{
+                        label: 'تطور وزن الجسم (كغ)',
+                        data: weightsData,
+                        borderColor: '#4CAF50',
+                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { labels: { color: '#fff' } } },
+                    scales: {
+                        x: { ticks: { color: '#b0bec5' } },
+                        y: { ticks: { color: '#b0bec5' } }
+                    }
+                }
+            });
+        }
+
+        function saveBodyWeight() {
+            const weightVal = parseFloat(document.getElementById("recordWeight").value);
+            if (!weightVal) {
+                alert("المرجو إدخال الوزن!");
+                return;
+            }
+
+            let weightLogs = JSON.parse(localStorage.getItem("bodyWeightLogs")) || [];
+            const currentDate = new Date().toLocaleDateString('ar-MA', {month: 'short', day: 'numeric'});
+            
+            weightLogs.push({ date: currentDate, weight: weightVal });
+            localStorage.setItem("bodyWeightLogs", JSON.stringify(weightLogs));
+
+            document.getElementById("recordWeight").value = "";
+            loadChartData();
+            alert("تم حفظ الوزن بنجاح، وارتسم التطور في المبيان! 📈");
+        }
+
+        function loadChartData() {
+            let weightLogs = JSON.parse(localStorage.getItem("bodyWeightLogs")) || [];
+            if (weightLogs.length === 0) {
+                // بيانات افتراضية أولية ليظهر الشكل جميل
+                weightLogs = [{date: 'البداية', weight: 60}];
+            }
+            const labels = weightLogs.map(item => item.date);
+            const data = weightLogs.map(item => item.weight);
+            initChart(labels, data);
+        }
+
+        // حفظ التمارين
         function saveLog() {
             const muscle = document.getElementById("muscleGroup").value;
             const exercise = document.getElementById("exerciseSelect").value;
@@ -98,14 +228,7 @@
                 return;
             }
 
-            const logData = {
-                muscle,
-                exercise,
-                weight,
-                reps,
-                date: new Date().toLocaleDateString('ar-MA')
-            };
-
+            const logData = { muscle, exercise, weight, reps, date: new Date().toLocaleDateString('ar-MA') };
             let logs = JSON.parse(localStorage.getItem("gymLogs")) || [];
             logs.unshift(logData);
             localStorage.setItem("gymLogs", JSON.stringify(logs));
@@ -118,12 +241,11 @@
         function loadLogs() {
             const historyList = document.getElementById("historyList");
             let logs = JSON.parse(localStorage.getItem("gymLogs")) || [];
-
             if (logs.length === 0) {
-                historyList.innerHTML = "لا توجد تمارين مسجلة بعد.";
+                historyList.style.display = "none";
                 return;
             }
-
+            historyList.style.display = "block";
             historyList.innerHTML = logs.map(log => `
                 <div class="history-item">
                     <strong>${log.muscle}</strong> - ${log.exercise}<br>
@@ -135,6 +257,7 @@
 
         updateExercises();
         loadLogs();
+        loadChartData();
     </script>
 </body>
 </html>
