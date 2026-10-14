@@ -3,53 +3,132 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gym Log</title>
+  <title>مفكرة التمارين الرياضية 🏋️‍♂️</title>
+  <link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22%D9%85%D9%81%D9%83%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AA%D9%85%D8%A7%D8%B1%D9%8A%D9%86%22%2C%22short_name%22%3A%22GymLog%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23121212%22%2C%22theme_color%22%3A%22%234CAF50%22%7D">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
-    body { background-color: #121212; color: #ffffff; padding: 16px; }
-    h1 { text-align: center; margin-bottom: 20px; color: #4caf50; font-size: 22px; }
-    .card { background-color: #1e1e1e; border-radius: 12px; padding: 16px; margin-bottom: 16px; border: 1px solid #333; }
-    .card h2 { font-size: 18px; margin-bottom: 10px; color: #81c784; }
-    .exercise-img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; }
-    .input-group { display: flex; gap: 8px; margin-bottom: 10px; }
-    input { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #444; background-color: #2a2a2a; color: white; text-align: center; }
-    button { background-color: #4caf50; color: white; border: none; padding: 10px 16px; border-radius: 6px; font-weight: bold; width: 100%; margin-top: 6px; cursor: pointer; }
-    .history { margin-top: 10px; font-size: 14px; color: #ccc; background: #262626; padding: 8px; border-radius: 6px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: #121212; color: #fff; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+    h1 { color: #4CAF50; margin-bottom: 20px; font-size: 1.8rem; text-align: center; }
+    .card { background: #1e1e1e; border-radius: 12px; padding: 20px; width: 100%; max-width: 450px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+    .group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; color: #bbb; font-size: 0.9rem; }
+    select, input, button { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; background: #2a2a2a; color: #fff; font-size: 1rem; margin-bottom: 10px; outline: none; }
+    select:focus, input:focus { border-color: #4CAF50; }
+    button { background: #4CAF50; color: white; font-weight: bold; border: none; cursor: pointer; transition: 0.2s; margin-top: 10px; }
+    button:active { transform: scale(0.98); background: #45a049; }
+    .logs { margin-top: 20px; border-top: 1px solid #333; padding-top: 15px; }
+    .log-item { background: #282828; padding: 10px; border-radius: 6px; margin-bottom: 8px; font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center; }
+    .delete-btn { width: auto; padding: 4px 8px; margin: 0; background: #e53935; font-size: 0.8rem; }
   </style>
 </head>
 <body>
 
-  <h1>🏋️ مفكرة التمارين الرياضية</h1>
+  <h1>🏋️‍♂️ مفكرة التمارين الرياضية</h1>
 
-  <!-- مثال لتمرين -->
   <div class="card">
-    <h2>تمرين الظهر - Lat Pulldown</h2>
-    <img class="exercise-img" src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=500" alt="تمرين الظهر">
-    
-    <div class="input-group">
-      <input type="number" placeholder="الوزن (كجم)" id="weight1">
-      <input type="number" placeholder="التكرارات" id="reps1">
+    <div class="group">
+      <label for="muscle">العضلة المستهدفة:</label>
+      <select id="muscle" onchange="updateExercises()">
+        <option value="الظهر">الظهر (Back)</option>
+        <option value="الصدر">الصدر (Chest)</option>
+        <option value="البايسبس">البايسبس (Biceps)</option>
+        <option value="الترايسبس">الترايسبس (Triceps)</option>
+        <option value="الأكتاف">الأكتاف (Shoulders)</option>
+        <option value="الأرجل">الأرجل (Legs)</option>
+        <option value="الفيج">البطن (Abs)</option>
+      </select>
     </div>
-    
-    <button onclick="saveSet()">تسجيل الجولة</button>
 
-    <div class="history" id="history1">
-      سجل السلاسل: لا توجد بيانات بعد
+    <div class="group">
+      <label for="exercise">التمرين:</label>
+      <select id="exercise"></select>
+    </div>
+
+    <div style="display: flex; gap: 10px;">
+      <div style="flex: 1;">
+        <label for="weight">الوزن (كجم):</label>
+        <input type="number" id="weight" placeholder="0" min="0">
+      </div>
+      <div style="flex: 1;">
+        <label for="reps">التكرارات:</label>
+        <input type="number" id="reps" placeholder="0" min="0">
+      </div>
+    </div>
+
+    <button onclick="addLog()">تسجيل الجولة 📝</button>
+
+    <div class="logs">
+      <h3>سجل التمارين اليوم:</h3>
+      <div id="logList" style="margin-top: 10px;">لا توجد بيانات مسجلة بعد.</div>
     </div>
   </div>
 
   <script>
-    function saveSet() {
-      const w = document.getElementById('weight1').value;
-      const r = document.getElementById('reps1').value;
-      if (w && r) {
-        document.getElementById('history1').innerText = `آخر تسجيل: ${w} كجم × ${r} تكرار`;
-        alert('تم تسجيل الجولة بنجاح!');
-      } else {
-        alert('يرجى أدخال الوزن والتكرار');
-      }
-    }
-  </script>
+    const exercisesData = {
+      "الظهر": ["Lat Pulldown", "Barbell Row", "Seated Cable Row", "Deadlift", "Dumbbell Row"],
+      "الصدر": ["Bench Press", "Incline Dumbbell Press", "Chest Flyes", "Dips", "Push-ups"],
+      "البايسبس": ["Barbell Curl", "Dumbbell Hammer Curl", "Preacher Curl", "Incline Dumbbell Curl"],
+      "الترايسبس": ["Triceps Pushdown", "Skull Crushers", "Overhead Extension", "Dips"],
+      "الأكتاف": ["Overhead Press", "Lateral Raise", "Front Raise", "Face Pull"],
+      "الأرجل": ["Squat", "Leg Press", "Leg Extension", "Romanian Deadlift", "Calf Raise"],
+      "البطن": ["Crunches", "Leg Raise", "Plank"]
+    };
 
+    function updateExercises() {
+      const muscle = document.getElementById("muscle").value;
+      const exerciseSelect = document.getElementById("exercise");
+      exerciseSelect.innerHTML = "";
+      exercisesData[muscle].forEach(ex => {
+        const opt = document.createElement("option");
+        opt.value = ex;
+        opt.textContent = ex;
+        exerciseSelect.appendChild(opt);
+      });
+    }
+
+    function addLog() {
+      const muscle = document.getElementById("muscle").value;
+      const exercise = document.getElementById("exercise").value;
+      const weight = document.getElementById("weight").value || 0;
+      const reps = document.getElementById("reps").value || 0;
+
+      if (weight <= 0 && reps <= 0) return alert("يرجى إدخال الوزن والتكرارات!");
+
+      const logs = JSON.parse(localStorage.getItem("gymLogs") || "[]");
+      const newLog = { muscle, exercise, weight, reps, date: new Date().toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'}) };
+      logs.unshift(newLog);
+      localStorage.setItem("gymLogs", JSON.stringify(logs));
+      renderLogs();
+    }
+
+    function deleteLog(index) {
+      const logs = JSON.parse(localStorage.getItem("gymLogs") || "[]");
+      logs.splice(index, 1);
+      localStorage.setItem("gymLogs", JSON.stringify(logs));
+      renderLogs();
+    }
+
+    function renderLogs() {
+      const logs = JSON.parse(localStorage.getItem("gymLogs") || "[]");
+      const list = document.getElementById("logList");
+      if (logs.length === 0) {
+        list.innerHTML = "لا توجد بيانات مسجلة بعد.";
+        return;
+      }
+      list.innerHTML = logs.map((log, i) => `
+        <div class="log-item">
+          <div>
+            <strong>${log.muscle} - ${log.exercise}</strong><br>
+            <small>${log.weight} كجم × ${log.reps} تكرار (${log.date})</small>
+          </div>
+          <button class="delete-btn" onclick="deleteLog(${i})">حذف</button>
+        </div>
+      `).join("");
+    }
+
+    // Initialize
+    updateExercises();
+    renderLogs();
+  </script>
 </body>
 </html>
