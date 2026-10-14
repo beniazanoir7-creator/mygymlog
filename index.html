@@ -6,16 +6,22 @@
     <title>GymLog Pro 🏋️‍♂️🦂</title>
     <link rel="apple-touch-icon" href="258d528157c630e6cc4ebf6598ed3e5.jpg">
     <link rel="icon" type="image/jpeg" href="258d528157c630e6cc4ebf6598ed3e5.jpg">
+    <!-- مكتبة الرسم البياني -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, sans-serif; }
         body { background-color: #121212; color: #fff; padding: 15px; max-width: 600px; margin: 0 auto; }
         h1 { color: #4CAF50; text-align: center; margin-bottom: 15px; font-size: 22px; }
-        .nav-tabs { display: flex; justify-content: space-between; gap: 5px; margin-bottom: 20px; }
-        .tab-btn { flex: 1; padding: 10px 3px; background-color: #1e1e1e; border: 1px solid #333; color: #b0bec5; border-radius: 8px; font-weight: bold; font-size: 12px; cursor: pointer; text-align: center; transition: 0.3s; }
+        
+        /* أزرار التنقل العلوي (Tabs) - مقسمة بذكاء لتشمل الخانات كلها */
+        .nav-tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 20px; }
+        .tab-btn { padding: 8px 2px; background-color: #1e1e1e; border: 1px solid #333; color: #b0bec5; border-radius: 6px; font-weight: bold; font-size: 11px; cursor: pointer; text-align: center; transition: 0.3s; }
         .tab-btn.active { background-color: #4CAF50; color: #fff; border-color: #4CAF50; box-shadow: 0 0 10px rgba(76, 175, 80, 0.4); }
+
+        /* الأقسام (Sections) */
         .tab-content { display: none; background-color: #1e1e1e; border-radius: 12px; padding: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.4); }
         .tab-content.active { display: block; }
+
         h2 { color: #4CAF50; font-size: 18px; margin-bottom: 15px; border-bottom: 2px solid #333; padding-bottom: 6px; }
         .group { margin-bottom: 12px; }
         label { display: block; margin-bottom: 5px; color: #b0bec5; font-weight: bold; font-size: 13px; }
@@ -24,8 +30,12 @@
         button { background-color: #4CAF50; color: #fff; font-weight: bold; border: none; cursor: pointer; transition: background 0.2s; }
         button:active { background-color: #388E3C; }
         .results-box { background-color: #121212; padding: 12px; border-radius: 8px; margin-top: 10px; border-right: 4px solid #4CAF50; font-size: 14px; line-height: 1.6; }
-        .history { margin-top: 10px; background-color: #181818; padding: 10px; border-radius: 6px; font-size: 13px; max-height: 200px; overflow-y: auto; }
+        
+        /* تنسيق قوائم الأرشيف والسجل */
+        .history { margin-top: 10px; background-color: #181818; padding: 10px; border-radius: 6px; font-size: 13px; max-height: 250px; overflow-y: auto; }
         .history-item { padding: 8px 0; border-bottom: 1px solid #2c2c2c; }
+        
+        /* بطاقات جدول التمارين */
         .routine-card { background-color: #181818; border-right: 4px solid #4CAF50; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
         .routine-day { font-weight: bold; color: #4CAF50; font-size: 14px; }
         .routine-desc { color: #ccc; font-size: 13px; margin-top: 4px; }
@@ -36,13 +46,16 @@
 
     <h1>GymLog Pro 🏋️‍♂️🦂</h1>
 
+    <!-- شريط التنقل العلوي المحدث (5 تبويبات) -->
     <div class="nav-tabs">
         <button class="tab-btn active" onclick="switchTab('exercisesTab', this)">💪 التمارين</button>
         <button class="tab-btn" onclick="switchTab('macrosTab', this)">🥗 الماكروز</button>
         <button class="tab-btn" onclick="switchTab('chartTab', this)">📈 المبيان</button>
         <button class="tab-btn" onclick="switchTab('routineTab', this)">📅 الجدول</button>
+        <button class="tab-btn" onclick="switchTab('archiveTab', this)">📜 الأرشيف</button>
     </div>
 
+    <!-- 1. قسم التمارين -->
     <div id="exercisesTab" class="tab-content active">
         <h2>💪 تسجيل الجلسات والتمارين</h2>
         <div class="group">
@@ -64,7 +77,7 @@
         </div>
 
         <div class="group">
-            <label for="weightInput">وزن الحديد (كغ):</label>
+            <label for="weightInput">وزن الحديد في التمرين (كغ):</label>
             <input type="number" id="weightInput" placeholder="أدخل الوزن بالـ kg" step="0.5">
         </div>
 
@@ -74,15 +87,13 @@
         </div>
 
         <button onclick="saveLog()">تسجيل الجولة 📝</button>
-
-        <h3 style="margin-top: 15px; font-size: 15px; color: #4CAF50;">سجل التمارين السابقة:</h3>
-        <div id="historyList" class="history">لا توجد تمارين مسجلة بعد.</div>
     </div>
 
+    <!-- 2. قسم حاسبة السعرات والماكروز -->
     <div id="macrosTab" class="tab-content">
         <h2>🥗 حاسبة السعرات والبروتين</h2>
         <div class="group">
-            <label for="bodyWeight">الوزن الحالي (كغ):</label>
+            <label for="bodyWeight">الوزن الحالي للجسم (كغ):</label>
             <input type="number" id="bodyWeight" placeholder="مثال: 60" step="0.5">
         </div>
         <div class="group">
@@ -101,6 +112,7 @@
         <div id="macroResults" class="results-box" style="display:none;"></div>
     </div>
 
+    <!-- 3. قسم مبيان تطور الوزن -->
     <div id="chartTab" class="tab-content">
         <h2>📈 مبيان تطور وزن الجسم</h2>
         <div class="group">
@@ -111,43 +123,26 @@
         <canvas id="weightChart" width="400" height="220"></canvas>
     </div>
 
+    <!-- 4. قسم جدول التمارين الأسبوعي -->
     <div id="routineTab" class="tab-content">
         <h2>📅 جدول التمارين الأسبوعي</h2>
-        
-        <div class="routine-card">
-            <div class="routine-day">اليوم 1: Push (دفع) 🔥</div>
-            <div class="routine-desc">الصدر + الأكتاف (أمامي وجانبي) + الترايسبس</div>
-        </div>
+        <div class="routine-card"><div class="routine-day">اليوم 1: Push (دفع) 🔥</div><div class="routine-desc">الصدر + الأكتاف (أمامي وجانبي) + الترايسبس</div></div>
+        <div class="routine-card"><div class="routine-day">اليوم 2: Pull (سحب) 💪</div><div class="routine-desc">الظهر + الأكتاف (خلفي) + البايسبس</div></div>
+        <div class="routine-card"><div class="routine-day">اليوم 3: Legs (أرجل) 🏋️‍♂️</div><div class="routine-desc">الأرجل كاملة + السمانة + البطن</div></div>
+        <div class="routine-card" style="border-right-color: #ff9800;"><div class="routine-day" style="color: #ff9800;">اليوم 4: راحة (Rest) 😴</div><div class="routine-desc">استشفاء عضلي وتغذية جيدة</div></div>
+        <div class="routine-card"><div class="routine-day">اليوم 5: Upper (جزء علوي) 💣</div><div class="routine-desc">صدر + ظهر + أكتاف + بايسبس + ترايسبس</div></div>
+        <div class="routine-card"><div class="routine-day">اليوم 6: Lower (جزء سفلي) 🦵</div><div class="routine-desc">أرجل كاملة + أسفل الظهر + البطن</div></div>
+        <div class="routine-card" style="border-right-color: #ff9800;"><div class="routine-day" style="color: #ff9800;">اليوم 7: راحة (Rest) 😴</div><div class="routine-desc">استشفاء عضلي وإعداد للأسبوع القادم</div></div>
+    </div>
 
-        <div class="routine-card">
-            <div class="routine-day">اليوم 2: Pull (سحب) 💪</div>
-            <div class="routine-desc">الظهر + الأكتاف (خلفي) + البايسبس</div>
-        </div>
+    <!-- 5. قسم الأرشيف الشامل (مع التواريخ والوزن والتمارين) -->
+    <div id="archiveTab" class="tab-content">
+        <h2>📜 أرشيف السجلات والتواريخ</h2>
+        <h3 style="font-size: 14px; color: #4CAF50; margin-bottom: 5px;">⚖️ سجل أوزان الجسم السابقة:</h3>
+        <div id="weightArchiveList" class="history" style="margin-bottom: 15px;">لا توجد أوزان مسجلة بعد.</div>
 
-        <div class="routine-card">
-            <div class="routine-day">اليوم 3: Legs (أرجل) 🏋️‍♂️</div>
-            <div class="routine-desc">الأرجل كاملة + السمانة + البطن</div>
-        </div>
-
-        <div class="routine-card" style="border-right-color: #ff9800;">
-            <div class="routine-day" style="color: #ff9800;">اليوم 4: راحة (Rest) 😴</div>
-            <div class="routine-desc">استشفاء عضلي وتغذية جيدة</div>
-        </div>
-
-        <div class="routine-card">
-            <div class="routine-day">اليوم 5: Upper (جزء علوي) 💣</div>
-            <div class="routine-desc">صدر + ظهر + أكتاف + بايسبس + ترايسبس</div>
-        </div>
-
-        <div class="routine-card">
-            <div class="routine-day">اليوم 6: Lower (جزء سفلي) 🦵</div>
-            <div class="routine-desc">أرجل كاملة + أسفل الظهر + البطن</div>
-        </div>
-
-        <div class="routine-card" style="border-right-color: #ff9800;">
-            <div class="routine-day" style="color: #ff9800;">اليوم 7: راحة (Rest) 😴</div>
-            <div class="routine-desc">استشفاء عضلي وإعداد للأسبوع القادم</div>
-        </div>
+        <h3 style="font-size: 14px; color: #4CAF50; margin-bottom: 5px;">🏋️‍♂️ سجل التمارين والعدادات:</h3>
+        <div id="historyList" class="history">لا توجد تمارين مسجلة بعد.</div>
     </div>
 
     <script>
@@ -160,6 +155,9 @@
 
             if(tabId === 'chartTab') {
                 loadChartData();
+            }
+            if(tabId === 'archiveTab') {
+                loadArchiveData();
             }
         }
 
@@ -256,14 +254,14 @@
             }
 
             let weightLogs = JSON.parse(localStorage.getItem("bodyWeightLogs")) || [];
-            const currentDate = new Date().toLocaleDateString('ar-MA', {month: 'short', day: 'numeric'});
+            const currentDate = new Date().toLocaleDateString('ar-MA', {year: 'numeric', month: 'short', day: 'numeric'});
             
             weightLogs.push({ date: currentDate, weight: weightVal });
             localStorage.setItem("bodyWeightLogs", JSON.stringify(weightLogs));
 
             document.getElementById("recordWeight").value = "";
             loadChartData();
-            alert("تم حفظ الوزن في المبيان بنجاح! 📈");
+            alert("تم حفظ الوزن وتاريخه في الأرشيف والمبيان بنجاح! 📈");
         }
 
         function loadChartData() {
@@ -287,34 +285,50 @@
                 return;
             }
 
-            const logData = { muscle, exercise, weight, reps, date: new Date().toLocaleDateString('ar-MA') };
+            const currentDate = new Date().toLocaleDateString('ar-MA', {year: 'numeric', month: 'short', day: 'numeric'});
+            const logData = { muscle, exercise, weight, reps, date: currentDate };
+            
             let logs = JSON.parse(localStorage.getItem("gymLogs")) || [];
             logs.unshift(logData);
             localStorage.setItem("gymLogs", JSON.stringify(logs));
 
             document.getElementById("weightInput").value = "";
             document.getElementById("repsInput").value = "";
-            loadLogs();
+            alert("تم تسجيل التمرين بنجاح وتم حفظه في الأرشيف! 📝");
         }
 
-        function loadLogs() {
+        function loadArchiveData() {
+            // تحميل سجل الأوزان
+            const weightArchiveList = document.getElementById("weightArchiveList");
+            let weightLogs = JSON.parse(localStorage.getItem("bodyWeightLogs")) || [];
+            if (weightLogs.length === 0) {
+                weightArchiveList.innerHTML = "لا توجد أوزان مسجلة بعد.";
+            } else {
+                weightArchiveList.innerHTML = weightLogs.slice().reverse().map(item => `
+                    <div class="history-item">
+                        📅 التاريخ: <strong>${item.date}</strong> | ⚖️ وزن الجسم: <strong style="color: #4CAF50;">${item.weight} كغ</strong>
+                    </div>
+                `).join('');
+            }
+
+            // تحميل سجل التمارين
             const historyList = document.getElementById("historyList");
             let logs = JSON.parse(localStorage.getItem("gymLogs")) || [];
             if (logs.length === 0) {
                 historyList.innerHTML = "لا توجد تمارين مسجلة بعد.";
-                return;
+            } else {
+                historyList.innerHTML = logs.map(log => `
+                    <div class="history-item">
+                        📅 <strong>${log.date}</strong><br>
+                        🎯 العضلة: <strong>${log.muscle}</strong> - التمرين: ${log.exercise}<br>
+                        🏋️‍♂️ وزن الحديد: <strong>${log.weight} كغ</strong> | التكرارات: <strong>${log.reps}</strong>
+                    </div>
+                `).join('');
             }
-            historyList.innerHTML = logs.map(log => `
-                <div class="history-item">
-                    <strong>${log.muscle}</strong> - ${log.exercise}<br>
-                    الوزن: <strong>${log.weight} كغ</strong> | التكرارات: <strong>${log.reps}</strong><br>
-                    <small style="color: #888;">${log.date}</small>
-                </div>
-            `).join('');
         }
 
         updateExercises();
-        loadLogs();
+        loadChartData();
     </script>
 </body>
 </html>
