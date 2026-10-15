@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GymLog Pro 🏋️‍♂️🦂</title>
+    <title>SMAYKA POWER 🔥🦂</title>
     <link rel="apple-touch-icon" href="258d528157c630e6cc4ebf6598ed3e5.jpg">
     <link rel="icon" type="image/jpeg" href="258d528157c630e6cc4ebf6598ed3e5.jpg">
     <link rel="manifest" href="manifest.json">
@@ -22,7 +22,7 @@
             margin: 0 auto; 
         }
 
-        h1 { color: #4CAF50; text-align: center; margin-bottom: 15px; font-size: 24px; text-shadow: 0 0 10px rgba(76, 175, 80, 0.5); }
+        h1 { color: #4CAF50; text-align: center; margin-bottom: 15px; font-size: 26px; text-shadow: 0 0 12px rgba(76, 175, 80, 0.6); font-weight: bold; }
         
         .nav-tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 15px; }
         .tab-btn { padding: 8px 2px; background-color: rgba(30, 30, 30, 0.9); border: 1px solid #333; color: #b0bec5; border-radius: 6px; font-weight: bold; font-size: 11px; cursor: pointer; text-align: center; transition: 0.3s; }
@@ -47,17 +47,22 @@
         .sub-input-group label { font-size: 10px; color: #888; margin-bottom: 2px; }
         .sub-input-group input { margin-bottom: 0; padding: 8px; font-size: 13px; text-align: center; }
 
+        /* تصميم جدول التغذية المصغر والمنظم */
+        .nutrition-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+        .nutri-column { background-color: #161616; border: 1px solid #333; padding: 10px; border-radius: 8px; }
+        .nutri-col-title { font-size: 13px; font-weight: bold; color: #4CAF50; margin-bottom: 8px; border-bottom: 1px dashed #333; padding-bottom: 4px; text-align: center; }
+        .nutri-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 12px; color: #ccc; }
+        .nutri-item input { width: 60px; padding: 4px; font-size: 12px; margin-bottom: 0; text-align: center; height: 28px; }
+
         .search-box { background-color: #161616; padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #333; }
         .results-box { background-color: #121212; padding: 12px; border-radius: 8px; margin-top: 10px; border-right: 4px solid #4CAF50; font-size: 14px; line-height: 1.6; }
         
-        /* تنسيق الجدول التفاعلي */
         .routine-card { background-color: #161616; border-right: 4px solid #4CAF50; padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #222; cursor: pointer; transition: 0.2s; }
         .routine-card:hover { background-color: #1f1f1f; }
         .routine-day { font-weight: bold; color: #4CAF50; font-size: 15px; display: flex; justify-content: space-between; align-items: center; }
         .routine-details { display: none; margin-top: 10px; padding-top: 8px; border-top: 1px dashed #333; color: #ccc; font-size: 13px; line-height: 1.6; }
         .routine-card.open .routine-details { display: block; }
 
-        /* صندوق محلل الأداء الذكي تحت المبيانات */
         .ai-expert-box { background-color: #141414; border: 1px solid #333; border-right: 4px solid #ff9800; padding: 12px; border-radius: 8px; margin-top: 12px; font-size: 13px; line-height: 1.6; color: #ddd; }
         .ai-expert-title { color: #ff9800; font-weight: bold; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
 
@@ -68,7 +73,7 @@
 </head>
 <body>
 
-    <h1>GymLog Pro 🏋️‍♂️🦂</h1>
+    <h1>SMAYKA POWER 🔥🦂</h1>
 
     <div class="nav-tabs">
         <button class="tab-btn active" onclick="switchTab('exercisesTab', this)">💪 التمارين</button>
@@ -105,29 +110,29 @@
             <div class="set-row">
                 <div class="set-title">السيرية 1 (Set 1)</div>
                 <div class="set-inputs">
-                    <div class="sub-input-group"><label>الوزن (Kg)</label><input type="number" id="w1" placeholder="مثلاً: 50" step="0.5"></div>
-                    <div class="sub-input-group"><label>التكرارات (Reps)</label><input type="number" id="r1" placeholder="مثلاً: 12"></div>
+                    <div class="sub-input-group"><label>الوزن (Kg)</label><input type="number" id="w1" placeholder="50" step="0.5"></div>
+                    <div class="sub-input-group"><label>التكرارات (Reps)</label><input type="number" id="r1" placeholder="12"></div>
                 </div>
             </div>
             <div class="set-row">
                 <div class="set-title">السيرية 2 (Set 2)</div>
                 <div class="set-inputs">
-                    <div class="sub-input-group"><label>الوزن (Kg)</label><input type="number" id="w2" placeholder="مثلاً: 60" step="0.5"></div>
-                    <div class="sub-input-group"><label>التكرارات (Reps)</label><input type="number" id="r2" placeholder="مثلاً: 10"></div>
+                    <div class="sub-input-group"><label>الوزن (Kg)</label><input type="number" id="w2" placeholder="60" step="0.5"></div>
+                    <div class="sub-input-group"><label>التكرارات (Reps)</label><input type="number" id="r2" placeholder="10"></div>
                 </div>
             </div>
             <div class="set-row">
                 <div class="set-title">السيرية 3 (Set 3)</div>
                 <div class="set-inputs">
-                    <div class="sub-input-group"><label>الوزن (Kg)</label><input type="number" id="w3" placeholder="مثلاً: 70" step="0.5"></div>
-                    <div class="sub-input-group"><label>التكرارات (Reps)</label><input type="number" id="r3" placeholder="مثلاً: 8"></div>
+                    <div class="sub-input-group"><label>الوزن (Kg)</label><input type="number" id="w3" placeholder="70" step="0.5"></div>
+                    <div class="sub-input-group"><label>التكرارات (Reps)</label><input type="number" id="r3" placeholder="8"></div>
                 </div>
             </div>
             <div class="set-row">
                 <div class="set-title">السيرية 4 (Set 4)</div>
                 <div class="set-inputs">
-                    <div class="sub-input-group"><label>الوزن (Kg)</label><input type="number" id="w4" placeholder="مثلاً: 75" step="0.5"></div>
-                    <div class="sub-input-group"><label>التكرارات (Reps)</label><input type="number" id="r4" placeholder="مثلاً: 6"></div>
+                    <div class="sub-input-group"><label>الوزن (Kg)</label><input type="number" id="w4" placeholder="75" step="0.5"></div>
+                    <div class="sub-input-group"><label>التكرارات (Reps)</label><input type="number" id="r4" placeholder="6"></div>
                 </div>
             </div>
         </div>
@@ -135,9 +140,9 @@
         <button onclick="saveLog()">حفظ التمرين في الأرشيف 📝</button>
     </div>
 
-    <!-- 2. قسم الماكروز -->
+    <!-- 2. قسم الماكروز وجدول التغذية الذكي -->
     <div id="macrosTab" class="tab-content">
-        <h2>🥗 حاسبة السعرات والبروتين</h2>
+        <h2>🥗 حاسبة السعرات وجدول التغذية اليومي</h2>
         <div class="group">
             <label for="bodyWeight">الوزن الحالي للجسم (كغ):</label>
             <input type="number" id="bodyWeight" placeholder="مثال: 60" step="0.5">
@@ -156,41 +161,76 @@
         </div>
         <button onclick="calculateMacros()">احسب احتياجي اليومي 💡</button>
         <div id="macroResults" class="results-box" style="display:none;"></div>
+
+        <!-- جدول التغذية المصغر -->
+        <h3 style="font-size: 15px; color: #4CAF50; margin: 15px 0 8px 0;">🍽️ سجل أكل اليوم (بالغرام):</h3>
+        
+        <div class="nutrition-grid">
+            <div class="nutri-column">
+                <div class="nutri-col-title">🥩 البروتين (Protein)</div>
+                <div class="nutri-item"><span>صدور دجاج:</span><input type="number" id="food_chicken" placeholder="غرام"></div>
+                <div class="nutri-item"><span>السردين:</span><input type="number" id="food_sardine" placeholder="غرام"></div>
+                <div class="nutri-item"><span>البيض:</span><input type="number" id="food_eggs" placeholder="عدد/غ"></div>
+                <div class="nutri-item"><span>الحليب:</span><input type="number" id="food_milk" placeholder="مل/غ"></div>
+                <div class="nutri-item"><span>الجبن:</span><input type="number" id="food_cheese" placeholder="غرام"></div>
+                <div class="nutri-item"><span>اللحم:</span><input type="number" id="food_meat" placeholder="غرام"></div>
+                <div class="nutri-item"><span>عدس / فول:</span><input type="number" id="food_beans" placeholder="غرام"></div>
+                <div class="nutri-item" style="color: #4CAF50; font-weight: bold;"><span>خلطة ماس (الخاصة):</span><input type="number" id="food_mass" placeholder="غرام"></div>
+            </div>
+
+            <div class="nutri-column">
+                <div class="nutri-col-title">🥔 الكارب (Carbs)</div>
+                <div class="nutri-item"><span>الأرز:</span><input type="number" id="food_rice" placeholder="غرام"></div>
+                <div class="nutri-item"><span>المعكرونة:</span><input type="number" id="food_pasta" placeholder="غرام"></div>
+                <div class="nutri-item"><span>الخبز:</span><input type="number" id="food_bread" placeholder="غرام"></div>
+                <div class="nutri-item"><span>البطاطس:</span><input type="number" id="food_potato" placeholder="غرام"></div>
+                <div class="nutri-item"><span>الشوفان:</span><input type="number" id="food_oats" placeholder="غرام"></div>
+            </div>
+        </div>
+
+        <button onclick="saveDailyNutrition()">حفظ وتأكيد أكل اليوم 🍽️✅</button>
     </div>
 
-    <!-- 3. قسم المبيان مع الخبير الذكي وتحسين مقياس الأرقام -->
+    <!-- 3. قسم المبيانات الثلاثة -->
     <div id="chartTab" class="tab-content">
-        <h2>📈 مبيانات التطور والقوة</h2>
+        <h2>📈 مبيانات التطور والأداء الشامل</h2>
         
-        <!-- مبيان التمارين -->
         <h3 style="font-size: 14px; color: #4CAF50; margin-bottom: 8px;">🏋️‍♂️ مبيان تصاعد أوزان التمارين:</h3>
         <div class="group">
             <label for="chartExerciseSelect">اختر التمرين:</label>
             <select id="chartExerciseSelect" onchange="loadExerciseChartData()"></select>
         </div>
-        <canvas id="exerciseChart" width="400" height="200"></canvas>
+        <canvas id="exerciseChart" width="400" height="180"></canvas>
         <div id="exerciseExpertComment" class="ai-expert-box">
-            <div class="ai-expert-title">💡 تحليل المدرب الذكي:</div>
-            <div id="exerciseCommentText">جاري تحليل تصاعد أوزانك...</div>
+            <div class="ai-expert-title">💡 تحليل المدرب الذكي (التمارين):</div>
+            <div id="exerciseCommentText">جاري التحليل...</div>
         </div>
 
         <hr style="border: 1px solid #222; margin: 20px 0;">
 
-        <!-- مبيان وزن الجسم -->
         <h3 style="font-size: 14px; color: #4CAF50; margin-bottom: 8px;">⚖️ مبيان تطور وزن الجسم:</h3>
         <div class="group">
             <label for="recordWeight">تسجيل وزن الجسم اليوم (كغ):</label>
             <input type="number" id="recordWeight" placeholder="أدخل وزنك اليوم" step="0.5">
         </div>
         <button onclick="saveBodyWeight()">حفظ الوزن في المبيان 📝</button>
-        <canvas id="weightChart" width="400" height="200"></canvas>
+        <canvas id="weightChart" width="400" height="180"></canvas>
         <div id="weightExpertComment" class="ai-expert-box">
-            <div class="ai-expert-title">💡 تحليل المدرب الذكي:</div>
-            <div id="weightCommentText">جاري تحليل مسار وزنك الشخصي...</div>
+            <div class="ai-expert-title">💡 تحليل المدرب الذكي (الوزن):</div>
+            <div id="weightCommentText">جاري التحليل...</div>
+        </div>
+
+        <hr style="border: 1px solid #222; margin: 20px 0;">
+
+        <h3 style="font-size: 14px; color: #4CAF50; margin-bottom: 8px;">🥗 مبيان التغذية اليومي (مقارنة بالاحتياج):</h3>
+        <canvas id="nutritionChart" width="400" height="200"></canvas>
+        <div id="nutritionExpertComment" class="ai-expert-box" style="border-right-color: #4CAF50;">
+            <div class="ai-expert-title" style="color: #4CAF50;">💡 تحليل خبير التغذية:</div>
+            <div id="nutritionCommentText">سجل أكلك اليومي ليعطيك المدرب تقريراً عن البروتين والسعرات!</div>
         </div>
     </div>
 
-    <!-- 4. قسم جدول التمارين التفاعلي (مع تمارينك الخاصة) -->
+    <!-- 4. قسم جدول التمارين التفاعلي -->
     <div id="routineTab" class="tab-content">
         <h2>📅 جدول التمارين الأسبوعي (اضغط على اليوم لرؤية تمارينك)</h2>
         
@@ -208,7 +248,7 @@
             <div class="routine-day"><span>اليوم 2: Pull (سحب) 💪</span> <span>▼</span></div>
             <div class="routine-details">
                 • تجديف بالبار (Barbell Row)<br>
-                • سحب بيد واحدة لللاتس (Single-arm Lat Pulldown / Row)<br>
+                • سحب بيد واحدة لللاتس (Single-arm Lat Row)<br>
                 • تمارين الترابيس (Traps)<br>
                 • العقلة (Pull-ups)<br>
                 • تمارين البايسبس المعروفة (Bicep Curls)
@@ -232,16 +272,12 @@
 
         <div class="routine-card" onclick="toggleRoutine(this)">
             <div class="routine-day"><span>اليوم 5: Upper (جزء علوي) 💣</span> <span>▼</span></div>
-            <div class="routine-details">
-                • تجميع تمريني مكثف للصدر والظهر والأكتاف والبايسبس والترايسبس بأوزان حرة.
-            </div>
+            <div class="routine-details">تجميع تمريني مكثف للصدر والظهر والأكتاف والبايسبس والترايسبس بأوزان حرة.</div>
         </div>
 
         <div class="routine-card" onclick="toggleRoutine(this)">
             <div class="routine-day"><span>اليوم 6: Lower (جزء سفلي) 🦵</span> <span>▼</span></div>
-            <div class="routine-details">
-                • تركيز كامل على السكوات، الفخذ الأمامي والخلفي، والسمانة والبطن.
-            </div>
+            <div class="routine-details">تركيز كامل على السكوات، الفخذ الأمامي والخلفي، والسمانة والبطن.</div>
         </div>
 
         <div class="routine-card" style="border-right-color: #ff9800;" onclick="toggleRoutine(this)">
@@ -250,7 +286,7 @@
         </div>
     </div>
 
-    <!-- 5. قسم الأرشيف مع السنة 2026 بوضوح -->
+    <!-- 5. قسم الأرشيف -->
     <div id="archiveTab" class="tab-content">
         <h2>📜 أرشيف السجلات والتواريخ</h2>
         
@@ -278,6 +314,7 @@
                 populateChartExerciseSelect();
                 loadChartData();
                 loadExerciseChartData();
+                loadNutritionChartData();
             }
             if(tabId === 'archiveTab') {
                 loadArchiveData();
@@ -294,7 +331,7 @@
             "البايسبس": ["Barbell Bicep Curl (بايسبس بالبار)", "Dumbbell Hammer Curl (هامر)", "Concentration Curl (تركيز)"],
             "الترايسبس": ["Skull Crusher (ترايسبس بالبار للوجه)", "Triceps Pushdown (دفع كابل)", "Overhead Extension"],
             "الأكتاف": ["Military Press (ضغط عسكري)", "Lateral Raise (رفرفة جانبي)", "Front Raise (أمامي)"],
-            "الأرجل": ["Squat (سكوات)", "Bulgarian Split Squat (رجل فوق الكرسي)", "Hamstring Curl (السحب الخلفي للفخذ)", "Calf Raises (سمانة)"],
+            "الأرجل": ["Squat (سكوات)", "Bulgarian Split Squats (رجل فوق الكرسي)", "Hamstring Curl (السحب الخلفي للفخذ)", "Calf Raises (سمانة)"],
             "البطن": ["Crunches (تمارين بطن)", "Plank (بلانك)", "Leg Raises (رفع الأرجل)"]
         };
 
@@ -342,113 +379,142 @@
             let fats = Math.round((baseCalories * 0.25) / 9);
             let carbs = Math.round((baseCalories - (protein * 4) - (fats * 9)) / 4);
 
+            localStorage.setItem("targetProtein", protein);
+            localStorage.setItem("targetCarbs", carbs);
+            localStorage.setItem("targetCalories", Math.round(baseCalories));
+
             resultsBox.style.display = "block";
             resultsBox.innerHTML = `
                 🎯 <strong>احتياجك اليومي الموصى به:</strong><br>
                 🔥 السعرات: <strong>${Math.round(baseCalories)} سعرة حرارية</strong><br>
-                🥩 البروتين المطلوب: <strong style="color: #4CAF50;">${protein} غرام</strong> (وزنك × 2.2)<br>
+                🥩 البروتين المطلوب: <strong style="color: #4CAF50;">${protein} غرام</strong><br>
                 🥔 الكاربوهيدرات: <strong>${carbs} غرام</strong><br>
                 🥑 الدهون الصحية: <strong>${fats} غرام</strong>
             `;
         }
 
-        let weightChart, exerciseChart;
+        function saveDailyNutrition() {
+            let chicken = parseFloat(document.getElementById("food_chicken").value) || 0;
+            let sardine = parseFloat(document.getElementById("food_sardine").value) || 0;
+            let eggs = parseFloat(document.getElementById("food_eggs").value) || 0;
+            let milk = parseFloat(document.getElementById("food_milk").value) || 0;
+            let cheese = parseFloat(document.getElementById("food_cheese").value) || 0;
+            let meat = parseFloat(document.getElementById("food_meat").value) || 0;
+            let beans = parseFloat(document.getElementById("food_beans").value) || 0;
+            let mass = parseFloat(document.getElementById("food_mass").value) || 0;
+
+            let rice = parseFloat(document.getElementById("food_rice").value) || 0;
+            let pasta = parseFloat(document.getElementById("food_pasta").value) || 0;
+            let bread = parseFloat(document.getElementById("food_bread").value) || 0;
+            let potato = parseFloat(document.getElementById("food_potato").value) || 0;
+            let oats = parseFloat(document.getElementById("food_oats").value) || 0;
+
+            let totalProtein = (chicken * 0.30) + (sardine * 0.20) + (eggs * 6) + (milk * 0.033) + (cheese * 0.25) + (meat * 0.26) + (beans * 0.24) + (mass * 0.23);
+            let totalCarbs = (rice * 0.75) + (pasta * 0.70) + (bread * 0.50) + (potato * 0.20) + (oats * 0.60);
+            let totalCalories = (totalProtein * 4) + (totalCarbs * 4);
+
+            let nutriLogs = JSON.parse(localStorage.getItem("nutritionLogs")) || [];
+            nutriLogs.push({
+                date: getFullDateString(),
+                protein: Math.round(totalProtein),
+                carbs: Math.round(totalCarbs),
+                calories: Math.round(totalCalories)
+            });
+            localStorage.setItem("nutritionLogs", JSON.stringify(nutriLogs));
+
+            alert("تم حفظ وتأكيد سجل أغذية اليوم بنجاح وحساب البروتين والسعرات! 🥗🔥");
+        }
+
+        let weightChart, exerciseChart, nutritionChart;
 
         function initWeightChart(labelsData, weightsData) {
             const ctx = document.getElementById('weightChart').getContext('2d');
             if (weightChart) weightChart.destroy();
-
             weightChart = new Chart(ctx, {
                 type: 'line',
-                data: {
-                    labels: labelsData,
-                    datasets: [{
-                        label: 'تطور وزن الجسم (كغ)',
-                        data: weightsData,
-                        borderColor: '#4CAF50',
-                        backgroundColor: 'rgba(76, 175, 80, 0.15)',
-                        borderWidth: 2,
-                        tension: 0.3,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: { legend: { labels: { color: '#fff' } } },
-                    scales: {
-                        x: { ticks: { color: '#b0bec5' } },
-                        y: { ticks: { color: '#b0bec5' } }
-                    }
-                }
+                data: { labels: labelsData, datasets: [{ label: 'وزن الجسم (كغ)', data: weightsData, borderColor: '#4CAF50', backgroundColor: 'rgba(76, 175, 80, 0.15)', borderWidth: 2, tension: 0.3, fill: true }] },
+                options: { responsive: true, plugins: { legend: { labels: { color: '#fff' } } }, scales: { x: { ticks: { color: '#b0bec5' } }, y: { ticks: { color: '#b0bec5' } } } }
             });
         }
 
         function initExerciseChart(labelsData, maxWeightsData) {
             const ctx = document.getElementById('exerciseChart').getContext('2d');
             if (exerciseChart) exerciseChart.destroy();
-
             exerciseChart = new Chart(ctx, {
+                type: 'line',
+                data: { labels: labelsData, datasets: [{ label: 'أعلى وزن ملعوب (كغ)', data: maxWeightsData, borderColor: '#ff9800', backgroundColor: 'rgba(255, 152, 0, 0.15)', borderWidth: 2, tension: 0.3, fill: true }] },
+                options: { responsive: true, plugins: { legend: { labels: { color: '#fff' } } }, scales: { x: { ticks: { color: '#b0bec5' } }, y: { ticks: { color: '#b0bec5' } } } }
+            });
+        }
+
+        function initNutritionChart(labelsData, proteinData, carbsData, caloriesData) {
+            const ctx = document.getElementById('nutritionChart').getContext('2d');
+            if (nutritionChart) nutritionChart.destroy();
+            nutritionChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labelsData,
-                    datasets: [{
-                        label: 'أعلى وزن ملعوب (كغ)',
-                        data: maxWeightsData,
-                        borderColor: '#ff9800',
-                        backgroundColor: 'rgba(255, 152, 0, 0.15)',
-                        borderWidth: 2,
-                        tension: 0.3,
-                        fill: true
-                    }]
+                    datasets: [
+                        { label: 'البروتين المأكل (g)', data: proteinData, borderColor: '#4CAF50', backgroundColor: 'rgba(76, 175, 80, 0.1)', borderWidth: 2, tension: 0.3, fill: false },
+                        { label: 'الكارب المأكل (g)', data: carbsData, borderColor: '#03a9f4', backgroundColor: 'rgba(3, 169, 244, 0.1)', borderWidth: 2, tension: 0.3, fill: false },
+                        { label: 'السعرات (سعرة)', data: caloriesData, borderColor: '#e91e63', backgroundColor: 'rgba(233, 30, 99, 0.1)', borderWidth: 2, tension: 0.3, fill: false }
+                    ]
                 },
-                options: {
-                    responsive: true,
-                    plugins: { legend: { labels: { color: '#fff' } } },
-                    scales: {
-                        x: { ticks: { color: '#b0bec5' } },
-                        y: { ticks: { color: '#b0bec5' } }
-                    }
-                }
+                options: { responsive: true, plugins: { legend: { labels: { color: '#fff' } } }, scales: { x: { ticks: { color: '#b0bec5' } }, y: { ticks: { color: '#b0bec5' } } } }
             });
+        }
+
+        function loadNutritionChartData() {
+            let logs = JSON.parse(localStorage.getItem("nutritionLogs")) || [];
+            const commentText = document.getElementById("nutritionCommentText");
+
+            if (logs.length === 0) {
+                initNutritionChart(['لا توجد بيانات'], [0], [0], [0]);
+                commentText.innerHTML = "⚠️ لم تقم بتسجيل أكل اليوم بعد. املأ جدول التغذية في تبويب الماكروز واضغط حفظ لنقوم بالتحليل!";
+                return;
+            }
+
+            const labels = logs.map(l => l.date);
+            const proteins = logs.map(l => l.protein);
+            const carbs = logs.map(l => l.carbs);
+            const cals = logs.map(l => l.calories);
+
+            initNutritionChart(labels, proteins, carbs, cals);
+
+            let targetP = parseFloat(localStorage.getItem("targetProtein")) || 130;
+            let lastP = proteins[proteins.length - 1];
+
+            if (lastP >= targetP) {
+                commentText.innerHTML = `🔥 ممتاز يا أنوار! لقد غطيت احتياجك من البروتين اليوم (${lastP}g من أصل ${targetP}g المطلوبة). أداؤك الغذائي في <strong>تصاعد ممتاز</strong> لبناء العضلات!`;
+            } else {
+                commentText.innerHTML = `⚠️ انتبه يا أنوار! بروتينك اليوم (${lastP}g) أقل بقليل من الحد المستهدف (${targetP}g). حاول تناول المزيد من صدور الدجاج أو السردين او خلطة الماس لتصل للهدف!`;
+            }
         }
 
         function loadExerciseChartData() {
             const selectedEx = document.getElementById("chartExerciseSelect").value;
             let logs = JSON.parse(localStorage.getItem("gymLogs")) || [];
             let filteredLogs = logs.filter(l => l.exercise === selectedEx).reverse();
-
             const commentText = document.getElementById("exerciseCommentText");
 
             if (filteredLogs.length === 0) {
                 initExerciseChart(['لا توجد بيانات'], [0]);
-                commentText.innerHTML = "⚠️ لا توجد سجلات كافية لهذا التمرين بعد لتقديم تحليل. ابدأ بتسجيل أوزانك وسيعطيك المدرب تقريراً دقيقاً!";
+                commentText.innerHTML = "⚠️ لا توجد سجلات لهذا التمرين بعد.";
                 return;
             }
 
             const labels = filteredLogs.map(l => l.date);
-            const maxWeights = filteredLogs.map(l => {
-                let w1 = parseFloat(l.s1w) || 0;
-                let w2 = parseFloat(l.s2w) || 0;
-                let w3 = parseFloat(l.s3w) || 0;
-                let w4 = parseFloat(l.s4w) || 0;
-                return Math.max(w1, w2, w3, w4);
-            });
-
+            const maxWeights = filteredLogs.map(l => Math.max(parseFloat(l.s1w)||0, parseFloat(l.s2w)||0, parseFloat(l.s3w)||0, parseFloat(l.s4w)||0));
             initExerciseChart(labels, maxWeights);
 
-            // تحليل المدرب الذكي لأوزان التمارين
             if (maxWeights.length > 1) {
                 let last = maxWeights[maxWeights.length - 1];
                 let prev = maxWeights[maxWeights.length - 2];
-                if (last > prev) {
-                    commentText.innerHTML = `🔥 ممتاز جداً يا أنوار! أنت في <strong>تصاعد مستمر</strong> في هذا التمرين (ارتفعت من ${prev} كغ إلى ${last} كغ). استمر في هذا النسق لتضخيم عضلاتك!`;
-                } else if (last === prev) {
-                    commentText.innerHTML = `⚖️ أوزانك مستقرة في هذا التمرين (${last} كغ). حاول كسر الروتين في المرة القادمة وزيادة الوزن تدريجياً لضمان تطور عضلي.`;
-                } else {
-                    commentText.innerHTML = `📉 لوحظ انخفاض طفيف في الوزن مقارنة بالجلسة السابقة. تأكد من حصولك على راحة وتغذية كافية قبل التمرين القادم.`;
-                }
+                if (last > prev) commentText.innerHTML = `🔥 أنت في <strong>تصاعد مستمر</strong> في ${selectedEx} (من ${prev} كغ إلى ${last} كغ). وحش!`;
+                else if (last === prev) commentText.innerHTML = `⚖️ أوزانك مستقرة (${last} كغ). حاول زيادة الوزن تدريجياً قريباً.`;
+                else commentText.innerHTML = `📉 لوحظ انخفاض طفيف في الوزن مقارنة بالسلسلة السابقة. استرح جيداً!`;
             } else {
-                commentText.innerHTML = `💪 بداية رائعة! تم تسجيل أول جلسة لهذا التمرين بنجاح. استمر في رفع الأوزان في المرات القادمة لنبدأ تتبع التصاعد.`;
+                commentText.innerHTML = `💪 تم تسجيل أول جلسة بنجاح. واصل التطور!`;
             }
         }
 
@@ -456,17 +522,12 @@
             const now = new Date();
             const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
             const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
-            
-            // تم إجبار السنة على التواجد بوضوح تام (2026)
             return `${days[now.getDay()]} ${now.getDate()} ${months[now.getMonth()]} 2026`;
         }
 
         function saveBodyWeight() {
             const weightVal = parseFloat(document.getElementById("recordWeight").value);
-            if (!weightVal) {
-                alert("المرجو إدخال الوزن!");
-                return;
-            }
+            if (!weightVal) { alert("المرجو إدخال الوزن!"); return; }
 
             let weightLogs = JSON.parse(localStorage.getItem("bodyWeightLogs")) || [];
             weightLogs.push({ date: getFullDateString(), weight: weightVal });
@@ -483,28 +544,22 @@
 
             if (weightLogs.length === 0) {
                 weightLogs = [{date: 'البداية (2026)', weight: 60}];
-                commentText.innerHTML = "⚠️ سجل وزنك الشخصي بانتظام ليقوم المدرب بتحليل مسارك (تضخيم أو تنشيف).";
+                commentText.innerHTML = "⚠️ سجل وزنك بانتظام ليقوم المدرب بتحليل مسارك.";
             } else if (weightLogs.length > 1) {
                 let lastW = weightLogs[weightLogs.length - 1].weight;
                 let firstW = weightLogs[0].weight;
-                if (lastW > firstW) {
-                    commentText.innerHTML = `📈 مبيان وزن الجسم في <strong>تصاعد</strong> (من ${firstW} كغ إلى ${lastW} كغ). علامة ممتازة لمرحلة التضخيم العضلي!`;
-                } else if (lastW < firstW) {
-                    commentText.innerHTML = `🔥 مبيان وزن الجسم في <strong>نزول</strong> (من ${firstW} كغ إلى ${lastW} كغ). أداء ممتاز لمرحلة التنشيف وحرق الدهون!`;
-                } else {
-                    commentText.innerHTML = `⚖️ وزنك ثابت في مرحلة استقرار (${lastW} كغ).`;
-                }
+                if (lastW > firstW) commentText.innerHTML = `📈 مبيان وزني في <strong>تصاعد</strong> (${firstW} إلى ${lastW} كغ). ممتاز للتضخيم!`;
+                else if (lastW < firstW) commentText.innerHTML = `🔥 مبيان وزني في <strong>نزول</strong> (${firstW} إلى ${lastW} كغ). ممتاز للتنشيف!`;
+                else commentText.innerHTML = `⚖️ وزنك ثابت (${lastW} كغ).`;
             } else {
-                commentText.innerHTML = `✨ تم تسجيل أول قراءة لوزن جسمك. واصل التسجيل لنتابع التطور معاً.`;
+                commentText.innerHTML = `✨ تم تسجيل القراءة الأولى للوزن.`;
             }
-
             initWeightChart(weightLogs.map(item => item.date), weightLogs.map(item => item.weight));
         }
 
         function saveLog() {
             const muscle = document.getElementById("muscleGroup").value;
             const exercise = document.getElementById("exerciseSelect").value;
-            
             const s1w = document.getElementById("w1").value || "0";
             const s1r = document.getElementById("r1").value || "0";
             const s2w = document.getElementById("w2").value || "0";
@@ -542,10 +597,7 @@
                 weightArchiveList.innerHTML = "لا توجد أوزان مسجلة متطابقة.";
             } else {
                 weightArchiveList.innerHTML = filtered.slice().reverse().map(item => `
-                    <div class="history-item">
-                        📅 <strong>${item.date}</strong><br>
-                        ⚖️ وزن الجسم: <strong style="color: #4CAF50;">${item.weight} كغ</strong>
-                    </div>
+                    <div class="history-item">📅 <strong>${item.date}</strong><br>⚖️ وزن الجسم: <strong style="color: #4CAF50;">${item.weight} كغ</strong></div>
                 `).join('');
             }
         }
@@ -553,19 +605,14 @@
         function renderExerciseArchive(filterText = '') {
             const historyList = document.getElementById("historyList");
             let logs = JSON.parse(localStorage.getItem("gymLogs")) || [];
-            let filtered = logs.filter(item => 
-                item.date.toLowerCase().includes(filterText.toLowerCase()) || 
-                item.muscle.toLowerCase().includes(filterText.toLowerCase()) || 
-                item.exercise.toLowerCase().includes(filterText.toLowerCase())
-            );
+            let filtered = logs.filter(item => item.date.toLowerCase().includes(filterText.toLowerCase()) || item.muscle.toLowerCase().includes(filterText.toLowerCase()) || item.exercise.toLowerCase().includes(filterText.toLowerCase()));
 
             if (filtered.length === 0) {
                 historyList.innerHTML = "لا توجد تمارين مسجلة متطابقة.";
             } else {
                 historyList.innerHTML = filtered.map(log => `
                     <div class="history-item">
-                        📅 <strong>${log.date}</strong><br>
-                        🎯 <strong>${log.muscle}</strong> - ${log.exercise}<br>
+                        📅 <strong>${log.date}</strong><br>🎯 <strong>${log.muscle}</strong> - ${log.exercise}<br>
                         🔹 <strong>س1:</strong> ${log.s1w}كغ / ${log.s1r} تكرار | 🔹 <strong>س2:</strong> ${log.s2w}كغ / ${log.s2r} تكرار<br>
                         🔹 <strong>س3:</strong> ${log.s3w}كغ / ${log.s3r} تكرار | 🔹 <strong>س4:</strong> ${log.s4w}كغ / ${log.s4r} تكرار
                     </div>
