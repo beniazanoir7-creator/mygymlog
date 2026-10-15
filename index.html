@@ -1,724 +1,559 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMAYKA POWER 🔥🦂</title>
-    <link rel="apple-touch-icon" href="258d528157c630e6cc4ebf6598ed3e5.jpg">
-    <link rel="icon" type="image/jpeg" href="258d528157c630e6cc4ebf6598ed3e5.jpg">
-    <link rel="manifest" href="manifest.json">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, sans-serif; }
-        
-        body { 
-            background: linear-gradient(rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.95)), url('258d528157c630e6cc4ebf6598ed3e5.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: #fff; 
-            padding: 15px; 
-            max-width: 600px; 
-            margin: 0 auto; 
-        }
-
-        /* شاشة القفل بكلمة السر */
-        #lockScreen {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: #0a0a0a;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            text-align: center;
-        }
-        #lockScreen h2 { color: #4CAF50; margin-bottom: 10px; border-bottom: none; }
-        #lockScreen p { color: #aaa; font-size: 13px; margin-bottom: 20px; }
-        #pinInput {
-            width: 180px;
-            text-align: center;
-            font-size: 24px;
-            letter-spacing: 10px;
-            padding: 10px;
-            border-radius: 8px;
-            border: 2px solid #4CAF50;
-            background: #181818;
-            color: #fff;
-            margin-bottom: 15px;
-        }
-
-        h1 { color: #4CAF50; text-align: center; margin-bottom: 15px; font-size: 26px; text-shadow: 0 0 12px rgba(76, 175, 80, 0.6); font-weight: bold; }
-        
-        .nav-tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 15px; }
-        .tab-btn { padding: 8px 2px; background-color: rgba(30, 30, 30, 0.9); border: 1px solid #333; color: #b0bec5; border-radius: 6px; font-weight: bold; font-size: 11px; cursor: pointer; text-align: center; transition: 0.3s; }
-        .tab-btn.active { background-color: #4CAF50; color: #fff; border-color: #4CAF50; box-shadow: 0 0 12px rgba(76, 175, 80, 0.6); }
-
-        .tab-content { display: none; background-color: rgba(26, 26, 26, 0.95); border: 1px solid #222; border-radius: 12px; padding: 15px; box-shadow: 0 8px 16px rgba(0,0,0,0.7); margin-bottom: 15px; }
-        .tab-content.active { display: block; }
-
-        h2 { color: #4CAF50; font-size: 18px; margin-bottom: 15px; border-bottom: 2px solid #333; padding-bottom: 6px; }
-        .group { margin-bottom: 12px; }
-        label { display: block; margin-bottom: 5px; color: #b0bec5; font-weight: bold; font-size: 13px; }
-        select, input, button { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; background-color: #1a1a1a; color: #fff; font-size: 15px; margin-bottom: 8px; }
-        select:focus, input:focus { border-color: #4CAF50; outline: none; box-shadow: 0 0 5px rgba(76, 175, 80, 0.4); }
-        button { background-color: #4CAF50; color: #fff; font-weight: bold; border: none; cursor: pointer; transition: background 0.2s; }
-        button:active { background-color: #388E3C; }
-        
-        .sets-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
-        .set-row { background-color: #161616; border: 1px solid #333; padding: 10px; border-radius: 8px; }
-        .set-title { font-size: 13px; color: #4CAF50; font-weight: bold; margin-bottom: 6px; }
-        .set-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .sub-input-group { display: flex; flex-direction: column; }
-        .sub-input-group label { font-size: 10px; color: #888; margin-bottom: 2px; }
-        .sub-input-group input { margin-bottom: 0; padding: 8px; font-size: 13px; text-align: center; }
-
-        .nutrition-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-        .nutri-column { background-color: #161616; border: 1px solid #333; padding: 10px; border-radius: 8px; }
-        .nutri-col-title { font-size: 13px; font-weight: bold; color: #4CAF50; margin-bottom: 8px; border-bottom: 1px dashed #333; padding-bottom: 4px; text-align: center; }
-        .nutri-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 12px; color: #ccc; }
-        .nutri-item input { width: 60px; padding: 4px; font-size: 12px; margin-bottom: 0; text-align: center; height: 28px; }
-
-        .search-box { background-color: #161616; padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #333; }
-        .results-box { background-color: #121212; padding: 12px; border-radius: 8px; margin-top: 10px; border-right: 4px solid #4CAF50; font-size: 14px; line-height: 1.6; }
-        
-        .routine-card { background-color: #161616; border-right: 4px solid #4CAF50; padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #222; cursor: pointer; transition: 0.2s; }
-        .routine-card:hover { background-color: #1f1f1f; }
-        .routine-day { font-weight: bold; color: #4CAF50; font-size: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .routine-details { display: none; margin-top: 10px; padding-top: 8px; border-top: 1px dashed #333; color: #ccc; font-size: 13px; line-height: 1.6; }
-        .routine-card.open .routine-details { display: block; }
-
-        .ai-expert-box { background-color: #141414; border: 1px solid #333; border-right: 4px solid #ff9800; padding: 12px; border-radius: 8px; margin-top: 12px; font-size: 13px; line-height: 1.6; color: #ddd; }
-        .ai-expert-title { color: #ff9800; font-weight: bold; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
-
-        .history { margin-top: 10px; background-color: #161616; padding: 10px; border-radius: 6px; font-size: 13px; max-height: 250px; overflow-y: auto; border: 1px solid #222; }
-        .history-item { padding: 10px 0; border-bottom: 1px solid #222; line-height: 1.6; }
-        canvas { background-color: #161616; border-radius: 8px; padding: 10px; margin-top: 10px; border: 1px solid #222; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMAYKA POWER</title>
+  <link rel="icon" type="image/jpeg" href="258d528157c630e6cc4ebf6598ed3e5.jpg">
+  <link rel="apple-touch-icon" href="258d528157c630e6cc4ebf6598ed3e5.jpg">
+  <link rel="manifest" href="manifest.json">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg-color: #121212;
+      --card-bg: #1e1e1e;
+      --accent-color: #4CAF50;
+      --accent-hover: #45a049;
+      --text-color: #e0e0e0;
+      --border-color: #333;
+      --danger-color: #f44336;
+      --warning-color: #ff9800;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 15px;
+      direction: rtl;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding-bottom: 30px;
+    }
+    h1, h2, h3 {
+      text-align: center;
+      color: var(--accent-color);
+      margin-bottom: 15px;
+    }
+    .header-title {
+      font-size: 1.8rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    /* Lock Screen */
+    #lock-screen {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--bg-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .pin-input {
+      font-size: 2rem;
+      letter-spacing: 10px;
+      text-align: center;
+      width: 180px;
+      padding: 10px;
+      background: var(--card-bg);
+      border: 2px solid var(--accent-color);
+      color: #fff;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+    /* Tabs */
+    .nav-tabs {
+      display: flex;
+      justify-content: space-around;
+      background: var(--card-bg);
+      padding: 8px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border-color);
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      color: #888;
+      font-size: 0.95rem;
+      font-weight: bold;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    .tab-btn.active {
+      background: var(--accent-color);
+      color: #fff;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    /* Card Component */
+    .card {
+      background: var(--card-bg);
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      border: 1px solid var(--border-color);
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+      color: #bbb;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: #2a2a2a;
+      color: #fff;
+      box-sizing: border-box;
+      font-size: 0.95rem;
+    }
+    button.btn-primary {
+      background: var(--accent-color);
+      color: #fff;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+    button.btn-primary:hover {
+      background: var(--accent-hover);
+    }
+    .sets-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .set-box {
+      background: #252525;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #333;
+    }
+    .set-box span {
+      font-size: 0.85rem;
+      color: var(--accent-color);
+      font-weight: bold;
+    }
+    /* Charts */
+    canvas {
+      max-width: 100%;
+      background: #252525;
+      border-radius: 8px;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+    .history-item {
+      border-bottom: 1px solid var(--border-color);
+      padding: 10px 0;
+    }
+    .history-item:last-child {
+      border-bottom: none;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- شاشة الحماية والرمز السري -->
-    <div id="lockScreen">
-        <h2 id="lockTitle">🔐 قفل الحماية</h2>
-        <p id="lockDesc">أدخل رمز PIN المكون من 4 أرقام لفتح التطبيق</p>
-        <input type="password" id="pinInput" maxlength="4" placeholder="••••" pattern="[0-9]*" inputmode="numeric">
-        <button style="width: 180px;" onclick="checkPin()">فتح التطبيق 🔓</button>
-    </div>
+  <!-- Lock Screen -->
+  <div id="lock-screen">
+    <div class="header-title">🦂🔥 SMAYKA POWER</div>
+    <p style="color: #aaa; margin-top: 5px;">أدخل رمز الحماية (PIN)</p>
+    <input type="password" id="pin-code" class="pin-input" maxlength="4" placeholder="••••" oninput="checkPin()">
+  </div>
 
-    <h1>SMAYKA POWER 🔥🦂</h1>
+  <!-- Main Container -->
+  <div class="container" id="main-app" style="display: none;">
+    <div class="header-title">🦂🔥 SMAYKA POWER</div>
 
+    <!-- Navigation -->
     <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('exercisesTab', this)">💪 التمارين</button>
-        <button class="tab-btn" onclick="switchTab('macrosTab', this)">🥗 الماكروز</button>
-        <button class="tab-btn" onclick="switchTab('chartTab', this)">📈 المبيان</button>
-        <button class="tab-btn" onclick="switchTab('routineTab', this)">📅 الجدول</button>
-        <button class="tab-btn" onclick="switchTab('archiveTab', this)">📜 الأرشيف</button>
+      <button class="tab-btn active" onclick="switchTab('exercises')">💪 التمارين</button>
+      <button class="tab-btn" onclick="switchTab('macros')">🥗 الماكروز</button>
+      <button class="tab-btn" onclick="switchTab('analytics')">📈 المبيان</button>
+      <button class="tab-btn" onclick="switchTab('archive')">📜 الأرشيف</button>
     </div>
 
-    <!-- 1. قسم التمارين -->
-    <div id="exercisesTab" class="tab-content active">
-        <h2>💪 تسجيل التمرين والسيريات الأربع</h2>
-        <div class="group">
-            <label for="muscleGroup">العضلة المستهدفة:</label>
-            <select id="muscleGroup" onchange="updateExercises()">
-                <option value="الصدر">الصدر (Chest)</option>
-                <option value="الظهر">الظهر (Back)</option>
-                <option value="البايسبس">البايسبس (Biceps)</option>
-                <option value="الترايسبس">الترايسبس (Triceps)</option>
-                <option value="الأكتاف">الأكتاف (Shoulders)</option>
-                <option value="الأرجل">الأرجل (Legs)</option>
-                <option value="البطن">البطن (Abs)</option>
-            </select>
+    <!-- Tab 1: Exercises -->
+    <div id="exercises" class="tab-content active">
+      <div class="card">
+        <h3>تسجيل حصة التدريب</h3>
+        <label>الفئة / العضلة:</label>
+        <select id="muscle-group" onchange="updateExerciseOptions()">
+          <option value="صدر">الصدر (Chest)</option>
+          <option value="ظهر">الظهر (Back)</option>
+          <option value="أرجل">الأرجل (Legs)</option>
+          <option value="أكتاف">الأكتاف (Shoulders)</option>
+          <option value="بايسبس">البايسبس (Biceps)</option>
+          <option value="ترايسبس">الترايسبس (Triceps)</option>
+        </select>
+
+        <label>اسم التمرين:</label>
+        <select id="exercise-name"></select>
+
+        <label>تسجيل 4 الجلسات (المجموعات):</label>
+        <div class="sets-grid">
+          <div class="set-box">
+            <span>الجلسة 1</span>
+            <input type="number" id="s1-w" placeholder="الوزن (كغ)">
+            <input type="number" id="s1-r" placeholder="التكرارات">
+          </div>
+          <div class="set-box">
+            <span>الجلسة 2</span>
+            <input type="number" id="s2-w" placeholder="الوزن (كغ)">
+            <input type="number" id="s2-r" placeholder="التكرارات">
+          </div>
+          <div class="set-box">
+            <span>الجلسة 3</span>
+            <input type="number" id="s3-w" placeholder="الوزن (كغ)">
+            <input type="number" id="s3-r" placeholder="التكرارات">
+          </div>
+          <div class="set-box">
+            <span>الجلسة 4</span>
+            <input type="number" id="s4-w" placeholder="الوزن (كغ)">
+            <input type="number" id="s4-r" placeholder="التكرارات">
+          </div>
         </div>
 
-        <div class="group">
-            <label for="exerciseSelect">التمرين:</label>
-            <select id="exerciseSelect"></select>
-        </div>
+        <button class="btn-primary" onclick="saveWorkout()">حفظ التمرين 💾</button>
+      </div>
+    </div>
 
-        <label style="margin-bottom: 8px; color: #4CAF50;">🔥 أدخل الوزن والتكرارات لكل سيرية:</label>
+    <!-- Tab 2: Macros & Nutrition -->
+    <div id="macros" class="tab-content">
+      <div class="card">
+        <h3>حاسبة الماكروز والأغذية 🥗</h3>
+        <label>اختر المادة الغذائية:</label>
+        <select id="food-item">
+          <!-- Carbohydrates -->
+          <optgroup label="🍞 مصادر الكاربوهيدرات">
+            <option value="شوفان" data-p="13" data-c="68" data-f="7" data-cal="389">شوفان (Oats)</option>
+            <option value="أرز مطبوخ" data-p="2.7" data-c="28" data-f="0.3" data-cal="130">أرز أبيض مطبوخ</option>
+            <option value="بطاطس حلوة" data-p="1.6" data-c="20" data-f="0.1" data-cal="86">بطاطس حلوة (Sweet Potato)</option>
+            <option value="بطاطس مسلوقة" data-p="2" data-c="17" data-f="0.1" data-cal="87">بطاطس مسلوقة</option>
+            <option value="معكرونة مطبوخة" data-p="5" data-c="25" data-f="1.1" data-cal="131">معكرونة مطبوخة</option>
+            <option value="خبز كامل" data-p="9" data-c="41" data-f="3.5" data-cal="247">خبز القمح الكامل</option>
+            <option value="موز" data-p="1.1" data-c="23" data-f="0.3" data-cal="89">موز (Banana)</option>
+            <option value="تمر" data-p="2.5" data-c="75" data-f="0.4" data-cal="277">تمر (Dates)</option>
+          </optgroup>
+          <!-- Proteins & Legumes -->
+          <optgroup label="🍗 مصادر البروتين والبقوليات">
+            <option value="صدر دجاج" data-p="31" data-c="0" data-f="3.6" data-cal="165">صدر دجاج مطبوخ</option>
+            <option value="لحم مفروم" data-p="26" data-c="0" data-f="15" data-cal="250">لحم بقري مفروم (مفورة/سكاليطة)</option>
+            <option value="بيض كامل" data-p="13" data-c="1.1" data-f="11" data-cal="155">بيض كامل (2 بيضات ≈ 100غ)</option>
+            <option value="بياض البيض" data-p="11" data-c="0.7" data-f="0.2" data-cal="52">بياض البيض</option>
+            <option value="تونة بالماء" data-p="26" data-c="0" data-f="1" data-cal="116">تونة معلبة (بالماء)</option>
+            <option value="حمص مطبوخ" data-p="8.9" data-c="27" data-f="2.6" data-cal="164">حمص مطبوخ (Chickpeas)</option>
+            <option value="عدس مطبوخ" data-p="9" data-c="20" data-f="0.4" data-cal="116">عدس مطبوخ (Lentils)</option>
+            <option value="ترمس" data-p="16" data-c="10" data-f="3" data-cal="120">ترمس / فول حلو (Lupine)</option>
+            <option value="جبن قريش" data-p="11" data-c="3.4" data-f="4.3" data-cal="98">جبن قريش / الجبن الأبيض</option>
+            <option value="SMAYKA Gainer Mix" data-p="24.1" data-c="45" data-f="14" data-cal="424">خلطة SMAYKA Gainer (ميكس الضخامة)</option>
+          </optgroup>
+          <!-- Healthy Fats & Nuts -->
+          <optgroup label="🥜 الدهون الصحية والمكسرات">
+            <option value="كاوكاو" data-p="25.8" data-c="16" data-f="49.2" data-cal="567">فول سوداني / كاوكاو (Peanuts)</option>
+            <option value="زبدة كاوكاو" data-p="25" data-c="20" data-f="50" data-cal="588">زبدة الفول السوداني</option>
+            <option value="لوز" data-p="21" data-c="22" data-f="50" data-cal="579">لوز (Almonds)</option>
+            <option value="جوز" data-p="15" data-c="14" data-f="65" data-cal="654">جوز / گرگاع (Walnuts)</option>
+            <option value="زنجلان" data-p="18" data-c="23" data-f="50" data-cal="573">سمسم / زنجلان (Sesame)</option>
+            <option value="زيت زيتون" data-p="0" data-c="0" data-f="100" data-cal="884">زيت زيتون (Olive Oil)</option>
+          </optgroup>
+        </select>
+
+        <label>الكمية (بالجرام):</label>
+        <input type="number" id="food-weight" placeholder="مثلاً: 100">
+
+        <button class="btn-primary" onclick="addFood()">إضافة للوجبة ➕</button>
+      </div>
+
+      <div class="card" id="meal-summary">
+        <h3>مجموع اليوم 📊</h3>
+        <p>البروتين: <b id="total-p" style="color:#4CAF50;">0</b> غرام</p>
+        <p>الكاربوهيدرات: <b id="total-c" style="color:#2196F3;">0</b> غرام</p>
+        <p>الدهون: <b id="total-f" style="color:#FF9800;">0</b> غرام</p>
+        <p>السعرات الحرارية: <b id="total-cal" style="color:#f44336;">0</b> Kcal</p>
+        <button onclick="resetMacros()" style="background:var(--danger-color); border:none; color:#fff; font-weight:bold;">إعادة ضبط اليوم 🔄</button>
+      </div>
+    </div>
+
+    <!-- Tab 3: Analytics -->
+    <div id="analytics" class="tab-content">
+      <div class="card">
+        <h3>مبيانات التطور والأداء الشامل 📈</h3>
         
-        <div class="sets-container">
-            <div class="set-row">
-                <div class="set-title">السيرية 1 (Set 1)</div>
-                <div class="set-inputs">
-                    <div class="sub-input-group"><label>الوزن (Kg)</label><input type="number" id="w1" placeholder="50" step="0.5"></div>
-                    <div class="sub-input-group"><label>التكرارات (Reps)</label><input type="number" id="r1" placeholder="12"></div>
-                </div>
-            </div>
-            <div class="set-row">
-                <div class="set-title">السيرية 2 (Set 2)</div>
-                <div class="set-inputs">
-                    <div class="sub-input-group"><label>الوزن (Kg)</label><input type="number" id="w2" placeholder="60" step="0.5"></div>
-                    <div class="sub-input-group"><label>التكرارات (Reps)</label><input type="number" id="r2" placeholder="10"></div>
-                </div>
-            </div>
-            <div class="set-row">
-                <div class="set-title">السيرية 3 (Set 3)</div>
-                <div class="set-inputs">
-                    <div class="sub-input-group"><label>الوزن (Kg)</label><input type="number" id="w3" placeholder="70" step="0.5"></div>
-                    <div class="sub-input-group"><label>التكرارات (Reps)</label><input type="number" id="r3" placeholder="8"></div>
-                </div>
-            </div>
-            <div class="set-row">
-                <div class="set-title">السيرية 4 (Set 4)</div>
-                <div class="set-inputs">
-                    <div class="sub-input-group"><label>الوزن (Kg)</label><input type="number" id="w4" placeholder="75" step="0.5"></div>
-                    <div class="sub-input-group"><label>التكرارات (Reps)</label><input type="number" id="r4" placeholder="6"></div>
-                </div>
-            </div>
-        </div>
+        <label>فلترة حسب العضلة المطلوب مراقبتها:</label>
+        <select id="chart-muscle-filter" onchange="filterChartExerciseOptions()">
+          <option value="جميع العضلات">جميع العضلات</option>
+          <option value="صدر">الصدر</option>
+          <option value="ظهر">الظهر</option>
+          <option value="أرجل">الأرجل</option>
+          <option value="أكتاف">الأكتاف</option>
+          <option value="بايسبس">البايسبس</option>
+          <option value="ترايسبس">الترايسبس</option>
+        </select>
 
-        <button onclick="saveLog()">حفظ التمرين في الأرشيف 📝</button>
+        <label>اختر التمرين لرؤية منحنى التطور:</label>
+        <select id="chart-exercise-select" onchange="renderWorkoutChart()"></select>
+
+        <canvas id="workoutChart" height="200"></canvas>
+      </div>
+
+      <div class="card">
+        <h3>مبيان تطور وزن الجسم ⚖️</h3>
+        <label>تسجيل وزن الجسم اليوم (كغ):</label>
+        <input type="number" id="body-weight-input" placeholder="أدخل وزنك اليوم">
+        <button class="btn-primary" onclick="saveBodyWeight()">تسجيل الوزن 📝</button>
+        <canvas id="weightChart" height="180" style="margin-top:10px;"></canvas>
+      </div>
     </div>
 
-    <!-- 2. قسم الماكروز وجدول التغذية الذكي -->
-    <div id="macrosTab" class="tab-content">
-        <h2>🥗 حاسبة السعرات وجدول التغذية اليومي</h2>
-        <div class="group">
-            <label for="bodyWeight">الوزن الحالي للجسم (كغ):</label>
-            <input type="number" id="bodyWeight" placeholder="مثال: 60" step="0.5">
-        </div>
-        <div class="group">
-            <label for="bodyHeight">الطول (سم):</label>
-            <input type="number" id="bodyHeight" placeholder="مثال: 182">
-        </div>
-        <div class="group">
-            <label for="goalSelect">الهدف:</label>
-            <select id="goalSelect">
-                <option value="bulking">تضخيم عضلات (Bulking) 📈</option>
-                <option value="cutting">تنشيف وحرق دهون (Cutting) 🔥</option>
-                <option value="maintenance">ثبات وزني (Maintenance) ⚖️</option>
-            </select>
-        </div>
-        <button onclick="calculateMacros()">احسب احتياجي اليومي 💡</button>
-        <div id="macroResults" class="results-box" style="display:none;"></div>
-
-        <h3 style="font-size: 15px; color: #4CAF50; margin: 15px 0 8px 0;">🍽️ سجل أكل اليوم (بالغرام):</h3>
-        
-        <div class="nutrition-grid">
-            <div class="nutri-column">
-                <div class="nutri-col-title">🥩 البروتين (Protein)</div>
-                <div class="nutri-item"><span>صدور دجاج:</span><input type="number" id="food_chicken" placeholder="غرام"></div>
-                <div class="nutri-item"><span>السردين:</span><input type="number" id="food_sardine" placeholder="غرام"></div>
-                <div class="nutri-item"><span>البيض:</span><input type="number" id="food_eggs" placeholder="عدد/غ"></div>
-                <div class="nutri-item"><span>الحليب:</span><input type="number" id="food_milk" placeholder="مل/غ"></div>
-                <div class="nutri-item"><span>الجبن:</span><input type="number" id="food_cheese" placeholder="غرام"></div>
-                <div class="nutri-item"><span>اللحم:</span><input type="number" id="food_meat" placeholder="غرام"></div>
-                <div class="nutri-item"><span>عدس / فول:</span><input type="number" id="food_beans" placeholder="غرام"></div>
-                <div class="nutri-item" style="color: #4CAF50; font-weight: bold;"><span>خلطة ماس (الخاصة):</span><input type="number" id="food_mass" placeholder="غرام"></div>
-            </div>
-
-            <div class="nutri-column">
-                <div class="nutri-col-title">🥔 الكارب (Carbs)</div>
-                <div class="nutri-item"><span>الأرز:</span><input type="number" id="food_rice" placeholder="غرام"></div>
-                <div class="nutri-item"><span>المعكرونة:</span><input type="number" id="food_pasta" placeholder="غرام"></div>
-                <div class="nutri-item"><span>الخبز:</span><input type="number" id="food_bread" placeholder="غرام"></div>
-                <div class="nutri-item"><span>البطاطس:</span><input type="number" id="food_potato" placeholder="غرام"></div>
-                <div class="nutri-item"><span>الشوفان:</span><input type="number" id="food_oats" placeholder="غرام"></div>
-            </div>
-        </div>
-
-        <button onclick="saveDailyNutrition()">حفظ وتأكيد أكل اليوم 🍽️✅</button>
+    <!-- Tab 4: Archive -->
+    <div id="archive" class="tab-content">
+      <div class="card">
+        <h3>سجل التمارين المحفوظة 📜</h3>
+        <div id="history-list">لا توجد سجلات محفوظة بعد.</div>
+      </div>
     </div>
 
-    <!-- 3. قسم المبيانات الثلاثة -->
-    <div id="chartTab" class="tab-content">
-        <h2>📈 مبيانات التطور والأداء الشامل</h2>
-        
-        <h3 style="font-size: 14px; color: #4CAF50; margin-bottom: 8px;">🏋️‍♂️ مبيان تصاعد أوزان التمارين:</h3>
-        <div class="group">
-            <label for="chartExerciseSelect">اختر التمرين:</label>
-            <select id="chartExerciseSelect" onchange="loadExerciseChartData()"></select>
+  </div>
+
+  <script>
+    // PIN Lock System
+    const CORRECT_PIN = "1234"; // يمكنك تغيير الرمز السري هنا
+    function checkPin() {
+      const pin = document.getElementById('pin-code').value;
+      if (pin === CORRECT_PIN) {
+        document.getElementById('lock-screen').style.display = 'none';
+        document.getElementById('main-app').style.display = 'block';
+        initApp();
+      }
+    }
+
+    // Tabs System
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      event.target.classList.add('active');
+      if (tabId === 'analytics') {
+        renderWorkoutChart();
+        renderWeightChart();
+      }
+    }
+
+    // Exercises Database
+    const exercisesMap = {
+      'صدر': ['Bench Press (بنك بريس)', 'Incline Dumbbell Press (تجميع علوي)', 'Chest Fly (تجميع فراشة)', 'Dips (متوازي)'],
+      'ظهر': ['Lat Pulldown (سحب ظهري)', 'Barbell Row (تجديف بار)', 'Dumbbell Row (منشار)', 'Deadlift (ديدليفت)'],
+      'أرجل': ['Squat (سكوات)', 'Leg Press (كبس أرجل)', 'Leg Extension (مظلة)', 'Hamstring Curl (فخذ خلفي)'],
+      'أكتاف': ['Overhead Press (ضغط أكتاف)', 'Lateral Raise (رفرفة جانبي)', 'Rear Delt Fly (خلفي فراشة)'],
+      'بايسبس': ['Barbell Curl (بايسبس بار)', 'Dumbbell Hammer (هامر)', 'Preacher Curl (تبشير)'],
+      'ترايسبس': ['Triceps Pushdown (ترايسبس كابل)', 'Skull Crusher (فرنساوي)', 'Dips (متوازي)']
+    };
+
+    function updateExerciseOptions() {
+      const group = document.getElementById('muscle-group').value;
+      const select = document.getElementById('exercise-name');
+      select.innerHTML = '';
+      exercisesMap[group].forEach(ex => {
+        const opt = document.createElement('option');
+        opt.value = ex;
+        opt.innerText = ex;
+        select.appendChild(opt);
+      });
+    }
+
+    function filterChartExerciseOptions() {
+      const filterGroup = document.getElementById('chart-muscle-filter').value;
+      const select = document.getElementById('chart-exercise-select');
+      select.innerHTML = '';
+
+      let list = [];
+      if (filterGroup === 'جميع العضلات') {
+        Object.values(exercisesMap).forEach(arr => list.push(...arr));
+      } else {
+        list = exercisesMap[filterGroup] || [];
+      }
+
+      list.forEach(ex => {
+        const opt = document.createElement('option');
+        opt.value = ex;
+        opt.innerText = ex;
+        select.appendChild(opt);
+      });
+      renderWorkoutChart();
+    }
+
+    // Workout Handler
+    function saveWorkout() {
+      const exName = document.getElementById('exercise-name').value;
+      const muscle = document.getElementById('muscle-group').value;
+      const date = new Date().toLocaleDateString('ar-MA');
+
+      let sets = [];
+      for (let i = 1; i <= 4; i++) {
+        const w = document.getElementById(`s${i}-w`).value || 0;
+        const r = document.getElementById(`s${i}-r`).value || 0;
+        sets.push({ weight: parseFloat(w), reps: parseInt(r) });
+      }
+
+      const entry = { date, muscle, exName, sets };
+      let logs = JSON.parse(localStorage.getItem('smayka_logs') || '[]');
+      logs.push(entry);
+      localStorage.setItem('smayka_logs', JSON.stringify(logs));
+
+      alert('تم حفظ التمرين بنجاح! 💪');
+      loadHistory();
+    }
+
+    function loadHistory() {
+      let logs = JSON.parse(localStorage.getItem('smayka_logs') || '[]');
+      const container = document.getElementById('history-list');
+      if (logs.length === 0) {
+        container.innerHTML = 'لا توجد سجلات محفوظة بعد.';
+        return;
+      }
+      container.innerHTML = logs.reverse().map(l => `
+        <div class="history-item">
+          <b>${l.date} - ${l.exName} (${l.muscle})</b>
+          <div style="font-size:0.85rem; color:#aaa; margin-top:4px;">
+            ج1: ${l.sets[0].weight}كغ (${l.sets[0].reps}) |
+            ج2: ${l.sets[1].weight}كغ (${l.sets[1].reps}) |
+            ج3: ${l.sets[2].weight}كغ (${l.sets[2].reps}) |
+            ج4: ${l.sets[3].weight}كغ (${l.sets[3].reps})
+          </div>
         </div>
-        <canvas id="exerciseChart" width="400" height="180"></canvas>
-        <div id="exerciseExpertComment" class="ai-expert-box">
-            <div class="ai-expert-title">💡 تحليل المدرب الذكي (التمارين):</div>
-            <div id="exerciseCommentText">جاري التحليل...</div>
-        </div>
+      `).join('');
+    }
 
-        <hr style="border: 1px solid #222; margin: 20px 0;">
+    // Nutrition Handler
+    let totalP = 0, totalC = 0, totalF = 0, totalCal = 0;
+    function addFood() {
+      const select = document.getElementById('food-item');
+      const opt = select.options[select.selectedIndex];
+      const weight = parseFloat(document.getElementById('food-weight').value) || 0;
 
-        <h3 style="font-size: 14px; color: #4CAF50; margin-bottom: 8px;">⚖️ مبيان تطور وزن الجسم:</h3>
-        <div class="group">
-            <label for="recordWeight">تسجيل وزن الجسم اليوم (كغ):</label>
-            <input type="number" id="recordWeight" placeholder="أدخل وزنك اليوم" step="0.5">
-        </div>
-        <button onclick="saveBodyWeight()">حفظ الوزن في المبيان 📝</button>
-        <canvas id="weightChart" width="400" height="180"></canvas>
-        <div id="weightExpertComment" class="ai-expert-box">
-            <div class="ai-expert-title">💡 تحليل المدرب الذكي (الوزن):</div>
-            <div id="weightCommentText">جاري التحليل...</div>
-        </div>
+      if (weight <= 0) return alert('يرجى أدخال كمية صحيحة بالجرام');
 
-        <hr style="border: 1px solid #222; margin: 20px 0;">
+      const ratio = weight / 100;
+      totalP += parseFloat(opt.dataset.p) * ratio;
+      totalC += parseFloat(opt.dataset.c) * ratio;
+      totalF += parseFloat(opt.dataset.f) * ratio;
+      totalCal += parseFloat(opt.dataset.cal) * ratio;
 
-        <h3 style="font-size: 14px; color: #4CAF50; margin-bottom: 8px;">🥗 مبيان التغذية اليومي (مقارنة بالاحتياج):</h3>
-        <canvas id="nutritionChart" width="400" height="200"></canvas>
-        <div id="nutritionExpertComment" class="ai-expert-box" style="border-right-color: #4CAF50;">
-            <div class="ai-expert-title" style="color: #4CAF50;">💡 تحليل خبير التغذية:</div>
-            <div id="nutritionCommentText">سجل أكلك اليومي ليعطيك المدرب تقريراً عن البروتين والسعرات!</div>
-        </div>
-    </div>
+      document.getElementById('total-p').innerText = totalP.toFixed(1);
+      document.getElementById('total-c').innerText = totalC.toFixed(1);
+      document.getElementById('total-f').innerText = totalF.toFixed(1);
+      document.getElementById('total-cal').innerText = totalCal.toFixed(0);
+    }
 
-    <!-- 4. قسم جدول التمارين التفاعلي -->
-    <div id="routineTab" class="tab-content">
-        <h2>📅 جدول التمارين الأسبوعي (اضغط على اليوم لرؤية تمارينك)</h2>
-        
-        <div class="routine-card" onclick="toggleRoutine(this)">
-            <div class="routine-day"><span>اليوم 1: Push (دفع) 🔥</span> <span>▼</span></div>
-            <div class="routine-details">
-                • بنش بريس (Bench Press)<br>
-                • بنش مائل (Incline Chest Press - للصدر العلوي)<br>
-                • ديبس (Dips - متوازي)<br>
-                • تمارين الترايسبس بالبار المستوي (Skull Crusher)
-            </div>
-        </div>
+    function resetMacros() {
+      totalP = 0; totalC = 0; totalF = 0; totalCal = 0;
+      document.getElementById('total-p').innerText = '0';
+      document.getElementById('total-c').innerText = '0';
+      document.getElementById('total-f').innerText = '0';
+      document.getElementById('total-cal').innerText = '0';
+    }
 
-        <div class="routine-card" onclick="toggleRoutine(this)">
-            <div class="routine-day"><span>اليوم 2: Pull (سحب) 💪</span> <span>▼</span></div>
-            <div class="routine-details">
-                • تجديف بالبار (Barbell Row)<br>
-                • سحب بيد واحدة لللاتس (Single-arm Lat Row)<br>
-                • تمارين الترابيس (Traps)<br>
-                • العقلة (Pull-ups)<br>
-                • تمارين البايسبس المعروفة (Bicep Curls)
-            </div>
-        </div>
+    // Chart.js Setup
+    let workoutChartInstance = null;
+    function renderWorkoutChart() {
+      const exName = document.getElementById('chart-exercise-select').value;
+      let logs = JSON.parse(localStorage.getItem('smayka_logs') || '[]');
+      const filtered = logs.filter(l => l.exName === exName);
 
-        <div class="routine-card" onclick="toggleRoutine(this)">
-            <div class="routine-day"><span>اليوم 3: Legs (أرجل) 🏋️‍♂️</span> <span>▼</span></div>
-            <div class="routine-details">
-                • سكوات (Squat)<br>
-                • رجل فوق الكرسي والنزول (Bulgarian Split Squat)<br>
-                • السحب الخلفي لعضلات الفخذ الخلفي (Hamstring Curls)<br>
-                • السمانة (Calf Raises)
-            </div>
-        </div>
+      const labels = filtered.map(l => l.date);
+      const maxWeights = filtered.map(l => Math.max(...l.sets.map(s => s.weight)));
 
-        <div class="routine-card" style="border-right-color: #ff9800;" onclick="toggleRoutine(this)">
-            <div class="routine-day" style="color: #ff9800;"><span>اليوم 4: راحة (Rest) 😴</span> <span>▼</span></div>
-            <div class="routine-details">استشفاء عضلي تام، تغذية سليمة وشرب الماء بكثافة.</div>
-        </div>
+      const ctx = document.getElementById('workoutChart').getContext('2d');
+      if (workoutChartInstance) workoutChartInstance.destroy();
 
-        <div class="routine-card" onclick="toggleRoutine(this)">
-            <div class="routine-day"><span>اليوم 5: Upper (جزء علوي) 💣</span> <span>▼</span></div>
-            <div class="routine-details">تجميع تمريني مكثف للصدر والظهر والأكتاف والبايسبس والترايسبس بأوزان حرة.</div>
-        </div>
-
-        <div class="routine-card" onclick="toggleRoutine(this)">
-            <div class="routine-day"><span>اليوم 6: Lower (جزء سفلي) 🦵</span> <span>▼</span></div>
-            <div class="routine-details">تركيز كامل على السكوات، الفخذ الأمامي والخلفي، والسمانة والبطن.</div>
-        </div>
-
-        <div class="routine-card" style="border-right-color: #ff9800;" onclick="toggleRoutine(this)">
-            <div class="routine-day" style="color: #ff9800;"><span>اليوم 7: راحة (Rest) 😴</span> <span>▼</span></div>
-            <div class="routine-details">استشفاء عضلي وإعداد النفسية للأسبوع القادم.</div>
-        </div>
-    </div>
-
-    <!-- 5. قسم الأرشيف -->
-    <div id="archiveTab" class="tab-content">
-        <h2>📜 أرشيف السجلات والتواريخ</h2>
-        
-        <div class="search-box">
-            <label for="searchInput">🔍 البحث باليوم، التاريخ أو السنة:</label>
-            <input type="text" id="searchInput" onkeyup="filterArchive()" placeholder="اكتب مثلاً: الأربعاء، 2026، بنش بريس...">
-        </div>
-
-        <h3 style="font-size: 14px; color: #4CAF50; margin-bottom: 5px;">⚖️ 1. أرشيف وزني الشخصي:</h3>
-        <div id="weightArchiveList" class="history" style="margin-bottom: 20px;">لا توجد أوزان مسجلة بعد.</div>
-
-        <h3 style="font-size: 14px; color: #4CAF50; margin-bottom: 5px;">🏋️‍♂️ 2. أرشيف التمارين والسيريات:</h3>
-        <div id="historyList" class="history">لا توجد تمارين مسجلة بعد.</div>
-
-        <button style="margin-top: 15px; background-color: #f44336;" onclick="resetPin()">إعادة ضبط رمز الحماية 🔐</button>
-    </div>
-
-    <script>
-        // إعداد ونظام القفل السري (PIN)
-        function initLock() {
-            let savedPin = localStorage.getItem("appPin");
-            const lockTitle = document.getElementById("lockTitle");
-            const lockDesc = document.getElementById("lockDesc");
-            
-            if (!savedPin) {
-                lockTitle.textContent = "⚙️ إنشاء رمز حماية جديد";
-                lockDesc.textContent = "قم بإنشاء رمز PIN مكون من 4 أرقام لحماية تطبيقك:";
-            } else {
-                lockTitle.textContent = "🔐 قفل الحماية";
-                lockDesc.textContent = "أدخل رمز PIN المكون من 4 أرقام لفتح التطبيق:";
-            }
+      workoutChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels.length ? labels : ['لا توجد بيانات'],
+          datasets: [{
+            label: 'أعلى وزن ملعوب (كغ)',
+            data: maxWeights.length ? maxWeights : [0],
+            borderColor: '#4CAF50',
+            backgroundColor: 'rgba(76, 175, 80, 0.2)',
+            fill: true,
+            tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { labels: { color: '#fff' } } },
+          scales: {
+            x: { ticks: { color: '#aaa' } },
+            y: { ticks: { color: '#aaa' } }
+          }
         }
+      });
+    }
 
-        function checkPin() {
-            const enteredPin = document.getElementById("pinInput").value;
-            let savedPin = localStorage.getItem("appPin");
+    function saveBodyWeight() {
+      const w = parseFloat(document.getElementById('body-weight-input').value);
+      if (!w) return;
+      const date = new Date().toLocaleDateString('ar-MA');
+      let weights = JSON.parse(localStorage.getItem('smayka_weights') || '[]');
+      weights.push({ date, weight: w });
+      localStorage.setItem('smayka_weights', JSON.stringify(weights));
+      renderWeightChart();
+    }
 
-            if (enteredPin.length !== 4) {
-                alert("المرجو إدخال رمز مكون من 4 أرقام بالضبط!");
-                return;
-            }
+    let weightChartInstance = null;
+    function renderWeightChart() {
+      let weights = JSON.parse(localStorage.getItem('smayka_weights') || '[]');
+      const labels = weights.map(w => w.date);
+      const data = weights.map(w => w.weight);
 
-            if (!savedPin) {
-                localStorage.setItem("appPin", enteredPin);
-                alert("تم إنشاء رمز الحماية بنجاح! احتفظ به جيداً 🔐");
-                document.getElementById("lockScreen").style.display = "none";
-            } else {
-                if (enteredPin === savedPin) {
-                    document.getElementById("lockScreen").style.display = "none";
-                } else {
-                    alert("الرمز السري غير صحيح! حاول مرة أخرى ❌");
-                    document.getElementById("pinInput").value = "";
-                }
-            }
+      const ctx = document.getElementById('weightChart').getContext('2d');
+      if (weightChartInstance) weightChartInstance.destroy();
+
+      weightChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels.length ? labels : ['لا توجد بيانات'],
+          datasets: [{
+            label: 'وزن الجسم (كغ)',
+            data: data.length ? data : [0],
+            borderColor: '#2196F3',
+            backgroundColor: 'rgba(33, 150, 243, 0.2)',
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { labels: { color: '#fff' } } },
+          scales: {
+            x: { ticks: { color: '#aaa' } },
+            y: { ticks: { color: '#aaa' } }
+          }
         }
+      });
+    }
 
-        function resetPin() {
-            let oldPin = prompt("أدخل رمز PIN الحالي لتغييره:");
-            let savedPin = localStorage.getItem("appPin");
-            if (oldPin === savedPin) {
-                let newPin = prompt("أدخل الرمز السري الجديد (4 أرقام):");
-                if (newPin && newPin.length === 4) {
-                    localStorage.setItem("appPin", newPin);
-                    alert("تم تغيير رمز الحماية بنجاح! 🔑");
-                } else {
-                    alert("الرمز الجديد غير صالح!");
-                }
-            } else {
-                alert("الرمز القديم غير صحيح!");
-            }
-        }
-
-        function switchTab(tabId, btnElement) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            
-            document.getElementById(tabId).classList.add('active');
-            btnElement.classList.add('active');
-
-            if(tabId === 'chartTab') {
-                populateChartExerciseSelect();
-                loadChartData();
-                loadExerciseChartData();
-                loadNutritionChartData();
-            }
-            if(tabId === 'archiveTab') {
-                loadArchiveData();
-            }
-        }
-
-        function toggleRoutine(card) {
-            card.classList.toggle('open');
-        }
-
-        const exercisesData = {
-            "الصدر": ["Bench Press (بنش بريس)", "Incline Dumbbell Press (بنش مائل علوي)", "Chest Dips (ديبس متوازي)", "Cable Crossover (كابل كروس)"],
-            "الظهر": ["Barbell Row (تجديف بالبار)", "Single-arm Lat Row (سحب بيد واحدة لللاتس)", "Traps Exercise (ترابيس)", "Pull-ups (عقلة)"],
-            "البايسبس": ["Barbell Bicep Curl (بايسبس بالبار)", "Dumbbell Hammer Curl (هامر)", "Concentration Curl (تركيز)"],
-            "الترايسبس": ["Skull Crusher (ترايسبس بالبار للوجه)", "Triceps Pushdown (دفع كابل)", "Overhead Extension"],
-            "الأكتاف": ["Military Press (ضغط عسكري)", "Lateral Raise (رفرفة جانبي)", "Front Raise (أمامي)"],
-            "الأرجل": ["Squat (سكوات)", "Bulgarian Split Squats (رجل فوق الكرسي)", "Hamstring Curl (السحب الخلفي للفخذ)", "Calf Raises (سمانة)"],
-            "البطن": ["Crunches (تمارين بطن)", "Plank (بلانك)", "Leg Raises (رفع الأرجل)"]
-        };
-
-        function updateExercises() {
-            const muscleGroup = document.getElementById("muscleGroup").value;
-            const exerciseSelect = document.getElementById("exerciseSelect");
-            exerciseSelect.innerHTML = "";
-            exercisesData[muscleGroup].forEach(exercise => {
-                const option = document.createElement("option");
-                option.value = exercise;
-                option.textContent = exercise;
-                exerciseSelect.appendChild(option);
-            });
-        }
-
-        function populateChartExerciseSelect() {
-            const chartSelect = document.getElementById("chartExerciseSelect");
-            chartSelect.innerHTML = "";
-            let allExercises = [];
-            Object.values(exercisesData).forEach(list => allExercises.push(...list));
-            allExercises.forEach(ex => {
-                const opt = document.createElement("option");
-                opt.value = ex;
-                opt.textContent = ex;
-                chartSelect.appendChild(opt);
-            });
-        }
-
-        function calculateMacros() {
-            const weight = parseFloat(document.getElementById("bodyWeight").value);
-            const height = parseFloat(document.getElementById("bodyHeight").value);
-            const goal = document.getElementById("goalSelect").value;
-            const resultsBox = document.getElementById("macroResults");
-
-            if (!weight || !height) {
-                alert("المرجو إدخال الوزن والطول بشكل صحيح!");
-                return;
-            }
-
-            let protein = Math.round(weight * 2.2);
-            let baseCalories = weight * 30; 
-            if (goal === "bulking") baseCalories += 400;
-            if (goal === "cutting") baseCalories -= 400;
-
-            let fats = Math.round((baseCalories * 0.25) / 9);
-            let carbs = Math.round((baseCalories - (protein * 4) - (fats * 9)) / 4);
-
-            localStorage.setItem("targetProtein", protein);
-            localStorage.setItem("targetCarbs", carbs);
-            localStorage.setItem("targetCalories", Math.round(baseCalories));
-
-            resultsBox.style.display = "block";
-            resultsBox.innerHTML = `
-                🎯 <strong>احتياجك اليومي الموصى به:</strong><br>
-                🔥 السعرات: <strong>${Math.round(baseCalories)} سعرة حرارية</strong><br>
-                🥩 البروتين المطلوب: <strong style="color: #4CAF50;">${protein} غرام</strong><br>
-                🥔 الكاربوهيدرات: <strong>${carbs} غرام</strong><br>
-                🥑 الدهون الصحية: <strong>${fats} غرام</strong>
-            `;
-        }
-
-        function saveDailyNutrition() {
-            let chicken = parseFloat(document.getElementById("food_chicken").value) || 0;
-            let sardine = parseFloat(document.getElementById("food_sardine").value) || 0;
-            let eggs = parseFloat(document.getElementById("food_eggs").value) || 0;
-            let milk = parseFloat(document.getElementById("food_milk").value) || 0;
-            let cheese = parseFloat(document.getElementById("food_cheese").value) || 0;
-            let meat = parseFloat(document.getElementById("food_meat").value) || 0;
-            let beans = parseFloat(document.getElementById("food_beans").value) || 0;
-            let mass = parseFloat(document.getElementById("food_mass").value) || 0;
-
-            let rice = parseFloat(document.getElementById("food_rice").value) || 0;
-            let pasta = parseFloat(document.getElementById("food_pasta").value) || 0;
-            let bread = parseFloat(document.getElementById("food_bread").value) || 0;
-            let potato = parseFloat(document.getElementById("food_potato").value) || 0;
-            let oats = parseFloat(document.getElementById("food_oats").value) || 0;
-
-            let totalProtein = (chicken * 0.30) + (sardine * 0.20) + (eggs * 6) + (milk * 0.033) + (cheese * 0.25) + (meat * 0.26) + (beans * 0.24) + (mass * 0.23);
-            let totalCarbs = (rice * 0.75) + (pasta * 0.70) + (bread * 0.50) + (potato * 0.20) + (oats * 0.60);
-            let totalCalories = (totalProtein * 4) + (totalCarbs * 4);
-
-            let nutriLogs = JSON.parse(localStorage.getItem("nutritionLogs")) || [];
-            nutriLogs.push({
-                date: getFullDateString(),
-                protein: Math.round(totalProtein),
-                carbs: Math.round(totalCarbs),
-                calories: Math.round(totalCalories)
-            });
-            localStorage.setItem("nutritionLogs", JSON.stringify(nutriLogs));
-
-            alert("تم حفظ وتأكيد سجل أغذية اليوم بنجاح وحساب البروتين والسعرات! 🥗🔥");
-        }
-
-        let weightChart, exerciseChart, nutritionChart;
-
-        function initWeightChart(labelsData, weightsData) {
-            const ctx = document.getElementById('weightChart').getContext('2d');
-            if (weightChart) weightChart.destroy();
-            weightChart = new Chart(ctx, {
-                type: 'line',
-                data: { labels: labelsData, datasets: [{ label: 'وزن الجسم (كغ)', data: weightsData, borderColor: '#4CAF50', backgroundColor: 'rgba(76, 175, 80, 0.15)', borderWidth: 2, tension: 0.3, fill: true }] },
-                options: { responsive: true, plugins: { legend: { labels: { color: '#fff' } } }, scales: { x: { ticks: { color: '#b0bec5' } }, y: { ticks: { color: '#b0bec5' } } } }
-            });
-        }
-
-        function initExerciseChart(labelsData, maxWeightsData) {
-            const ctx = document.getElementById('exerciseChart').getContext('2d');
-            if (exerciseChart) exerciseChart.destroy();
-            exerciseChart = new Chart(ctx, {
-                type: 'line',
-                data: { labels: labelsData, datasets: [{ label: 'أعلى وزن ملعوب (كغ)', data: maxWeightsData, borderColor: '#ff9800', backgroundColor: 'rgba(255, 152, 0, 0.15)', borderWidth: 2, tension: 0.3, fill: true }] },
-                options: { responsive: true, plugins: { legend: { labels: { color: '#fff' } } }, scales: { x: { ticks: { color: '#b0bec5' } }, y: { ticks: { color: '#b0bec5' } } } }
-            });
-        }
-
-        function initNutritionChart(labelsData, proteinData, carbsData, caloriesData) {
-            const ctx = document.getElementById('nutritionChart').getContext('2d');
-            if (nutritionChart) nutritionChart.destroy();
-            nutritionChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labelsData,
-                    datasets: [
-                        { label: 'البروتين المأكل (g)', data: proteinData, borderColor: '#4CAF50', backgroundColor: 'rgba(76, 175, 80, 0.1)', borderWidth: 2, tension: 0.3, fill: false },
-                        { label: 'الكارب المأكل (g)', data: carbsData, borderColor: '#03a9f4', backgroundColor: 'rgba(3, 169, 244, 0.1)', borderWidth: 2, tension: 0.3, fill: false },
-                        { label: 'السعرات (سعرة)', data: caloriesData, borderColor: '#e91e63', backgroundColor: 'rgba(233, 30, 99, 0.1)', borderWidth: 2, tension: 0.3, fill: false }
-                    ]
-                },
-                options: { responsive: true, plugins: { legend: { labels: { color: '#fff' } } }, scales: { x: { ticks: { color: '#b0bec5' } }, y: { ticks: { color: '#b0bec5' } } } }
-            });
-        }
-
-        function loadNutritionChartData() {
-            let logs = JSON.parse(localStorage.getItem("nutritionLogs")) || [];
-            const commentText = document.getElementById("nutritionCommentText");
-
-            if (logs.length === 0) {
-                initNutritionChart(['لا توجد بيانات'], [0], [0], [0]);
-                commentText.innerHTML = "⚠️ لم تقم بتسجيل أكل اليوم بعد. املأ جدول التغذية في تبويب الماكروز واضغط حفظ لنقوم بالتحليل!";
-                return;
-            }
-
-            const labels = logs.map(l => l.date);
-            const proteins = logs.map(l => l.protein);
-            const carbs = logs.map(l => l.carbs);
-            const cals = logs.map(l => l.calories);
-
-            initNutritionChart(labels, proteins, carbs, cals);
-
-            let targetP = parseFloat(localStorage.getItem("targetProtein")) || 130;
-            let lastP = proteins[proteins.length - 1];
-
-            if (lastP >= targetP) {
-                commentText.innerHTML = `🔥 ممتاز يا أنوار! لقد غطيت احتياجك من البروتين اليوم (${lastP}g من أصل ${targetP}g المطلوبة). أداؤك الغذائي في <strong>تصاعد ممتاز</strong> لبناء العضلات!`;
-            } else {
-                commentText.innerHTML = `⚠️ انتبه يا أنوار! بروتينك اليوم (${lastP}g) أقل بقليل من الحد المستهدف (${targetP}g). حاول تناول المزيد من صدور الدجاج أو السردين او خلطة الماس لتصل للهدف!`;
-            }
-        }
-
-        function loadExerciseChartData() {
-            const selectedEx = document.getElementById("chartExerciseSelect").value;
-            let logs = JSON.parse(localStorage.getItem("gymLogs")) || [];
-            let filteredLogs = logs.filter(l => l.exercise === selectedEx).reverse();
-            const commentText = document.getElementById("exerciseCommentText");
-
-            if (filteredLogs.length === 0) {
-                initExerciseChart(['لا توجد بيانات'], [0]);
-                commentText.innerHTML = "⚠️ لا توجد سجلات لهذا التمرين بعد.";
-                return;
-            }
-
-            const labels = filteredLogs.map(l => l.date);
-            const maxWeights = filteredLogs.map(l => Math.max(parseFloat(l.s1w)||0, parseFloat(l.s2w)||0, parseFloat(l.s3w)||0, parseFloat(l.s4w)||0));
-            initExerciseChart(labels, maxWeights);
-
-            if (maxWeights.length > 1) {
-                let last = maxWeights[maxWeights.length - 1];
-                let prev = maxWeights[maxWeights.length - 2];
-                if (last > prev) commentText.innerHTML = `🔥 أنت في <strong>تصاعد مستمر</strong> في ${selectedEx} (من ${prev} كغ إلى ${last} كغ). وحش!`;
-                else if (last === prev) commentText.innerHTML = `⚖️ أوزانك مستقرة (${last} كغ). حاول زيادة الوزن تدريجياً قريباً.`;
-                else commentText.innerHTML = `📉 لوحظ انخفاض طفيف في الوزن مقارنة بالسلسلة السابقة. استرح جيداً!`;
-            } else {
-                commentText.innerHTML = `💪 تم تسجيل أول جلسة بنجاح. واصل التطور!`;
-            }
-        }
-
-        function getFullDateString() {
-            const now = new Date();
-            const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
-            const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
-            return `${days[now.getDay()]} ${now.getDate()} ${months[now.getMonth()]} 2026`;
-        }
-
-        function saveBodyWeight() {
-            const weightVal = parseFloat(document.getElementById("recordWeight").value);
-            if (!weightVal) { alert("المرجو إدخال الوزن!"); return; }
-
-            let weightLogs = JSON.parse(localStorage.getItem("bodyWeightLogs")) || [];
-            weightLogs.push({ date: getFullDateString(), weight: weightVal });
-            localStorage.setItem("bodyWeightLogs", JSON.stringify(weightLogs));
-
-            document.getElementById("recordWeight").value = "";
-            loadChartData();
-            alert("تم حفظ الوزن في المبيان بنجاح! 📈");
-        }
-
-        function loadChartData() {
-            let weightLogs = JSON.parse(localStorage.getItem("bodyWeightLogs")) || [];
-            const commentText = document.getElementById("weightCommentText");
-
-            if (weightLogs.length === 0) {
-                weightLogs = [{date: 'البداية (2026)', weight: 60}];
-                commentText.innerHTML = "⚠️ سجل وزنك بانتظام ليقوم المدرب بتحليل مسارك.";
-            } else if (weightLogs.length > 1) {
-                let lastW = weightLogs[weightLogs.length - 1].weight;
-                let firstW = weightLogs[0].weight;
-                if (lastW > firstW) commentText.innerHTML = `📈 مبيان وزني في <strong>تصاعد</strong> (${firstW} إلى ${lastW} كغ). ممتاز للتضخيم!`;
-                else if (lastW < firstW) commentText.innerHTML = `🔥 مبيان وزني في <strong>نزول</strong> (${firstW} إلى ${lastW} كغ). ممتاز للتنشيف!`;
-                else commentText.innerHTML = `⚖️ وزنك ثابت (${lastW} كغ).`;
-            } else {
-                commentText.innerHTML = `✨ تم تسجيل القراءة الأولى للوزن.`;
-            }
-            initWeightChart(weightLogs.map(item => item.date), weightLogs.map(item => item.weight));
-        }
-
-        function saveLog() {
-            const muscle = document.getElementById("muscleGroup").value;
-            const exercise = document.getElementById("exerciseSelect").value;
-            const s1w = document.getElementById("w1").value || "0";
-            const s1r = document.getElementById("r1").value || "0";
-            const s2w = document.getElementById("w2").value || "0";
-            const s2r = document.getElementById("r2").value || "0";
-            const s3w = document.getElementById("w3").value || "0";
-            const s3r = document.getElementById("r3").value || "0";
-            const s4w = document.getElementById("w4").value || "0";
-            const s4r = document.getElementById("r4").value || "0";
-
-            if (s1w === "0" && s2w === "0" && s3w === "0" && s4w === "0") {
-                alert("المرجو إدخال وزناً واحداً على الأقل في السيريات!");
-                return;
-            }
-
-            const logData = { muscle, exercise, s1w, s1r, s2w, s2r, s3w, s3r, s4w, s4r, date: getFullDateString() };
-            let logs = JSON.parse(localStorage.getItem("gymLogs")) || [];
-            logs.unshift(logData);
-            localStorage.setItem("gymLogs", JSON.stringify(logs));
-
-            ['w1', 'r1', 'w2', 'r2', 'w3', 'r3', 'w4', 'r4'].forEach(id => document.getElementById(id).value = '');
-            alert("تم حفظ التمرين بنجاح في الأرشيف متضمناً سنة 2026! 📝");
-        }
-
-        function loadArchiveData() {
-            renderWeightArchive();
-            renderExerciseArchive();
-        }
-
-        function renderWeightArchive(filterText = '') {
-            const weightArchiveList = document.getElementById("weightArchiveList");
-            let weightLogs = JSON.parse(localStorage.getItem("bodyWeightLogs")) || [];
-            let filtered = weightLogs.filter(item => item.date.toLowerCase().includes(filterText.toLowerCase()));
-
-            if (filtered.length === 0) {
-                weightArchiveList.innerHTML = "لا توجد أوزان مسجلة متطابقة.";
-            } else {
-                weightArchiveList.innerHTML = filtered.slice().reverse().map(item => `
-                    <div class="history-item">📅 <strong>${item.date}</strong><br>⚖️ وزن الجسم: <strong style="color: #4CAF50;">${item.weight} كغ</strong></div>
-                `).join('');
-            }
-        }
-
-        function renderExerciseArchive(filterText = '') {
-            const historyList = document.getElementById("historyList");
-            let logs = JSON.parse(localStorage.getItem("gymLogs")) || [];
-            let filtered = logs.filter(item => item.date.toLowerCase().includes(filterText.toLowerCase()) || item.muscle.toLowerCase().includes(filterText.toLowerCase()) || item.exercise.toLowerCase().includes(filterText.toLowerCase()));
-
-            if (filtered.length === 0) {
-                historyList.innerHTML = "لا توجد تمارين مسجلة متطابقة.";
-            } else {
-                historyList.innerHTML = filtered.map(log => `
-                    <div class="history-item">
-                        📅 <strong>${log.date}</strong><br>🎯 <strong>${log.muscle}</strong> - ${log.exercise}<br>
-                        🔹 <strong>س1:</strong> ${log.s1w}كغ / ${log.s1r} تكرار | 🔹 <strong>س2:</strong> ${log.s2w}كغ / ${log.s2r} تكرار<br>
-                        🔹 <strong>س3:</strong> ${log.s3w}كغ / ${log.s3r} تكرار | 🔹 <strong>س4:</strong> ${log.s4w}كغ / ${log.s4r} تكرار
-                    </div>
-                `).join('');
-            }
-        }
-
-        function filterArchive() {
-            const query = document.getElementById("searchInput").value.trim();
-            renderWeightArchive(query);
-            renderExerciseArchive(query);
-        }
-
-        initLock();
-        updateExercises();
-        loadChartData();
-    </script>
+    function initApp() {
+      updateExerciseOptions();
+      filterChartExerciseOptions();
+      loadHistory();
+    }
+  </script>
 </body>
 </html>
