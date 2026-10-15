@@ -73,6 +73,28 @@
     .tab-content.active {
       display: block;
     }
+    /* Archive Sub-Tabs */
+    .archive-sub-tabs {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 15px;
+    }
+    .sub-btn {
+      flex: 1;
+      padding: 8px;
+      background: #252525;
+      border: 1px solid var(--border-color);
+      color: #aaa;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+    .sub-btn.active {
+      background: var(--accent-color);
+      color: #fff;
+      border-color: var(--accent-color);
+    }
     /* Cards */
     .card {
       background: var(--card-bg);
@@ -162,7 +184,7 @@
   <div class="container">
     <div class="header-title">🦂🔥 SMAYKA POWER</div>
 
-    <!-- Navigation -->
+    <!-- Main Navigation -->
     <div class="nav-tabs">
       <button class="tab-btn active" onclick="switchTab('exercises')">💪 التمارين</button>
       <button class="tab-btn" onclick="switchTab('macros')">🥗 الماكروز</button>
@@ -211,44 +233,55 @@
           </div>
         </div>
 
-        <button class="btn-primary" onclick="saveWorkout()">حفظ التمرين 💾</button>
+        <button class="btn-primary" onclick="saveWorkout()">حفظ التمرين في الأرشيف 💾</button>
       </div>
     </div>
 
-    <!-- Tab 2: Macros & Nutrition -->
+    <!-- Tab 2: Macros & Nutrition with Search -->
     <div id="macros" class="tab-content">
       <div class="card">
-        <h3>حاسبة الماكروز والوجبات (قبل الطهي - Raw) 🥗</h3>
+        <h3>حاسبة الماكروز والأغذية (قبل الطهي - Raw) 🥗</h3>
+        
+        <!-- Search Box for Foods -->
+        <label>🔍 ابحث عن الطعام السريع:</label>
+        <input type="text" id="food-search-input" placeholder="اكتب اسم الطعام (مثال: بيض، دجاج، أرز...)" oninput="filterFoodList()">
+
         <label>اختر المادة الغذائية:</label>
         <select id="food-item">
           <!-- Carbohydrates Raw -->
-          <optgroup label="🍞 الكاربوهيدرات (قبل الطهي / نيء)">
-            <option value="شوفان" data-p="13.5" data-c="67" data-f="7" data-cal="389">شوفان نيء (Oats)</option>
+          <optgroup label="🍞 الكاربوهيدرات والشوفان">
+            <option value="شوفان نيء" data-p="13.5" data-c="67" data-f="7" data-cal="389">شوفان نيء (Oats)</option>
             <option value="أرز أبيض نيء" data-p="7" data-c="78" data-f="0.6" data-cal="360">أرز أبيض نيء</option>
+            <option value="أرز أسمر نيء" data-p="7.5" data-c="75" data-f="2.2" data-cal="370">أرز أسمر نيء</option>
             <option value="بطاطس نيئة" data-p="2" data-c="17" data-f="0.1" data-cal="77">بطاطس نيئة</option>
             <option value="بطاطس حلوة نيئة" data-p="1.6" data-c="20" data-f="0.1" data-cal="86">بطاطس حلوة نيئة</option>
             <option value="معكرونة نيئة" data-p="12" data-c="72" data-f="1.5" data-cal="350">معكرونة نيئة</option>
             <option value="خبز كامل" data-p="9" data-c="41" data-f="3.5" data-cal="247">خبز القمح الكامل</option>
             <option value="موز" data-p="1.1" data-c="23" data-f="0.3" data-cal="89">موز (Banana)</option>
             <option value="تمر" data-p="2.5" data-c="75" data-f="0.4" data-cal="277">تمر (Dates)</option>
+            <option value="تفاح" data-p="0.3" data-c="14" data-f="0.2" data-cal="52">تفاح (Apple)</option>
           </optgroup>
-          <!-- Proteins Raw -->
-          <optgroup label="🍗 البروتينات والبقوليات (قبل الطهي / نيء)">
-            <option value="صدر دجاج نيء" data-p="23" data-c="0" data-f="1.2" data-cal="110">صدر دجاج نيء</option>
-            <option value="لحم مفروم نيء" data-p="20" data-c="0" data-f="12" data-cal="190">لحم بقري مفروم نيء</option>
-            <option value="بيض كامل" data-p="13" data-c="1.1" data-f="11" data-cal="155">بيض كامل (2 بيضات ≈ 100غ)</option>
-            <option value="بياض البيض" data-p="11" data-c="0.7" data-f="0.2" data-cal="52">بياض البيض</option>
+          <!-- Proteins Raw & Common -->
+          <optgroup label="🍗 البروتينات واللحوم والبقوليات (نيء)">
+            <option value="صدر دجاج نيء" data-p="23" data-c="0" data-f="1.2" data-cal="110">صدر دجاج نيء (Chicken Breast)</option>
+            <option value="ديك رومي / بيبي نيء" data-p="22" data-c="0" data-f="1" data-cal="105">ديك رومي نيء (Turkey)</option>
+            <option value="لحم بقري مفروم نيء" data-p="20" data-c="0" data-f="12" data-cal="190">لحم بقري مفروم نيء (Minced Beef)</option>
+            <option value="سمك البوري / الأبييض" data-p="20" data-c="0" data-f="3" data-cal="115">سمك أبيض نيء (White Fish)</option>
+            <option value="سمك السلمون نيء" data-p="20" data-c="0" data-f="13" data-cal="206">سمك السلمون نيء (Salmon)</option>
+            <option value="بيض كامل" data-p="13" data-c="1.1" data-f="11" data-cal="155">بيض كامل (Whole Eggs - 2 بيضات ≈ 100غ)</option>
+            <option value="بياض البيض" data-p="11" data-c="0.7" data-f="0.2" data-cal="52">بياض البيض (Egg Whites)</option>
+            <option value="حليب كامل الدسم" data-p="3.4" data-c="4.8" data-f="3.6" data-cal="61">حليب كامل الدسم (Milk - 100 ملل)</option>
+            <option value="جبن قريش" data-p="11" data-c="3.4" data-f="4.3" data-cal="98">جبن قريش / الجبن الأبيض (Cottage Cheese)</option>
             <option value="تونة بالماء" data-p="26" data-c="0" data-f="1" data-cal="116">تونة معلبة (بالماء)</option>
             <option value="حمص جاف/نيء" data-p="19" data-c="60" data-f="6" data-cal="364">حمص جاف/نيء (Chickpeas Raw)</option>
             <option value="عدس أحمر/جاف" data-p="24.6" data-c="52" data-f="1.5" data-cal="353">عدس جاف/نيء (Lentils Raw)</option>
             <option value="ترمس جاف" data-p="36" data-c="28" data-f="9.7" data-cal="370">ترمس جاف / فول حلو نيء</option>
-            <option value="جبن قريش" data-p="11" data-c="3.4" data-f="4.3" data-cal="98">جبن قريش / الجبن الأبيض</option>
             <option value="SMAYKA Gainer Mix" data-p="24.1" data-c="45" data-f="14" data-cal="424">خلطة SMAYKA Gainer (ميكس الضخامة)</option>
           </optgroup>
-          <!-- Healthy Fats -->
+          <!-- Healthy Fats & Nuts -->
           <optgroup label="🥜 الدهون الصحية والمكسرات">
             <option value="كاوكاو" data-p="25.8" data-c="16" data-f="49.2" data-cal="567">فول سوداني / كاوكاو (Peanuts)</option>
-            <option value="زبدة كاوكاو" data-p="25" data-c="20" data-f="50" data-cal="588">زبدة الفول السوداني</option>
+            <option value="زبدة كاوكاو" data-p="25" data-c="20" data-f="50" data-cal="588">زبدة الفول السوداني (Peanut Butter)</option>
             <option value="لوز" data-p="21" data-c="22" data-f="50" data-cal="579">لوز (Almonds)</option>
             <option value="جوز" data-p="15" data-c="14" data-f="65" data-cal="654">جوز / گرگاع (Walnuts)</option>
             <option value="زنجلان" data-p="18" data-c="23" data-f="50" data-cal="573">سمسم / زنجلان (Sesame)</option>
@@ -256,7 +289,7 @@
           </optgroup>
         </select>
 
-        <label>الكمية (بالجرام):</label>
+        <label>الكمية (بالجرام أو المللتر):</label>
         <input type="number" id="food-weight" placeholder="مثلاً: 100">
 
         <button class="btn-primary" onclick="addFood()">إضافة للوجبة ➕</button>
@@ -272,7 +305,8 @@
         <label style="margin-top:15px;">مبيان توزيع الماكروز للوجبة:</label>
         <canvas id="macrosChart" height="180"></canvas>
 
-        <button onclick="resetMacros()" style="background:var(--danger-color); border:none; color:#fff; font-weight:bold; margin-top:15px; cursor:pointer;">إعادة ضبط اليوم 🔄</button>
+        <button class="btn-primary" onclick="saveDailyMacros()" style="background:#2196F3; margin-top:15px;">حفظ يوميات الماكروز في الأرشيف 📂</button>
+        <button onclick="resetMacros()" style="background:var(--danger-color); border:none; color:#fff; padding:10px; border-radius:8px; width:100%; font-weight:bold; margin-top:8px; cursor:pointer;">إعادة ضبط الوجبة اليومية 🔄</button>
       </div>
     </div>
 
@@ -307,18 +341,41 @@
         <h3>مبيان تطور وزن الجسم ⚖️</h3>
         <label>تسجيل وزن الجسم اليوم (كغ):</label>
         <input type="number" id="body-weight-input" placeholder="أدخل وزنك اليوم">
-        <button class="btn-primary" onclick="saveBodyWeight()">تسجيل الوزن 📝</button>
+        <button class="btn-primary" onclick="saveBodyWeight()">تسجيل الوزن والحفظ 📝</button>
         <canvas id="weightChart" height="180" style="margin-top:10px;"></canvas>
       </div>
     </div>
 
-    <!-- Tab 4: Archive -->
+    <!-- Tab 4: Organized Archive -->
     <div id="archive" class="tab-content">
       <div class="card">
-        <h3>سجل التمارين والعمليات المحفوظة 📜</h3>
-        <button onclick="clearHistory()" style="background:var(--danger-color); border:none; color:#fff; padding:6px 10px; margin-bottom:10px; font-size:0.8rem; border-radius:6px; cursor:pointer; width:auto; float:left;">مسح الأرشيف 🗑️</button>
-        <div style="clear:both;"></div>
-        <div id="history-list">جاري تحميل السجلات...</div>
+        <h3>الأرشيف المنظم 📜</h3>
+        
+        <!-- Sub Navigation inside Archive -->
+        <div class="archive-sub-tabs">
+          <button class="sub-btn active" onclick="switchArchiveTab('workout-arc')">🏋️ التمارين والأوزان</button>
+          <button class="sub-btn" onclick="switchArchiveTab('nutrition-arc')">🥗 الماكروز والأكل</button>
+          <button class="sub-btn" onclick="switchArchiveTab('weight-arc')">⚖️ وزن الجسم</button>
+        </div>
+
+        <!-- Section 1: Workout Archive -->
+        <div id="workout-arc" class="arc-content card" style="background:#181818; padding:10px;">
+          <h4 style="color:#4CAF50; margin-top:0;">أرشيف التمارين والتكرارات 🏋️‍♂️</h4>
+          <div id="history-list-workouts">جاري التحميل...</div>
+        </div>
+
+        <!-- Section 2: Nutrition Archive -->
+        <div id="nutrition-arc" class="arc-content card" style="display:none; background:#181818; padding:10px;">
+          <h4 style="color:#2196F3; margin-top:0;">أرشيف الماكروز والوجبات اليومية 🥗</h4>
+          <div id="history-list-nutrition">جاري التحميل...</div>
+        </div>
+
+        <!-- Section 3: Body Weight Archive -->
+        <div id="weight-arc" class="arc-content card" style="display:none; background:#181818; padding:10px;">
+          <h4 style="color:#FF9800; margin-top:0;">أرشيف سجلات وزن الجسم ⚖️</h4>
+          <div id="history-list-weights">جاري التحميل...</div>
+        </div>
+
       </div>
     </div>
 
@@ -338,7 +395,62 @@
       } else if (tabId === 'macros') {
         renderMacrosChart();
       } else if (tabId === 'archive') {
-        loadHistory();
+        loadAllArchives();
+      }
+    }
+
+    function switchArchiveTab(subId) {
+      document.querySelectorAll('.arc-content').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.sub-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById(subId).style.display = 'block';
+      event.target.classList.add('active');
+    }
+
+    // Food Search Filter Function
+    let allFoodOptions = [];
+    window.addEventListener('DOMContentLoaded', () => {
+      const select = document.getElementById('food-item');
+      for (let opt of select.options) {
+        allFoodOptions.push({
+          value: opt.value,
+          text: opt.text,
+          p: opt.getAttribute('data-p'),
+          c: opt.getAttribute('data-c'),
+          f: opt.getAttribute('data-f'),
+          cal: opt.getAttribute('data-cal'),
+          group: opt.parentElement.label
+        });
+      }
+    });
+
+    function filterFoodList() {
+      const query = document.getElementById('food-search-input').value.toLowerCase().trim();
+      const select = document.getElementById('food-item');
+      select.innerHTML = '';
+
+      // Group foods back
+      let groups = {};
+      allFoodOptions.forEach(item => {
+        if (item.text.toLowerCase().includes(query) || item.value.toLowerCase().includes(query)) {
+          if (!groups[item.group]) groups[item.group] = [];
+          groups[item.group].push(item);
+        }
+      });
+
+      for (let gName in groups) {
+        let optgroup = document.createElement('optgroup');
+        optgroup.label = gName;
+        groups[gName].forEach(item => {
+          let opt = document.createElement('option');
+          opt.value = item.value;
+          opt.innerText = item.text;
+          opt.setAttribute('data-p', item.p);
+          opt.setAttribute('data-c', item.c);
+          opt.setAttribute('data-f', item.f);
+          opt.setAttribute('data-cal', item.cal);
+          optgroup.appendChild(opt);
+        });
+        select.appendChild(optgroup);
       }
     }
 
@@ -385,7 +497,7 @@
       renderWorkoutChart();
     }
 
-    // Workout Handler (Supports legacy storage keys)
+    // Workout Handler
     function saveWorkout() {
       const exName = document.getElementById('exercise-name').value;
       const muscle = document.getElementById('muscle-group').value;
@@ -400,45 +512,14 @@
 
       const entry = { date, muscle, exName, sets, timestamp: Date.now() };
       
-      // Read both legacy keys
       let logs = JSON.parse(localStorage.getItem('smayka_logs') || localStorage.getItem('gym_workout_logs') || '[]');
       logs.push(entry);
       
       localStorage.setItem('smayka_logs', JSON.stringify(logs));
       localStorage.setItem('gym_workout_logs', JSON.stringify(logs));
 
-      alert('تم حفظ التمرين بنجاح في الأرشيف والمبيان! 💪');
-      loadHistory();
-    }
-
-    function loadHistory() {
-      let logs = JSON.parse(localStorage.getItem('smayka_logs') || localStorage.getItem('gym_workout_logs') || '[]');
-      const container = document.getElementById('history-list');
-      
-      if (!logs || logs.length === 0) {
-        container.innerHTML = 'لا توجد سجلات محفوظة بعد.';
-        return;
-      }
-
-      container.innerHTML = logs.slice().reverse().map(l => `
-        <div class="history-item">
-          <b>🗓️ ${l.date} - ${l.exName} (${l.muscle || 'تمرين'})</b>
-          <div style="font-size:0.85rem; color:#aaa; margin-top:4px;">
-            ج1: ${l.sets[0]?.weight || 0}كغ (${l.sets[0]?.reps || 0}) |
-            ج2: ${l.sets[1]?.weight || 0}كغ (${l.sets[1]?.reps || 0}) |
-            ج3: ${l.sets[2]?.weight || 0}كغ (${l.sets[2]?.reps || 0}) |
-            ج4: ${l.sets[3]?.weight || 0}كغ (${l.sets[3]?.reps || 0})
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function clearHistory() {
-      if (confirm('هل أنت تأكد من مسح جميع التمارين في الأرشيف؟')) {
-        localStorage.removeItem('smayka_logs');
-        localStorage.removeItem('gym_workout_logs');
-        loadHistory();
-      }
+      alert('تم حفظ التمرين بنجاح في أرشيف التمارين! 💪');
+      loadAllArchives();
     }
 
     // Nutrition & Macros Logic
@@ -446,6 +527,7 @@
     
     function addFood() {
       const select = document.getElementById('food-item');
+      if (select.options.length === 0) return alert('الرجاء اختيار مادة غذائية صحيحة');
       const opt = select.options[select.selectedIndex];
       const weight = parseFloat(document.getElementById('food-weight').value) || 0;
 
@@ -463,6 +545,19 @@
       document.getElementById('total-cal').innerText = totalCal.toFixed(0);
 
       renderMacrosChart();
+    }
+
+    function saveDailyMacros() {
+      if (totalCal <= 0) return alert('أضف أطعمة أولاً قبل الحفظ في الأرشيف!');
+      const date = new Date().toLocaleDateString('ar-MA');
+      const entry = { date, p: totalP.toFixed(1), c: totalC.toFixed(1), f: totalF.toFixed(1), cal: totalCal.toFixed(0) };
+      
+      let nutritionLogs = JSON.parse(localStorage.getItem('smayka_nutrition_logs') || '[]');
+      nutritionLogs.push(entry);
+      localStorage.setItem('smayka_nutrition_logs', JSON.stringify(nutritionLogs));
+
+      alert('تم حفظ يوميات الوجبة والماكروز في الأرشيف بنجاح! 🥗');
+      loadAllArchives();
     }
 
     function resetMacros() {
@@ -496,7 +591,71 @@
       });
     }
 
-    // Workout Analytics & AI Coach
+    // Body Weight Tracker
+    function saveBodyWeight() {
+      const w = parseFloat(document.getElementById('body-weight-input').value);
+      if (!w) return alert('أدخل وزناً صحيحاً');
+      const date = new Date().toLocaleDateString('ar-MA');
+      let weights = JSON.parse(localStorage.getItem('smayka_weights') || '[]');
+      weights.push({ date, weight: w });
+      localStorage.setItem('smayka_weights', JSON.stringify(weights));
+      alert('تم حفظ الوزن في أرشيف وزن الجسم! ⚖️');
+      renderWeightChart();
+      loadAllArchives();
+    }
+
+    // Load Archives Organized
+    function loadAllArchives() {
+      // 1. Workouts
+      let logs = JSON.parse(localStorage.getItem('smayka_logs') || localStorage.getItem('gym_workout_logs') || '[]');
+      const workoutContainer = document.getElementById('history-list-workouts');
+      if (!logs || logs.length === 0) {
+        workoutContainer.innerHTML = '<p style="color:#888;">لا توجد تمارين محفوظة بعد.</p>';
+      } else {
+        workoutContainer.innerHTML = logs.slice().reverse().map(l => `
+          <div class="history-item">
+            <b>🗓️ ${l.date} - ${l.exName} (${l.muscle || 'تمرين'})</b>
+            <div style="font-size:0.85rem; color:#aaa; margin-top:4px;">
+              ج1: ${l.sets[0]?.weight || 0}كغ (${l.sets[0]?.reps || 0}) |
+              ج2: ${l.sets[1]?.weight || 0}كغ (${l.sets[1]?.reps || 0}) |
+              ج3: ${l.sets[2]?.weight || 0}كغ (${l.sets[2]?.reps || 0}) |
+              ج4: ${l.sets[3]?.weight || 0}كغ (${l.sets[3]?.reps || 0})
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // 2. Nutrition
+      let nutritionLogs = JSON.parse(localStorage.getItem('smayka_nutrition_logs') || '[]');
+      const nutritionContainer = document.getElementById('history-list-nutrition');
+      if (!nutritionLogs || nutritionLogs.length === 0) {
+        nutritionContainer.innerHTML = '<p style="color:#888;">لا توجد وجبات محفوظة بعد.</p>';
+      } else {
+        nutritionContainer.innerHTML = nutritionLogs.slice().reverse().map(n => `
+          <div class="history-item">
+            <b>🗓️ ${n.date} - مجموع اليوم</b>
+            <div style="font-size:0.85rem; color:#aaa; margin-top:4px;">
+              بروتين: ${n.p}غ | كارب: ${n.c}غ | دهون: ${n.f}غ | سعرات: ${n.cal} Kcal
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // 3. Body Weights
+      let weights = JSON.parse(localStorage.getItem('smayka_weights') || '[]');
+      const weightsContainer = document.getElementById('history-list-weights');
+      if (!weights || weights.length === 0) {
+        weightsContainer.innerHTML = '<p style="color:#888;">لا توجد سجلات وزن محفوظة بعد.</p>';
+      } else {
+        weightsContainer.innerHTML = weights.slice().reverse().map(w => `
+          <div class="history-item">
+            <b>🗓️ ${w.date}</b> - الوزن المسجل: <b style="color:#FF9800;">${w.weight} كغ</b>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Analytics Charts
     let workoutChartInstance = null;
     function renderWorkoutChart() {
       const exName = document.getElementById('chart-exercise-select').value;
@@ -544,22 +703,11 @@
         if (last > prev) {
           aiBox.innerHTML = `🔥 <b>تحليل ممتاز:</b> أداؤك في تصاعد! ارتفع أعلى وزن في تمرين (${exName}) من <b>${prev} كغ</b> إلى <b>${last} كغ</b>. استمر بنفس القوة! 💪`;
         } else if (last === prev) {
-          aiBox.innerHTML = `⚖️ <b>استقرار الأداء:</b> أداؤك ثابت عند <b>${last} كغ</b> في تمرين (${exName}). جرب زيادة تكرار واحد أو إضافة 1-2 كغ الحصة القادمة لتجاوز النقطة لكسر الثبات!`;
+          aiBox.innerHTML = `⚖️ <b>استقرار الأداء:</b> أداؤك ثابت عند <b>${last} كغ</b> في تمرين (${exName}). جرب زيادة تكرار واحد أو إضافة 1-2 كغ الحصة القادمة لكسر الثبات!`;
         } else {
           aiBox.innerHTML = `⚠️ <b>تنبيه الأداء:</b> انخفض أعلى وزن من <b>${prev} كغ</b> إلى <b>${last} كغ</b>. احرص على الراحة الكافية وتغذية الماكروز الجيدة قبل الحصة!`;
         }
       }
-    }
-
-    // Body Weight Tracker
-    function saveBodyWeight() {
-      const w = parseFloat(document.getElementById('body-weight-input').value);
-      if (!w) return alert('أدخل وزناً صحيحاً');
-      const date = new Date().toLocaleDateString('ar-MA');
-      let weights = JSON.parse(localStorage.getItem('smayka_weights') || '[]');
-      weights.push({ date, weight: w });
-      localStorage.setItem('smayka_weights', JSON.stringify(weights));
-      renderWeightChart();
     }
 
     let weightChartInstance = null;
@@ -598,8 +746,8 @@
     window.onload = function() {
       updateExerciseOptions();
       filterChartExerciseOptions();
-      loadHistory();
       renderMacrosChart();
+      loadAllArchives();
     };
   </script>
 </body>
