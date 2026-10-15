@@ -1,7 +1,7 @@
 {
   "name": "SMAYKA POWER",
   "short_name": "SMAYKA",
-  "start_url": "./index.html",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#121212",
   "theme_color": "#4CAF50",
@@ -9,8 +9,7 @@
     {
       "src": "258d528157c630e6cc4ebf6598ed3e5.jpg",
       "sizes": "512x512",
-      "type": "image/jpeg",
-      "purpose": "any maskable"
+      "type": "image/jpeg"
     }
   ]
 }
