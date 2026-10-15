@@ -22,6 +22,34 @@
             margin: 0 auto; 
         }
 
+        /* شاشة القفل بكلمة السر */
+        #lockScreen {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #0a0a0a;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+        #lockScreen h2 { color: #4CAF50; margin-bottom: 10px; border-bottom: none; }
+        #lockScreen p { color: #aaa; font-size: 13px; margin-bottom: 20px; }
+        #pinInput {
+            width: 180px;
+            text-align: center;
+            font-size: 24px;
+            letter-spacing: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid #4CAF50;
+            background: #181818;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
         h1 { color: #4CAF50; text-align: center; margin-bottom: 15px; font-size: 26px; text-shadow: 0 0 12px rgba(76, 175, 80, 0.6); font-weight: bold; }
         
         .nav-tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 15px; }
@@ -47,7 +75,6 @@
         .sub-input-group label { font-size: 10px; color: #888; margin-bottom: 2px; }
         .sub-input-group input { margin-bottom: 0; padding: 8px; font-size: 13px; text-align: center; }
 
-        /* تصميم جدول التغذية المصغر والمنظم */
         .nutrition-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
         .nutri-column { background-color: #161616; border: 1px solid #333; padding: 10px; border-radius: 8px; }
         .nutri-col-title { font-size: 13px; font-weight: bold; color: #4CAF50; margin-bottom: 8px; border-bottom: 1px dashed #333; padding-bottom: 4px; text-align: center; }
@@ -72,6 +99,14 @@
     </style>
 </head>
 <body>
+
+    <!-- شاشة الحماية والرمز السري -->
+    <div id="lockScreen">
+        <h2 id="lockTitle">🔐 قفل الحماية</h2>
+        <p id="lockDesc">أدخل رمز PIN المكون من 4 أرقام لفتح التطبيق</p>
+        <input type="password" id="pinInput" maxlength="4" placeholder="••••" pattern="[0-9]*" inputmode="numeric">
+        <button style="width: 180px;" onclick="checkPin()">فتح التطبيق 🔓</button>
+    </div>
 
     <h1>SMAYKA POWER 🔥🦂</h1>
 
@@ -162,7 +197,6 @@
         <button onclick="calculateMacros()">احسب احتياجي اليومي 💡</button>
         <div id="macroResults" class="results-box" style="display:none;"></div>
 
-        <!-- جدول التغذية المصغر -->
         <h3 style="font-size: 15px; color: #4CAF50; margin: 15px 0 8px 0;">🍽️ سجل أكل اليوم (بالغرام):</h3>
         
         <div class="nutrition-grid">
@@ -300,9 +334,65 @@
 
         <h3 style="font-size: 14px; color: #4CAF50; margin-bottom: 5px;">🏋️‍♂️ 2. أرشيف التمارين والسيريات:</h3>
         <div id="historyList" class="history">لا توجد تمارين مسجلة بعد.</div>
+
+        <button style="margin-top: 15px; background-color: #f44336;" onclick="resetPin()">إعادة ضبط رمز الحماية 🔐</button>
     </div>
 
     <script>
+        // إعداد ونظام القفل السري (PIN)
+        function initLock() {
+            let savedPin = localStorage.getItem("appPin");
+            const lockTitle = document.getElementById("lockTitle");
+            const lockDesc = document.getElementById("lockDesc");
+            
+            if (!savedPin) {
+                lockTitle.textContent = "⚙️ إنشاء رمز حماية جديد";
+                lockDesc.textContent = "قم بإنشاء رمز PIN مكون من 4 أرقام لحماية تطبيقك:";
+            } else {
+                lockTitle.textContent = "🔐 قفل الحماية";
+                lockDesc.textContent = "أدخل رمز PIN المكون من 4 أرقام لفتح التطبيق:";
+            }
+        }
+
+        function checkPin() {
+            const enteredPin = document.getElementById("pinInput").value;
+            let savedPin = localStorage.getItem("appPin");
+
+            if (enteredPin.length !== 4) {
+                alert("المرجو إدخال رمز مكون من 4 أرقام بالضبط!");
+                return;
+            }
+
+            if (!savedPin) {
+                localStorage.setItem("appPin", enteredPin);
+                alert("تم إنشاء رمز الحماية بنجاح! احتفظ به جيداً 🔐");
+                document.getElementById("lockScreen").style.display = "none";
+            } else {
+                if (enteredPin === savedPin) {
+                    document.getElementById("lockScreen").style.display = "none";
+                } else {
+                    alert("الرمز السري غير صحيح! حاول مرة أخرى ❌");
+                    document.getElementById("pinInput").value = "";
+                }
+            }
+        }
+
+        function resetPin() {
+            let oldPin = prompt("أدخل رمز PIN الحالي لتغييره:");
+            let savedPin = localStorage.getItem("appPin");
+            if (oldPin === savedPin) {
+                let newPin = prompt("أدخل الرمز السري الجديد (4 أرقام):");
+                if (newPin && newPin.length === 4) {
+                    localStorage.setItem("appPin", newPin);
+                    alert("تم تغيير رمز الحماية بنجاح! 🔑");
+                } else {
+                    alert("الرمز الجديد غير صالح!");
+                }
+            } else {
+                alert("الرمز القديم غير صحيح!");
+            }
+        }
+
         function switchTab(tabId, btnElement) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -626,6 +716,7 @@
             renderExerciseArchive(query);
         }
 
+        initLock();
         updateExercises();
         loadChartData();
     </script>
