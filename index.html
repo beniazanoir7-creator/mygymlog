@@ -242,7 +242,6 @@
       <div class="card">
         <h3>حاسبة الماكروز والأغذية (قبل الطهي - Raw) 🥗</h3>
         
-        <!-- Search Box for Foods -->
         <label>🔍 ابحث عن الطعام السريع:</label>
         <input type="text" id="food-search-input" placeholder="اكتب اسم الطعام (مثال: بيض، دجاج، أرز...)" oninput="filterFoodList()">
 
@@ -346,7 +345,7 @@
       </div>
     </div>
 
-    <!-- Tab 4: Organized Archive -->
+    <!-- Tab 4: Organized Archive with Search for Workouts -->
     <div id="archive" class="tab-content">
       <div class="card">
         <h3>الأرشيف المنظم 📜</h3>
@@ -358,10 +357,14 @@
           <button class="sub-btn" onclick="switchArchiveTab('weight-arc')">⚖️ وزن الجسم</button>
         </div>
 
-        <!-- Section 1: Workout Archive -->
+        <!-- Section 1: Workout Archive with Search Box -->
         <div id="workout-arc" class="arc-content card" style="background:#181818; padding:10px;">
           <h4 style="color:#4CAF50; margin-top:0;">أرشيف التمارين والتكرارات 🏋️‍♂️</h4>
-          <div id="history-list-workouts">جاري التحميل...</div>
+          
+          <label style="color:#fff; font-size:0.85rem;">🔍 ابحث عن تمرين في الأرشيف (مثال: Bench Press):</label>
+          <input type="text" id="workout-search-input" placeholder="اكتب اسم التمرين لإظهار سجله وتواريخه..." oninput="loadAllArchives()">
+
+          <div id="history-list-workouts" style="margin-top:10px;">جاري التحميل...</div>
         </div>
 
         <!-- Section 2: Nutrition Archive -->
@@ -428,7 +431,6 @@
       const select = document.getElementById('food-item');
       select.innerHTML = '';
 
-      // Group foods back
       let groups = {};
       allFoodOptions.forEach(item => {
         if (item.text.toLowerCase().includes(query) || item.value.toLowerCase().includes(query)) {
@@ -604,22 +606,31 @@
       loadAllArchives();
     }
 
-    // Load Archives Organized
+    // Load Archives with Search Filter for Workouts
     function loadAllArchives() {
-      // 1. Workouts
+      // 1. Workouts with Search Filter
       let logs = JSON.parse(localStorage.getItem('smayka_logs') || localStorage.getItem('gym_workout_logs') || '[]');
       const workoutContainer = document.getElementById('history-list-workouts');
-      if (!logs || logs.length === 0) {
-        workoutContainer.innerHTML = '<p style="color:#888;">لا توجد تمارين محفوظة بعد.</p>';
+      const searchQuery = document.getElementById('workout-search-input')?.value.toLowerCase().trim() || '';
+
+      const filteredLogs = logs.filter(l => {
+        if (!searchQuery) return true;
+        const nameMatch = l.exName && l.exName.toLowerCase().includes(searchQuery);
+        const muscleMatch = l.muscle && l.muscle.toLowerCase().includes(searchQuery);
+        return nameMatch || muscleMatch;
+      });
+
+      if (!filteredLogs || filteredLogs.length === 0) {
+        workoutContainer.innerHTML = '<p style="color:#888;">لا توجد تمارين مطابقة للبحث في الأرشيف.</p>';
       } else {
-        workoutContainer.innerHTML = logs.slice().reverse().map(l => `
+        workoutContainer.innerHTML = filteredLogs.slice().reverse().map(l => `
           <div class="history-item">
-            <b>🗓️ ${l.date} - ${l.exName} (${l.muscle || 'تمرين'})</b>
+            <b>🗓️ التاريخ: ${l.date} | التمرين: <span style="color:#4CAF50;">${l.exName}</span> (${l.muscle || 'تمرين'})</b>
             <div style="font-size:0.85rem; color:#aaa; margin-top:4px;">
-              ج1: ${l.sets[0]?.weight || 0}كغ (${l.sets[0]?.reps || 0}) |
-              ج2: ${l.sets[1]?.weight || 0}كغ (${l.sets[1]?.reps || 0}) |
-              ج3: ${l.sets[2]?.weight || 0}كغ (${l.sets[2]?.reps || 0}) |
-              ج4: ${l.sets[3]?.weight || 0}كغ (${l.sets[3]?.reps || 0})
+              ج1: ${l.sets[0]?.weight || 0}كغ (${l.sets[0]?.reps || 0} تكرارات) |
+              ج2: ${l.sets[1]?.weight || 0}كغ (${l.sets[1]?.reps || 0} تكرارات) |
+              ج3: ${l.sets[2]?.weight || 0}كغ (${l.sets[2]?.reps || 0} تكرارات) |
+              ج4: ${l.sets[3]?.weight || 0}كغ (${l.sets[3]?.reps || 0} تكرارات)
             </div>
           </div>
         `).join('');
