@@ -345,7 +345,7 @@
       </div>
     </div>
 
-    <!-- Tab 4: Organized Archive with Search for Workouts -->
+    <!-- Tab 4: Organized Archive with Select Dropdown for Workouts -->
     <div id="archive" class="tab-content">
       <div class="card">
         <h3>الأرشيف المنظم 📜</h3>
@@ -357,12 +357,14 @@
           <button class="sub-btn" onclick="switchArchiveTab('weight-arc')">⚖️ وزن الجسم</button>
         </div>
 
-        <!-- Section 1: Workout Archive with Search Box -->
+        <!-- Section 1: Workout Archive with Dropdown Select -->
         <div id="workout-arc" class="arc-content card" style="background:#181818; padding:10px;">
           <h4 style="color:#4CAF50; margin-top:0;">أرشيف التمارين والتكرارات 🏋️‍♂️</h4>
           
-          <label style="color:#fff; font-size:0.85rem;">🔍 ابحث عن تمرين في الأرشيف (مثال: Bench Press):</label>
-          <input type="text" id="workout-search-input" placeholder="اكتب اسم التمرين لإظهار سجله وتواريخه..." oninput="loadAllArchives()">
+          <label style="color:#fff; font-size:0.85rem;">🎯 اختر التمرين لعرض سجله وتواريخه:</label>
+          <select id="archive-exercise-select" onchange="loadAllArchives()">
+            <option value="ALL">عرض كل التمارين المحفوظة</option>
+          </select>
 
           <div id="history-list-workouts" style="margin-top:10px;">جاري التحميل...</div>
         </div>
@@ -398,6 +400,7 @@
       } else if (tabId === 'macros') {
         renderMacrosChart();
       } else if (tabId === 'archive') {
+        populateArchiveExerciseDropdown();
         loadAllArchives();
       }
     }
@@ -521,6 +524,7 @@
       localStorage.setItem('gym_workout_logs', JSON.stringify(logs));
 
       alert('تم حفظ التمرين بنجاح في أرشيف التمارين! 💪');
+      populateArchiveExerciseDropdown();
       loadAllArchives();
     }
 
@@ -606,22 +610,41 @@
       loadAllArchives();
     }
 
-    // Load Archives with Search Filter for Workouts
+    // Populate Dropdown for Archive Exercises
+    function populateArchiveExerciseDropdown() {
+      let logs = JSON.parse(localStorage.getItem('smayka_logs') || localStorage.getItem('gym_workout_logs') || '[]');
+      const select = document.getElementById('archive-exercise-select');
+      if (!select) return;
+      
+      const currentSelected = select.value;
+      select.innerHTML = '<option value="ALL">عرض كل التمارين المحفوظة</option>';
+
+      // Get unique exercise names from logs
+      let uniqueExercises = [...new Set(logs.map(l => l.exName))];
+      uniqueExercises.forEach(ex => {
+        let opt = document.createElement('option');
+        opt.value = ex;
+        opt.innerText = ex;
+        select.appendChild(opt);
+      });
+
+      if (currentSelected) select.value = currentSelected;
+    }
+
+    // Load Archives with Dropdown Select Filter for Workouts
     function loadAllArchives() {
-      // 1. Workouts with Search Filter
+      // 1. Workouts with Dropdown Select Filter
       let logs = JSON.parse(localStorage.getItem('smayka_logs') || localStorage.getItem('gym_workout_logs') || '[]');
       const workoutContainer = document.getElementById('history-list-workouts');
-      const searchQuery = document.getElementById('workout-search-input')?.value.toLowerCase().trim() || '';
+      const selectedEx = document.getElementById('archive-exercise-select')?.value || 'ALL';
 
       const filteredLogs = logs.filter(l => {
-        if (!searchQuery) return true;
-        const nameMatch = l.exName && l.exName.toLowerCase().includes(searchQuery);
-        const muscleMatch = l.muscle && l.muscle.toLowerCase().includes(searchQuery);
-        return nameMatch || muscleMatch;
+        if (selectedEx === 'ALL') return true;
+        return l.exName === selectedEx;
       });
 
       if (!filteredLogs || filteredLogs.length === 0) {
-        workoutContainer.innerHTML = '<p style="color:#888;">لا توجد تمارين مطابقة للبحث في الأرشيف.</p>';
+        workoutContainer.innerHTML = '<p style="color:#888;">لا توجد سجلات لهذا التمرين في الأرشيف.</p>';
       } else {
         workoutContainer.innerHTML = filteredLogs.slice().reverse().map(l => `
           <div class="history-item">
@@ -758,6 +781,7 @@
       updateExerciseOptions();
       filterChartExerciseOptions();
       renderMacrosChart();
+      populateArchiveExerciseDropdown();
       loadAllArchives();
     };
   </script>
