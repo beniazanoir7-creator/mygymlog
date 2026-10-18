@@ -247,54 +247,50 @@
       </div>
     </div>
 
-    <!-- Tab 2: Macros & Nutrition with AI Food Coach -->
+    <!-- Tab 2: Macros & Nutrition with Customized Food List -->
     <div id="macros" class="tab-content">
       <div class="card">
         <h3>حاسبة الماكروز والأغذية (قبل الطهي - Raw) 🥗</h3>
         
         <label>🔍 ابحث عن الطعام السريع:</label>
-        <input type="text" id="food-search-input" placeholder="اكتب اسم الطعام (مثال: بيض، دجاج، أرز...)" oninput="filterFoodList()">
+        <input type="text" id="food-search-input" placeholder="اكتب اسم الطعام (مثال: دجاج، سردين، شوفان...)" oninput="filterFoodList()">
 
         <label>اختر المادة الغذائية:</label>
         <select id="food-item">
-          <!-- Carbohydrates Raw -->
-          <optgroup label="🍞 الكاربوهيدرات والشوفان">
+          <!-- Carbohydrates -->
+          <optgroup label="🍞 الكاربوهيدرات والفواكه">
+            <option value="أرز أبيض نيء" data-p="7" data-c="78" data-f="0.6" data-cal="360">أرز أبيض نيء (Rice Raw)</option>
             <option value="شوفان نيء" data-p="13.5" data-c="67" data-f="7" data-cal="389">شوفان نيء (Oats)</option>
-            <option value="أرز أبيض نيء" data-p="7" data-c="78" data-f="0.6" data-cal="360">أرز أبيض نيء</option>
-            <option value="أرز أسمر نيء" data-p="7.5" data-c="75" data-f="2.2" data-cal="370">أرز أسمر نيء</option>
+            <option value="معكرونة نيئة" data-p="12" data-c="72" data-f="1.5" data-cal="350">معكرونة نيئة (Pasta Raw)</option>
+            <option value="خبز قمح كامل" data-p="9" data-c="41" data-f="3.5" data-cal="247">خبز القمح الكامل</option>
+            <option value="موز" data-p="1.1" data-c="23" data-f="0.3" data-cal="89">موز (Banana - موزة)</option>
+            <option value="تفاح" data-p="0.3" data-c="14" data-f="0.2" data-cal="52">تفاح (Apple - تفاحة)</option>
             <option value="بطاطس نيئة" data-p="2" data-c="17" data-f="0.1" data-cal="77">بطاطس نيئة</option>
-            <option value="بطاطس حلوة نيئة" data-p="1.6" data-c="20" data-f="0.1" data-cal="86">بطاطس حلوة نيئة</option>
-            <option value="معكرونة نيئة" data-p="12" data-c="72" data-f="1.5" data-cal="350">معكرونة نيئة</option>
-            <option value="خبز كامل" data-p="9" data-c="41" data-f="3.5" data-cal="247">خبز القمح الكامل</option>
-            <option value="موز" data-p="1.1" data-c="23" data-f="0.3" data-cal="89">موز (Banana)</option>
             <option value="تمر" data-p="2.5" data-c="75" data-f="0.4" data-cal="277">تمر (Dates)</option>
-            <option value="تفاح" data-p="0.3" data-c="14" data-f="0.2" data-cal="52">تفاح (Apple)</option>
           </optgroup>
-          <!-- Proteins Raw & Common -->
-          <optgroup label="🍗 البروتينات واللحوم والبقوليات (نيء)">
-            <option value="صدر دجاج نيء" data-p="23" data-c="0" data-f="1.2" data-cal="110">صدر دجاج نيء (Chicken Breast)</option>
-            <option value="ديك رومي / بيبي نيء" data-p="22" data-c="0" data-f="1" data-cal="105">ديك رومي نيء (Turkey)</option>
+
+          <!-- Proteins & Dairy -->
+          <optgroup label="🍗 البروتينات والأسماك والألبان (نيء)">
+            <option value="صدور دجاج نيئة" data-p="23" data-c="0" data-f="1.2" data-cal="110">صدور الدجاج نيئة (Chicken Breast)</option>
             <option value="لحم بقري مفروم نيء" data-p="20" data-c="0" data-f="12" data-cal="190">لحم بقري مفروم نيء (Minced Beef)</option>
-            <option value="سمك البوري / الأبييض" data-p="20" data-c="0" data-f="3" data-cal="115">سمك أبيض نيء (White Fish)</option>
-            <option value="سمك السلمون نيء" data-p="20" data-c="0" data-f="13" data-cal="206">سمك السلمون نيء (Salmon)</option>
+            <option value="سمك السردين نيء" data-p="24" data-c="0" data-f="11" data-cal="208">سمك السردين نيء (Sardines Raw)</option>
+            <option value="سمك أبيض عادي نيء" data-p="20" data-c="0" data-f="1.5" data-cal="95">سمك أبيض عادي نيء (White Fish)</option>
             <option value="بيض كامل" data-p="13" data-c="1.1" data-f="11" data-cal="155">بيض كامل (Whole Eggs - 2 بيضات ≈ 100غ)</option>
             <option value="بياض البيض" data-p="11" data-c="0.7" data-f="0.2" data-cal="52">بياض البيض (Egg Whites)</option>
+            <option value="جبن بلدي/قريش" data-p="11" data-c="3.4" data-f="4.3" data-cal="98">جبن بلدي / جبن قريش (Cottage Cheese)</option>
             <option value="حليب كامل الدسم" data-p="3.4" data-c="4.8" data-f="3.6" data-cal="61">حليب كامل الدسم (Milk - 100 ملل)</option>
-            <option value="جبن قريش" data-p="11" data-c="3.4" data-f="4.3" data-cal="98">جبن قريش / الجبن الأبيض (Cottage Cheese)</option>
             <option value="تونة بالماء" data-p="26" data-c="0" data-f="1" data-cal="116">تونة معلبة (بالماء)</option>
-            <option value="حمص جاف/نيء" data-p="19" data-c="60" data-f="6" data-cal="364">حمص جاف/نيء (Chickpeas Raw)</option>
-            <option value="عدس أحمر/جاف" data-p="24.6" data-c="52" data-f="1.5" data-cal="353">عدس جاف/نيء (Lentils Raw)</option>
-            <option value="ترمس جاف" data-p="36" data-c="28" data-f="9.7" data-cal="370">ترمس جاف / فول حلو نيء</option>
-            <option value="SMAYKA Gainer Mix" data-p="24.1" data-c="45" data-f="14" data-cal="424">خلطة SMAYKA Gainer (ميكس الضخامة)</option>
+            <option value="SMAYKA Gainer Mix" data-p="24.1" data-c="45" data-f="14" data-cal="424">💥 الوصفة السرية تبع SMAYKA (ميكس الضخامة)</option>
           </optgroup>
+
           <!-- Healthy Fats & Nuts -->
-          <optgroup label="🥜 الدهون الصحية والمكسرات">
-            <option value="كاوكاو" data-p="25.8" data-c="16" data-f="49.2" data-cal="567">فول سوداني / كاوكاو (Peanuts)</option>
+          <optgroup label="🥜 الدهون الصحية والزيوت">
+            <option value="زيت زيتون" data-p="0" data-c="0" data-f="100" data-cal="884">زيت زيتون (Olive Oil)</option>
+            <option value="فول سوداني / كاوكاو" data-p="25.8" data-c="16" data-f="49.2" data-cal="567">فول سوداني / كاوكاو (Peanuts)</option>
             <option value="زبدة كاوكاو" data-p="25" data-c="20" data-f="50" data-cal="588">زبدة الفول السوداني (Peanut Butter)</option>
             <option value="لوز" data-p="21" data-c="22" data-f="50" data-cal="579">لوز (Almonds)</option>
-            <option value="جوز" data-p="15" data-c="14" data-f="65" data-cal="654">جوز / گرگاع (Walnuts)</option>
-            <option value="زنجلان" data-p="18" data-c="23" data-f="50" data-cal="573">سمسم / زنجلان (Sesame)</option>
-            <option value="زيت زيتون" data-p="0" data-c="0" data-f="100" data-cal="884">زيت زيتون (Olive Oil)</option>
+            <option value="جوز / گرگاع" data-p="15" data-c="14" data-f="65" data-cal="654">جوز / گرگاع (Walnuts)</option>
+            <option value="سمسم / زنجلان" data-p="18" data-c="23" data-f="50" data-cal="573">سمسم / زنجلان (Sesame)</option>
           </optgroup>
         </select>
 
@@ -324,7 +320,7 @@
       </div>
     </div>
 
-    <!-- Tab 3: Analytics with Dual-Axis Workout Chart & Monthly Body Weight -->
+    <!-- Tab 3: Analytics -->
     <div id="analytics" class="tab-content">
       <div class="card">
         <h3>مبيان الأوزان والتكرارات المزدوج 📈</h3>
@@ -478,14 +474,37 @@
       }
     }
 
-    // Exercise Map
+    // Customized Exercises Map
     const exercisesMap = {
-      'صدر': ['Bench Press (بنش بريس)', 'Incline Dumbbell Press (تجميع علوي)', 'Chest Fly (تجميع فراشة)', 'Dips (متوازي)'],
-      'ظهر': ['Lat Pulldown (سحب ظهري)', 'Barbell Row (تجديف بار)', 'Dumbbell Row (منشار)', 'Deadlift (ديدليفت)'],
-      'أرجل': ['Squat (سكوات)', 'Leg Press (كبس أرجل)', 'Leg Extension (مظلة)', 'Hamstring Curl (فخذ خلفي)'],
-      'أكتاف': ['Overhead Press (ضغط أكتاف)', 'Lateral Raise (رفرفة جانبي)', 'Rear Delt Fly (خلفي فراشة)'],
-      'بايسبس': ['Barbell Curl (بايسبس بار)', 'Dumbbell Hammer (هامر)', 'Preacher Curl (تبشير)'],
-      'ترايسبس': ['Triceps Pushdown (ترايسبس كابل)', 'Skull Crusher (فرنساوي)', 'Dips (متوازي)']
+      'صدر': [
+        'Bench Press (بنش بريس)', 
+        'Incline Dumbbell Press (إنكلاين دبل بريس)', 
+        'Dips (متوازي)'
+      ],
+      'ظهر': [
+        'Lat Pulldown / Pull Up (سحب عالي / بول أب)', 
+        'Barbell Row (تجديف بار طويل)', 
+        'Dumbbell Row (منشار)'
+      ],
+      'أرجل': [
+        'Squat (سكوات)', 
+        'Leg Extension / Chair (تمرين الرجل فوق الكرسي)', 
+        'Hamstring Curl (فخذ خلفي بالكابل)', 
+        'Calf Raises (السمانة)'
+      ],
+      'أكتاف': [
+        'Overhead Press (ضغط أكتاف)', 
+        'Lateral Raise (رفرفة جانبي)', 
+        'Rear Delt Fly (خلفي)'
+      ],
+      'بايسبس': [
+        'Hammer Curl (هامر كيرل - اليد في الأمام)', 
+        'Behind Back / Underhand Curl (بايسبس اليد خلف الظهر)'
+      ],
+      'ترايسبس': [
+        'Triceps Pushdown (ترايسبس كابل)', 
+        'Overhead Barbell/Dumbbell Extension (بار فوق الرأس)'
+      ]
     };
 
     function updateExerciseOptions() {
@@ -635,7 +654,7 @@
     function saveBodyWeight() {
       const w = parseFloat(document.getElementById('body-weight-input').value);
       if (!w) return alert('أدخل وزناً صحيحاً');
-      const date = new Date().toLocaleDateString('ar-MA', { year: 'numeric', month: 'long' }); // صيغة شهرية
+      const date = new Date().toLocaleDateString('ar-MA', { year: 'numeric', month: 'long' });
       let weights = JSON.parse(localStorage.getItem('smayka_weights') || '[]');
       weights.push({ date, weight: w });
       localStorage.setItem('smayka_weights', JSON.stringify(weights));
@@ -727,9 +746,7 @@
       const filtered = logs.filter(l => l.exName === exName);
 
       const labels = filtered.map(l => l.date);
-      // أعلى وزن في الحصة
       const maxWeights = filtered.map(l => Math.max(...l.sets.map(s => parseFloat(s.weight) || 0)));
-      // متوسط التكرارات في الحصة
       const avgReps = filtered.map(l => {
         let validReps = l.sets.map(s => parseInt(s.reps) || 0).filter(r => r > 0);
         if (validReps.length === 0) return 0;
@@ -789,7 +806,6 @@
         }
       });
 
-      // AI Coach Analysis Update
       const aiBox = document.getElementById('ai-coach-analysis');
       if (maxWeights.length === 0) {
         aiBox.innerHTML = '💡 <b>تحليل المدرب الذكي:</b> لا توجد سجلات بعد لهذا التمرين.';
